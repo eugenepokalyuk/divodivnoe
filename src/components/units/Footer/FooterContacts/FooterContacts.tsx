@@ -25,6 +25,10 @@ export const FooterContacts: FC = () => (
       ВКонтакте
     </FooterLink>
 
+    <FooterLink href={Contacts.Instagram} external>
+      Instagram
+    </FooterLink>
+
     <FooterLink href={Contacts.Email}>{CompanyEmail}</FooterLink>
   </FooterColumn>
 );

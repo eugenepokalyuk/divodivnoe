@@ -29,6 +29,11 @@ export enum VkContact {
   Shop = 'viva_flo',
 }
 
+/** Аккаунт в Instagram. Значение — часть ссылки после instagram.com/. */
+export enum InstagramContact {
+  Shop = 'divo.divnoe.nsk',
+}
+
 /** Аккаунты в MAX. Значение — часть ссылки после max.ru/.
  *  Бизнес-аккаунт «Диво Дивное Цветочная лавка». */
 export enum MaxContact {
@@ -57,6 +62,7 @@ export const Contacts = {
   Whatsapp: `https://wa.me/${WhatsappContact.Shop}`,
   Max: `https://max.ru/${MaxContact.Shop}`,
   Vk: `https://vk.com/${VkContact.Shop}`,
+  Instagram: `https://www.instagram.com/${InstagramContact.Shop}/`,
   Phone: `tel:${PhoneContact.Manager}`,
   Email: `mailto:${CompanyEmail}`,
   Map: Company2gis,
