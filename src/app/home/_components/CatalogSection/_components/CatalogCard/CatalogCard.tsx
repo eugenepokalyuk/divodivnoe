@@ -2,12 +2,14 @@ import React, { FC } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { Routes } from '@/utils/consts';
+import { categoryRoute } from '@/utils/consts';
 import { formatPriceFrom } from '@/utils/helpers';
 
 import classes from './CatalogCard.module.scss';
 
 export interface Collection {
+  /** Адрес категории собирается отсюда. */
+  slug: string;
   title: string;
   /** Минимальная цена в рублях числом — форматируем на месте, чтобы
    *  бэкенд не решал, как выглядит витрина. */
@@ -21,12 +23,13 @@ export interface Collection {
 }
 
 export const CatalogCard: FC<Collection> = ({
+  slug,
   title,
   priceFrom,
   note,
   image,
 }) => (
-  <Link href={Routes.Contacts} className={classes.card}>
+  <Link href={categoryRoute(slug)} className={classes.card}>
     <span className={classes.media}>
       {image && (
         <Image

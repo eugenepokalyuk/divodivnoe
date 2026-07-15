@@ -1,0 +1,20 @@
+@use '@/styles/index' as s;
+
+// Повторяет ProductCard: те же gap и пропорции фото.
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(4);
+}
+
+.media {
+  display: block;
+  aspect-ratio: 3 / 4;
+  border-radius: s.$br_4;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(2);
+}
