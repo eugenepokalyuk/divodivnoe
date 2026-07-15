@@ -1,0 +1,143 @@
+@use 'sass:map';
+@use 'sass:list';
+@use 'tokens' as *;
+
+// === Layout ===
+
+@mixin glass($width: $width_lg) {
+  width: min(100%, #{$width});
+  margin: 0 auto;
+  padding: 0 var(--gap_side);
+}
+
+// === Media ===
+
+@mixin media_up($breakpoint) {
+  @if map.has-key($breakpoints, $breakpoint) {
+    @media (min-width: map.get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  } @else {
+    @warn "Invalid breakpoint '#{$breakpoint}'.";
+  }
+}
+
+@mixin media_down($breakpoint) {
+  @if map.has-key($breakpoints, $breakpoint) {
+    @media (max-width: map.get($breakpoints, $breakpoint) - 1px) {
+      @content;
+    }
+  } @else {
+    @warn "Invalid breakpoint '#{$breakpoint}'.";
+  }
+}
+
+@mixin media_only($breakpoint) {
+  @if map.has-key($breakpoints, $breakpoint) {
+    $min-width: map.get($breakpoints, $breakpoint);
+    $keys: map.keys($breakpoints);
+    $index: list.index($keys, $breakpoint);
+    $max-width: null;
+
+    @if $index and $index < list.length($keys) {
+      $next-key: list.nth($keys, $index + 1);
+      $max-width: map.get($breakpoints, $next-key) - 1px;
+    }
+
+    @if $max-width {
+      @media (min-width: $min-width) and (max-width: $max-width) {
+        @content;
+      }
+    } @else {
+      @media (min-width: $min-width) {
+        @content;
+      }
+    }
+  } @else {
+    @warn "Invalid breakpoint '#{$breakpoint}'.";
+  }
+}
+
+// === Typography ===
+
+@mixin text_display {
+  font-family: var(--font-cormorant), serif;
+  font-weight: $light;
+
+  font-size: 64px;
+  line-height: 68px;
+
+  @include media_down(md) {
+    font-size: 40px;
+    line-height: 44px;
+  }
+}
+
+@mixin text_header_1 {
+  font-family: var(--font-cormorant), serif;
+  font-weight: $light;
+
+  font-size: 40px;
+  line-height: 46px;
+
+  @include media_down(md) {
+    font-size: 28px;
+    line-height: 34px;
+  }
+}
+
+@mixin text_header_2 {
+  font-family: var(--font-cormorant), serif;
+  font-weight: $regular;
+
+  font-size: 28px;
+  line-height: 34px;
+
+  @include media_down(md) {
+    font-size: 22px;
+    line-height: 28px;
+  }
+}
+
+@mixin text_header_3 {
+  font-family: var(--font-cormorant), serif;
+  font-weight: $regular;
+
+  font-size: 22px;
+  line-height: 28px;
+}
+
+@mixin text_body_1 {
+  font-family: var(--font-inter), sans-serif;
+  font-weight: $regular;
+
+  font-size: 16px;
+  line-height: 24px;
+}
+
+@mixin text_body_2 {
+  font-family: var(--font-inter), sans-serif;
+  font-weight: $regular;
+
+  font-size: 14px;
+  line-height: 20px;
+}
+
+@mixin text_caption {
+  font-family: var(--font-inter), sans-serif;
+  font-weight: $regular;
+
+  font-size: 12px;
+  line-height: 16px;
+}
+
+// Мелкий разряженный капс — надзаголовки секций.
+@mixin text_overline {
+  font-family: var(--font-inter), sans-serif;
+  font-weight: $medium;
+
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}

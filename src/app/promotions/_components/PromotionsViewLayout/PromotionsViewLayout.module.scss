@@ -1,0 +1,31 @@
+@use '@/styles/index' as s;
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: s.gap(6);
+
+  @include s.media_down(md) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: s.gap(5);
+
+  padding: s.gap(12) s.gap(6);
+
+  background: var(--background_secondary);
+  border-radius: s.$br_5;
+  text-align: center;
+}
+
+.empty_text {
+  max-width: 420px;
+
+  @include s.text_body_1;
+  color: var(--text_secondary);
+}

@@ -1,0 +1,68 @@
+@use '@/styles/index' as s;
+
+.about {
+  padding: var(--section_gap) 0;
+  background: var(--background_secondary);
+}
+
+.container {
+  @include s.glass(s.$width_lg);
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: s.gap(12);
+
+  @include s.media_down(lg) {
+    grid-template-columns: 1fr;
+    gap: s.gap(8);
+  }
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(4);
+}
+
+.overline {
+  @include s.text_overline;
+  color: var(--text_primary);
+}
+
+.title {
+  @include s.text_header_1;
+}
+
+.text {
+  @include s.text_body_1;
+  color: var(--text_secondary);
+}
+
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(6);
+}
+
+.feature {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(2);
+
+  padding-bottom: s.gap(6);
+  border-bottom: 1px solid var(--stroke_default);
+
+  &:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+}
+
+.feature_title {
+  @include s.text_header_3;
+}
+
+.feature_text {
+  @include s.text_body_2;
+  color: var(--text_secondary);
+}

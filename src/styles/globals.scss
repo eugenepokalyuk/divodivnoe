@@ -1,0 +1,125 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+:root {
+  // backgrounds
+  --background_default: #{$background-default};
+  --background_secondary: #{$background-secondary};
+  --background_contrast: #{$background-contrast};
+  --background_primary: #{$background-primary};
+  --background_primary_10: #{$primary_10};
+  --background_accent: #{$background-accent};
+  --background_accent_10: #{$accent_10};
+
+  // buttons
+  --button_default_background: #{$background-contrast};
+  --button_primary_background: #{$primary};
+  --button_primary_text: #{$text-contrast};
+
+  // text
+  --text_default: #{$text-default};
+  --text_secondary: #{$text-secondary};
+  --text_primary: #{$text-primary};
+  --text_accent: #{$text-accent};
+  --text_contrast: #{$text-contrast};
+
+  // icons
+  --icon_default: #{$icon-default};
+  --icon_secondary: #{$icon-secondary};
+  --icon_primary: #{$icon-primary};
+  --icon_contrast: #{$icon-contrast};
+
+  // stroke
+  --stroke_default: #{$stroke-default};
+  --stroke_primary: #{$stroke-primary};
+
+  // adaptive sizes
+  @include media_up(lg) {
+    --glass: #{$width_lg};
+    --gap_side: #{$gap_side_lg};
+    --gap: #{$gap_lg};
+    --section_gap: 96px;
+  }
+
+  @include media_only(md) {
+    --glass: #{$width_md};
+    --gap_side: #{$gap_side_md};
+    --gap: #{$gap_md};
+    --section_gap: 72px;
+  }
+
+  @include media_down(md) {
+    --glass: #{$width_sm};
+    --gap_side: #{$gap_side_sm};
+    --gap: #{$gap_sm};
+    --section_gap: 56px;
+  }
+}
+
+*,
+:before,
+:after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  min-width: $width_xs;
+  background: $background-default;
+  font-family: var(--font-inter), sans-serif;
+  color: $text-default;
+  font-weight: $regular;
+  overflow-x: clip;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+ol,
+ul {
+  margin: 0;
+}
+
+h1,
+h2 {
+  font-weight: unset;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-cormorant), serif;
+}
+
+button {
+  font-family: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}

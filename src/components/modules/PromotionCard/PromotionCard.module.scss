@@ -1,0 +1,103 @@
+@use '@/styles/index' as s;
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: s.gap(5);
+
+  height: 100%;
+  padding: s.gap(8);
+
+  background: var(--background_default);
+  border: 1px solid var(--stroke_default);
+  border-radius: s.$br_5;
+
+  transition: s.$transition;
+
+  &:hover {
+    border-color: var(--stroke_primary);
+    box-shadow: s.$box-shadow;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
+  @include s.media_down(md) {
+    padding: s.gap(6);
+  }
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: s.gap(2) s.gap(4);
+
+  background: var(--background_primary_10);
+  border-radius: s.$br_full;
+
+  font-family: var(--font-cormorant), serif;
+  font-size: 28px;
+  line-height: 1;
+  color: var(--text_primary);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(2);
+}
+
+.title {
+  @include s.text_header_3;
+}
+
+.description {
+  @include s.text_body_2;
+  color: var(--text_secondary);
+}
+
+.terms {
+  margin-top: s.gap(1);
+
+  @include s.text_caption;
+  color: var(--text_secondary);
+  opacity: 0.8;
+}
+
+.code_row {
+  display: flex;
+  align-items: center;
+  gap: s.gap(2);
+
+  // Прижимаем промокод и кнопки к низу, чтобы карточки в ряду
+  // выравнивались независимо от длины описания.
+  margin-top: auto;
+
+  @include s.text_caption;
+  color: var(--text_secondary);
+}
+
+.code {
+  padding: s.gap(1) s.gap(2.5);
+
+  background: var(--background_secondary);
+  border: 1px dashed var(--stroke_default);
+  border-radius: s.$br_1;
+
+  font-family: var(--font-inter), sans-serif;
+  font-weight: s.$medium;
+  letter-spacing: 0.08em;
+  color: var(--text_default);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: s.gap(2);
+
+  width: 100%;
+}

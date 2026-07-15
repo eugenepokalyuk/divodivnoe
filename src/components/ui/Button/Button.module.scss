@@ -1,0 +1,68 @@
+@use '@/styles/index' as s;
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: s.gap(2);
+
+  border: 1px solid transparent;
+  border-radius: s.$br_full;
+  cursor: pointer;
+
+  text-align: center;
+  white-space: nowrap;
+  transition: s.$transition;
+}
+
+// === Sizes ===
+
+.medium {
+  padding: s.gap(4) s.gap(7);
+
+  @include s.text_body_1;
+}
+
+.small {
+  padding: s.gap(2.5) s.gap(5);
+
+  @include s.text_body_2;
+}
+
+// === Colors ===
+
+.default {
+  background: var(--button_default_background);
+  color: var(--text_contrast);
+
+  &:hover {
+    opacity: 0.85;
+  }
+}
+
+.primary {
+  background: var(--button_primary_background);
+  color: var(--button_primary_text);
+
+  &:hover {
+    opacity: 0.85;
+  }
+}
+
+// === Variants ===
+
+.outlined {
+  background: transparent;
+  border-color: var(--stroke_default);
+  color: var(--text_default);
+
+  &:hover {
+    border-color: var(--stroke_primary);
+    color: var(--text_primary);
+    opacity: 1;
+  }
+}
+
+.full_width {
+  width: 100%;
+}

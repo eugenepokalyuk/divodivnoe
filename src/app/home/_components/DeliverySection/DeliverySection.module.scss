@@ -1,0 +1,42 @@
+@use '@/styles/index' as s;
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: s.gap(6);
+
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  @include s.media_down(lg) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include s.media_down(sm) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(2);
+
+  padding-top: s.gap(5);
+  border-top: 1px solid var(--stroke_default);
+}
+
+.step {
+  @include s.text_overline;
+  color: var(--text_primary);
+}
+
+.title {
+  @include s.text_header_3;
+}
+
+.text {
+  @include s.text_body_2;
+  color: var(--text_secondary);
+}

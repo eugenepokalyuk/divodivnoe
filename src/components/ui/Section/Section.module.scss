@@ -1,0 +1,35 @@
+@use '@/styles/index' as s;
+
+.section {
+  padding: var(--section_gap) 0;
+}
+
+.container {
+  @include s.glass(s.$width_lg);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: s.gap(3);
+
+  margin-bottom: s.gap(10);
+  text-align: center;
+}
+
+.overline {
+  @include s.text_overline;
+  color: var(--text_primary);
+}
+
+.title {
+  @include s.text_header_1;
+}
+
+.description {
+  max-width: 560px;
+
+  @include s.text_body_1;
+  color: var(--text_secondary);
+}

@@ -1,0 +1,22 @@
+@use '@/styles/index' as s;
+
+.section {
+  background: var(--background_secondary);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: s.gap(6);
+
+  @include s.media_down(md) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+
+  margin-top: s.gap(10);
+}

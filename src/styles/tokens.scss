@@ -1,0 +1,88 @@
+// === Gap function ===
+
+@function gap($size) {
+  @return #{$size * 4}px;
+}
+
+// === Colors ===
+
+$primary: #8f5b6b; // приглушённая роза — акцент бренда
+$primary_10: rgba(143, 91, 107, 0.1);
+$accent: #b98a5a; // тёплая охра — второстепенный акцент
+$accent_10: rgba(185, 138, 90, 0.1);
+
+$text-default: #1c1a1b;
+$text-secondary: #7c7377;
+$text-primary: $primary;
+$text-accent: $accent;
+$text-contrast: #ffffff;
+
+$icon-default: #1c1a1b;
+$icon-secondary: #7c7377;
+$icon-primary: $primary;
+$icon-contrast: #ffffff;
+
+$background-default: #fbf9f7; // тёплый белый
+$background-secondary: #f2ede9;
+$background-primary: $primary;
+$background-accent: $accent;
+$background-contrast: #1c1a1b;
+
+$stroke-default: #e5ddd7;
+$stroke-primary: $primary;
+
+$transition-duration: 0.3s;
+$transition-ease: ease;
+$transition: all $transition-duration $transition-ease;
+$box-shadow: 0px 4px 32px 0px rgba(28, 26, 27, 0.08);
+
+// === Widths ===
+
+$width_lg: 1200px;
+$width_md: 768px;
+$width_sm: 425px;
+$width_xs: 320px;
+
+// === Side gaps ===
+
+$gap_side_lg: 32px;
+$gap_side_md: 24px;
+$gap_side_sm: 16px;
+
+// === Gaps ===
+
+$gap_lg: 20px;
+$gap_md: 16px;
+$gap_sm: 12px;
+
+// === Border radius ===
+
+$br_full: 99999px;
+$br_6: 24px;
+$br_5: 20px;
+$br_4: 16px;
+$br_3: 12px;
+$br_2: 8px;
+$br_1: 4px;
+
+// === Z-index ===
+
+$zi_header: 20;
+
+// === Font weights ===
+
+$bold: 700;
+$semi_bold: 600;
+$medium: 500;
+$regular: 400;
+$light: 300;
+
+// === Breakpoints ===
+
+$breakpoints: (
+  xs: 0,
+  sm: 480px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1440px,
+);

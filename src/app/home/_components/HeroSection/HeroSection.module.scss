@@ -1,0 +1,111 @@
+@use '@/styles/index' as s;
+
+.hero {
+  padding: var(--section_gap) 0;
+}
+
+.container {
+  @include s.glass(s.$width_lg);
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: s.gap(12);
+
+  @include s.media_down(lg) {
+    grid-template-columns: 1fr;
+    gap: s.gap(8);
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: s.gap(5);
+}
+
+.overline {
+  @include s.text_overline;
+  color: var(--text_primary);
+}
+
+.title {
+  @include s.text_display;
+}
+
+.subtitle {
+  max-width: 480px;
+
+  @include s.text_body_1;
+  color: var(--text_secondary);
+}
+
+// Каталог — главный CTA, отдельной строкой; мессенджеры сгруппированы
+// под ним, чтобы третья кнопка не переносилась сиротой.
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: s.gap(3);
+
+  margin-top: s.gap(2);
+}
+
+.messengers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: s.gap(3);
+
+  // Без stretch родительский align-items: flex-start ужимает контейнер
+  // до min-content, и кнопки переносятся по одной в столбец.
+  align-self: stretch;
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: s.gap(8);
+
+  margin-top: s.gap(6);
+  padding-top: s.gap(6);
+  border-top: 1px solid var(--stroke_default);
+  width: 100%;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(1);
+}
+
+.stat_value {
+  font-family: var(--font-cormorant), serif;
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+.stat_label {
+  @include s.text_caption;
+  color: var(--text_secondary);
+}
+
+.media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  aspect-ratio: 4 / 5;
+
+  background: var(--background_secondary);
+  border-radius: s.$br_6;
+
+  @include s.media_down(lg) {
+    aspect-ratio: 16 / 10;
+  }
+}
+
+.media_hint {
+  @include s.text_overline;
+  color: var(--text_secondary);
+}
