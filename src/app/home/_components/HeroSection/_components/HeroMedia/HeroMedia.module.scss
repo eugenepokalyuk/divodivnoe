@@ -1,9 +1,10 @@
 @use '@/styles/index' as s;
 
 .media {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  // fill-картинка позиционируется от этого блока, overflow — чтобы фото
+  // не вылезало за скруглённые углы.
+  position: relative;
+  overflow: hidden;
 
   aspect-ratio: 4 / 5;
 
@@ -15,7 +16,6 @@
   }
 }
 
-.hint {
-  @include s.text_overline;
-  color: var(--text_secondary);
+.image {
+  object-fit: cover;
 }

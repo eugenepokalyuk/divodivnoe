@@ -67,6 +67,8 @@ export const CompanyAddressFull = `${CompanyAddress}, Дзержинский р�
 export const WorkingHours = 'Ежедневно с 9:00 до 21:00';
 export const Company2gis =
   'https://2gis.ru/novosibirsk/geo/70000001097869773';
+export const Company2gisReviews =
+  'https://2gis.ru/novosibirsk/firm/70000001097869773/tab/reviews';
 
 export const Contacts = {
   Telegram: `https://t.me/${TelegramContact.Manager}`,

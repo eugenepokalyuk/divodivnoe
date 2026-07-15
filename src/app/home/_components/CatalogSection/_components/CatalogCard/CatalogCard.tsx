@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 import { Routes } from '@/utils/consts';
@@ -10,12 +11,22 @@ export interface Collection {
   price: string;
   /** Плашка поверх фото: «Хит», «Сезон», «Новинка». */
   note?: string;
+  /** Путь от корня public, например /photos/catalog/piony.webp. */
+  image: string;
 }
 
-export const CatalogCard: FC<Collection> = ({ title, price, note }) => (
+export const CatalogCard: FC<Collection> = ({ title, price, note, image }) => (
   <Link href={Routes.Contacts} className={classes.card}>
-    {/* Плейсхолдер под фото коллекции. */}
-    <span className={classes.media} aria-hidden="true">
+    <span className={classes.media}>
+      <Image
+        src={image}
+        // Название коллекции ссылка уже озвучивает — фото декоративное.
+        alt=""
+        fill
+        sizes="(max-width: 479px) 100vw, (max-width: 1023px) 50vw, 33vw"
+        className={classes.image}
+      />
+
       {note && <span className={classes.note}>{note}</span>}
     </span>
 

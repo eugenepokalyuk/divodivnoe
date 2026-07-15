@@ -1,0 +1,45 @@
+@use '@/styles/index' as s;
+
+.review {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(3);
+
+  padding: s.gap(6);
+
+  background: var(--background_secondary);
+  border-radius: s.$br_4;
+}
+
+.rating {
+  letter-spacing: 2px;
+  color: var(--text_primary);
+}
+
+.ratingEmpty {
+  color: var(--stroke_default);
+}
+
+.text {
+  // Отзыв тянет карточку по высоте, подпись прижимается к низу — иначе
+  // в ряду с разной длиной текста подписи скачут.
+  flex-grow: 1;
+
+  @include s.text_body_2;
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(1);
+}
+
+.author {
+  @include s.text_body_2;
+  color: var(--text_primary);
+}
+
+.date {
+  @include s.text_caption;
+  color: var(--text_secondary);
+}
