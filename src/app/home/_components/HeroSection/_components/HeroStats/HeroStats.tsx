@@ -17,6 +17,7 @@ interface Stat {
 const STATS: Stat[] = [
   { value: '2 часа', label: 'от заказа до доставки' },
   { value: '2 раза', label: 'в неделю привозим свежий срез' },
+  { value: '5 звёзд', label: 'рейтинг на 2ГИС' },
 ];
 
 export const HeroStats: FC = () => (
