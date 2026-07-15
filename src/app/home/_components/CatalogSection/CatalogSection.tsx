@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import Link from 'next/link';
 
 import { Section } from '@/components/ui';
 import { Routes } from '@/utils/consts';
@@ -25,7 +26,7 @@ export const CatalogSection: FC = () => (
     <ul className={classes.grid}>
       {COLLECTIONS.map(({ title, price, note }) => (
         <li key={title}>
-          <a href={Routes.Contacts} className={classes.card}>
+          <Link href={Routes.Contacts} className={classes.card}>
             {/* Плейсхолдер под фото коллекции. */}
             <span className={classes.media} aria-hidden="true">
               {note && <span className={classes.note}>{note}</span>}
@@ -35,7 +36,7 @@ export const CatalogSection: FC = () => (
               <span className={classes.title}>{title}</span>
               <span className={classes.price}>{price}</span>
             </span>
-          </a>
+          </Link>
         </li>
       ))}
     </ul>

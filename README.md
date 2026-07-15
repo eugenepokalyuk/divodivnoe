@@ -1,7 +1,41 @@
 # divodivnoe.com
 
-Лендинг цветочной мастерской «Диводивное». Next.js 16 (App Router) + React 19 +
+Лендинг цветочной мастерской «Диво Дивное». Next.js 16 (App Router) + React 19 +
 Redux Toolkit + SCSS Modules — стек как в `forma-next`.
+
+**Прод:** https://eugenepokalyuk.github.io/divodivnoe/
+
+## Деплой
+
+Мерж в `main` → GitHub Actions собирает статику и публикует на GitHub Pages
+(`.github/workflows/deploy.yml`). Можно запустить руками: вкладка Actions →
+Deploy to GitHub Pages → Run workflow.
+
+Разово включить перед первым деплоем: **Settings → Pages → Source: GitHub
+Actions** (не «Deploy from a branch»).
+
+Как это устроено:
+
+- `output: 'export'` в `next.config.ts` — Pages раздаёт только статику,
+  сервера нет. Все страницы пререндерены в `out/`.
+- `basePath` берётся из `NEXT_PUBLIC_BASE_PATH` (workflow ставит `/divodivnoe`),
+  потому что project-сайт живёт в подпапке. Без префикса отвалятся ассеты.
+- `trailingSlash: true` — экспорт кладёт `promotions/index.html`, а без слеша
+  Pages искал бы `promotions.html` и отдавал 404.
+- `out/.nojekyll` — иначе Jekyll выкинет папку `_next` (начинается с `_`),
+  и сайт откроется без стилей.
+- Внутренние ссылки — только через `next/link`: он сам подставляет `basePath`.
+  Обычный `<a href="/...">` его не получит и уведёт в корень домена.
+  Пути в `metadata` (фавикон) Next тоже не префиксует — там подставляем вручную.
+
+### Переезд на divodivnoe.com
+
+1. У регистратора: `A`-записи на `185.199.108-111.153` и `CNAME www` →
+   `eugenepokalyuk.github.io`.
+2. Создать `public/CNAME` с одной строкой `divodivnoe.com`.
+3. В workflow убрать `NEXT_PUBLIC_BASE_PATH` и поправить `NEXT_PUBLIC_APP_URL`
+   на `https://divodivnoe.com` — префикс станет не нужен.
+4. Settings → Pages → Custom domain → `divodivnoe.com`, включить Enforce HTTPS.
 
 ## Запуск
 
@@ -61,8 +95,7 @@ npm run start
 - Плейсхолдеры под фото: герой (`HeroSection`) и карточки каталога
   (`CatalogSection`) — серые блоки вместо `<Image>`.
 - Тексты секций «О нас» / «Доставка» и цены в `CatalogSection` — рыба.
-- `src/app/icon.tsx` — фавикон-заглушка с буквой «Д».
-- `NEXT_PUBLIC_APP_URL` — для `metadataBase` и OG-тегов.
+- `public/favicon.svg` — заглушка с буквой «Д».
 
 ## Структура
 
@@ -71,7 +104,6 @@ src/
 ├── app/
 │   ├── layout.tsx            # шрифты, метаданные, провайдеры, Layout
 │   ├── page.tsx              # → home/page.tsx
-│   ├── icon.tsx              # фавикон (ImageResponse)
 │   ├── home/_components/     # HeroSection, CatalogSection, PromotionsPreview(+Layout),
 │   │                         # AboutSection, DeliverySection
 │   └── promotions/

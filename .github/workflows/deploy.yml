@@ -1,0 +1,64 @@
+name: Deploy to GitHub Pages
+
+on:
+  # Деплой при сливе в main.
+  push:
+    branches: [main]
+  # И кнопкой из вкладки Actions, если нужно перевыкатить без коммита.
+  workflow_dispatch:
+
+# Пушу в Pages нужны эти права; GITHUB_TOKEN по умолчанию их не даёт.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Не отменяем уже идущий деплой — пусть докатится, лишние встают в очередь.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build static export
+        env:
+          # Project-сайт живёт в подпапке /divodivnoe — без префикса
+          # отвалятся ассеты и внутренние ссылки.
+          # Свой домен → убрать эту переменную и добавить public/CNAME.
+          NEXT_PUBLIC_BASE_PATH: /divodivnoe
+          NEXT_PUBLIC_APP_URL: https://eugenepokalyuk.github.io/divodivnoe
+        run: npm run build
+
+      - name: Disable Jekyll
+        # Pages прогоняет статику через Jekyll, а тот выкидывает папки,
+        # начинающиеся с подчёркивания, — то есть весь _next. Без этого
+        # файла сайт открывается без стилей и скриптов.
+        run: touch out/.nojekyll
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
