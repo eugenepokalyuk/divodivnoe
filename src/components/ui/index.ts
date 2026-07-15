@@ -3,3 +3,4 @@ export * from './ExternalLink/ExternalLink';
 export * from './Logo/Logo';
 export * from './MessengerActions/MessengerActions';
 export * from './Section/Section';
+export * from './Skeleton/Skeleton';

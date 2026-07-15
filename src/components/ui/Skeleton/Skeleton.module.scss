@@ -1,0 +1,35 @@
+@use '@/styles/index' as s;
+
+.skeleton {
+  // Блик пробегает по плашке слева направо. Полоса шире самого элемента,
+  // поэтому анимируем background-position, а не размер — так не дёргается
+  // раскладка и не нагружается пересчёт стилей.
+  background-color: var(--background_secondary);
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--background_default) 55%, transparent) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: -100% 0;
+  }
+  to {
+    background-position: 100% 0;
+  }
+}
+
+// Уважаем системную настройку: мигающий блик — частая причина укачивания
+// и головной боли, а для кого-то и триггер приступа.
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+  }
+}

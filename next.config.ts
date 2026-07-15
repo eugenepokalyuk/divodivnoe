@@ -13,7 +13,17 @@ const nextConfig: NextConfig = {
   // Без слеша на конце Pages отдаёт 404 на /promotions: он ищет promotions.html,
   // а экспорт кладёт promotions/index.html.
   trailingSlash: true,
-  images: { unoptimized: true },
+  images: {
+    // На Pages оптимизатора нет — картинки уезжают как есть. Фото из админки
+    // жмёт сам Django на загрузке (см. catalog/images.py в divo_bot).
+    unoptimized: true,
+    // Фото каталога и товаров лежат на бэкенде. Без этого списка next/image
+    // отказывается грузить чужой домен — проверка работает и при
+    // выключенной оптимизации.
+    remotePatterns: [
+      { protocol: 'https', hostname: 'api.divodivnoe.com', pathname: '/media/**' },
+    ],
+  },
 };
 
 export default nextConfig;

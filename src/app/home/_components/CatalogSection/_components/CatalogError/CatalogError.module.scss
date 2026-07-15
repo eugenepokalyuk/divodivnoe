@@ -1,0 +1,25 @@
+@use '@/styles/index' as s;
+
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: s.gap(5);
+
+  padding: s.gap(10) s.gap(6);
+
+  background: var(--background_secondary);
+  border-radius: s.$br_4;
+  text-align: center;
+}
+
+.text {
+  max-width: 420px;
+
+  @include s.text_body_1;
+  color: var(--text_secondary);
+}
+
+.actions {
+  justify-content: center;
+}

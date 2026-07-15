@@ -1,61 +1,58 @@
-import React, {FC} from 'react';
+'use client';
 
-import {Section} from '@/components/ui';
+import React, { FC } from 'react';
 
-import {CatalogCard, Collection} from './_components/CatalogCard/CatalogCard';
+import { Section } from '@/components/ui';
+import { useGetCategoriesQuery } from '@/store/api/catalogApi';
+
+import { CatalogCard } from './_components/CatalogCard/CatalogCard';
+import { CatalogCardSkeleton } from './_components/CatalogCardSkeleton/CatalogCardSkeleton';
+import { CatalogError } from './_components/CatalogError/CatalogError';
 
 import classes from './CatalogSection.module.scss';
 
-/** Рыба под каталог: заменить на данные с бэкенда/CMS, когда появятся. */
-const COLLECTIONS:Collection[] = [
-    {
-        title: 'Авторские букеты',
-        price: 'от 3 500 ₽',
-        note: 'Хит',
-        image: '/photos/catalog/avtorskie-bukety.webp',
-    },
-    {
-        title: 'Пионы',
-        price: 'от 4 900 ₽',
-        note: 'Сезон',
-        image: '/photos/catalog/piony.webp',
-    },
-    {
-        title: 'Моно-букеты',
-        price: 'от 2 400 ₽',
-        image: '/photos/catalog/mono-bukety.webp',
-    },
-    {
-        title: 'Композиции в коробке',
-        price: 'от 5 200 ₽',
-        image: '/photos/catalog/kompozicii-v-korobke.webp',
-    },
-    {
-        title: 'Свадебная флористика',
-        price: 'от 8 000 ₽',
-        image: '/photos/catalog/svadebnaya-floristika.webp',
-    },
-    {
-        title: 'Цветы в вазе',
-        price: 'от 6 500 ₽',
-        note: 'Новинка',
-        image: '/photos/catalog/cvety-v-vaze.webp',
-    },
-];
+/** Сколько заглушек рисовать, пока едут данные. Шесть — столько коллекций
+ *  сейчас в админке. Если число изменится, разъедется только первый кадр
+ *  загрузки, вёрстка не пострадает. */
+const SKELETON_COUNT = 6;
 
-export const CatalogSection:FC = () => (
+/** Каталога нет в исходном HTML: сайт — статика на Pages, а коллекции
+ *  живут в админке и приезжают с api.divodivnoe.com уже в браузере.
+ *  Поэтому здесь три состояния: загрузка, ошибка и данные. */
+export const CatalogSection: FC = () => {
+  const { data: categories, isLoading, isError } = useGetCategoriesQuery();
+
+  // Пустой каталог под заголовком «Выберите настроение» читается как
+  // поломка. Нет коллекций в админке — нет секции.
+  if (!isLoading && !isError && !categories?.length) return null;
+
+  return (
     <Section
-        id="catalog"
-        overline="Каталог"
-        title="Выберите настроение"
-        description="Собираем букеты из свежего среза — привозим цветы дважды в неделю. Каждая композиция собирается вручную под ваш повод."
+      id="catalog"
+      overline="Каталог"
+      title="Выберите настроение"
+      description="Собираем букеты из свежего среза — привозим цветы дважды в неделю. Каждая композиция собирается вручную под ваш повод."
     >
-        <ul className={classes.grid}>
-            {COLLECTIONS.map((collection) => (
-                <li key={collection.title}>
-                    <CatalogCard {...collection} />
+      {isError ? (
+        <CatalogError />
+      ) : (
+        <ul className={classes.grid} aria-busy={isLoading}>
+          {isLoading
+            ? Array.from({ length: SKELETON_COUNT }, (_, index) => (
+                <CatalogCardSkeleton key={index} />
+              ))
+            : categories?.map((category) => (
+                <li key={category.slug}>
+                  <CatalogCard
+                    title={category.name}
+                    priceFrom={category.price_from}
+                    note={category.note || undefined}
+                    image={category.image}
+                  />
                 </li>
-            ))}
+              ))}
         </ul>
+      )}
     </Section>
-);
+  );
+};

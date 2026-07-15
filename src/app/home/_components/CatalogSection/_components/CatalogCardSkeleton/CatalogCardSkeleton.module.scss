@@ -1,0 +1,21 @@
+@use '@/styles/index' as s;
+
+// Геометрия повторяет CatalogCard: те же gap и пропорции, иначе при
+// подмене скелетона на данные вёрстка дёрнется.
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(4);
+}
+
+.media {
+  display: block;
+  aspect-ratio: 3 / 4;
+  border-radius: s.$br_4;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(1);
+}
