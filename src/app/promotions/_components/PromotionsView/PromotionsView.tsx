@@ -2,13 +2,18 @@
 
 import React, { FC } from 'react';
 
-import { selectPromotions } from '@/store/slices/promotions';
-import { useAppSelector } from '@/store/hooks';
+import { useGetPromotionsQuery } from '@/store/api/shopApi';
 
 import { PromotionsViewLayout } from '../PromotionsViewLayout/PromotionsViewLayout';
 
 export const PromotionsView: FC = () => {
-  const promotions = useAppSelector(selectPromotions);
+  const { data: promotions, isLoading, isError } = useGetPromotionsQuery();
 
-  return <PromotionsViewLayout promotions={promotions} />;
+  return (
+    <PromotionsViewLayout
+      promotions={promotions}
+      isLoading={isLoading}
+      isError={isError}
+    />
+  );
 };

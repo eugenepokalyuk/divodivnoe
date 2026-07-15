@@ -1,0 +1,38 @@
+@use '@/styles/index' as s;
+
+// Геометрия повторяет PromotionCard: те же отступы, рамка и gap,
+// иначе при подмене заглушки на данные карточка дёрнется.
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(5);
+
+  height: 100%;
+  padding: s.gap(8);
+
+  background: var(--background_default);
+  border: 1px solid var(--stroke_default);
+  border-radius: s.$br_5;
+
+  @include s.media_down(md) {
+    padding: s.gap(6);
+  }
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(2);
+  width: 100%;
+
+  // Тянем карточку по высоте, чтобы подвал прижался к низу — как
+  // в настоящей.
+  flex-grow: 1;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(3);
+  width: 100%;
+}

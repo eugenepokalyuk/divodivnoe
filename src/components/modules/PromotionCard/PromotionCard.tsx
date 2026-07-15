@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
 import { MessengerActions } from '@/components/ui';
-import type { Promotion } from '@/store/slices/promotions';
+import type { Promotion } from '@/store/api/shopApi';
 import { buildPromotionLink } from '@/utils/helpers';
 
 import { PromotionCode } from './PromotionCode/PromotionCode';

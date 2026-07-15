@@ -3,7 +3,7 @@
 import React, { FC } from 'react';
 
 import { Section } from '@/components/ui';
-import { useGetCategoriesQuery } from '@/store/api/catalogApi';
+import { useGetCategoriesQuery } from '@/store/api/shopApi';
 
 import { CatalogCard } from './_components/CatalogCard/CatalogCard';
 import { CatalogCardSkeleton } from './_components/CatalogCardSkeleton/CatalogCardSkeleton';

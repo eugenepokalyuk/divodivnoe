@@ -32,13 +32,27 @@ export interface SiteSettingsDto {
   hero_image: string | null;
 }
 
-/** Бэкенд живёт на отдельном домене (см. api.divodivnoe.com), потому что
- *  сайт — статика на Pages, а Django с админкой на своём сервере. */
+/** Акция на витрине.
+ *
+ *  Ключ — code, а не id: он уникален, читается в отладке и это ровно тот
+ *  код, что клиент называет флористу и что стоит в deep-link бота. */
+export interface Promotion {
+  code: string;
+  title: string;
+  description: string;
+  /** Крупная плашка на карточке: «500 ₽», «10%». */
+  badge: string;
+  /** Условия мелким шрифтом. Пустая строка — блок не рендерится. */
+  terms: string;
+}
+
+/** Бэкенд живёт на отдельном домене (api.divodivnoe.com), потому что сайт —
+ *  статика на Pages, а Django с админкой на своём сервере. */
 const baseUrl =
   process.env.NEXT_PUBLIC_API_URL ?? 'https://api.divodivnoe.com/api/v1/';
 
-export const catalogApi = createApi({
-  reducerPath: 'catalogApi',
+export const shopApi = createApi({
+  reducerPath: 'shopApi',
   baseQuery: fetchBaseQuery({ baseUrl }),
   endpoints: (build) => ({
     getCategories: build.query<CategoryDto[], void>({
@@ -50,6 +64,9 @@ export const catalogApi = createApi({
     getSiteSettings: build.query<SiteSettingsDto, void>({
       query: () => 'catalog/site/',
     }),
+    getPromotions: build.query<Promotion[], void>({
+      query: () => 'promotions/',
+    }),
   }),
 });
 
@@ -57,4 +74,5 @@ export const {
   useGetCategoriesQuery,
   useGetCategoryQuery,
   useGetSiteSettingsQuery,
-} = catalogApi;
+  useGetPromotionsQuery,
+} = shopApi;
