@@ -1,0 +1,45 @@
+name: CI
+
+# Проверка на пул-реквестах. Без неё автомерж сливал бы что угодно:
+# ветка зелёная не потому, что код рабочий, а потому что никто не смотрел.
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Сборка
+        # next build прогоняет и TypeScript — отдельного шага не нужно.
+        # Ошибка типов здесь означает, что на прод она бы не уехала.
+        env:
+          NEXT_PUBLIC_APP_URL: https://divodivnoe.com
+        run: npm run build
+
+      - name: Экспорт не пустой
+        # Молча сломанный экспорт выглядит как успешная сборка: out/ есть,
+        # а страниц в нём нет. Проверяем, что главная реально собралась.
+        run: |
+          test -f out/index.html || { echo "out/index.html не собрался"; exit 1; }
+          test -f out/promotions/index.html || { echo "страница акций не собралась"; exit 1; }
+          echo "экспорт на месте: $(find out -name '*.html' | wc -l | xargs) страниц"
+
+      - name: Фото на месте
+        # hero вшит в вёрстку. Уже было: файл удалили, ссылка осталась,
+        # и первый экран уехал в прод с битой картинкой.
+        run: |
+          for src in $(grep -o '/photos/[^"]*\.webp' out/index.html | sort -u); do
+            test -f "out$src" || { echo "ссылка есть, файла нет: $src"; exit 1; }
+            echo "ok: $src"
+          done
