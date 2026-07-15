@@ -5,8 +5,12 @@ export enum Messenger {
   Max = 'max',
 }
 
-/** Телеграм-контакт магазина. Меняется только здесь — разъедется по всем
- *  акциям и кнопкам «Написать» разом.
+/** Личный чат флориста — сюда клиент пишет заказ. Меняется только здесь
+ *  — разъедется по всем акциям и кнопкам «Написать» разом.
+ *
+ *  Только адресаты, которым пишут: значения этого enum подставляются
+ *  в `promotion.contact` (см. store/slices/promotions). Группа и канал
+ *  сюда не добавляются — для них TelegramGroup ниже.
  *
  *  Принимает оба формата, и в обоих работает предзаполнение текста
  *  (https://core.telegram.org/api/links):
@@ -17,6 +21,13 @@ export enum Messenger {
  *  значение — код трогать не нужно. */
 export enum TelegramContact {
   Manager = 'divo_divnoe_nsk',
+}
+
+/** Группа в Telegram: витрина и анонсы, на неё подписываются.
+ *  Намеренно отдельно от TelegramContact — в группу не отправляют заказ
+ *  и промокод, поэтому она не должна проходить по типу promotion.contact. */
+export enum TelegramGroup {
+  Shop = 'vivastudioflowers',
 }
 
 /** Номер для wa.me — только цифры, без «+» и разделителей. */
@@ -59,6 +70,7 @@ export const Company2gis =
 
 export const Contacts = {
   Telegram: `https://t.me/${TelegramContact.Manager}`,
+  TelegramGroup: `https://t.me/${TelegramGroup.Shop}`,
   Whatsapp: `https://wa.me/${WhatsappContact.Shop}`,
   Max: `https://max.ru/${MaxContact.Shop}`,
   Vk: `https://vk.com/${VkContact.Shop}`,
