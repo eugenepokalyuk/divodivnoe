@@ -1,0 +1,35 @@
+@use '@/styles/index' as s;
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(3);
+}
+
+.tagline {
+  max-width: 320px;
+
+  @include s.text_body_2;
+  color: var(--text_secondary);
+}
+
+.address {
+  max-width: 320px;
+
+  @include s.text_body_2;
+  border-bottom: 1px solid var(--stroke_default);
+  padding-bottom: s.gap(1);
+  width: fit-content;
+  transition: s.$transition;
+
+  &:hover {
+    color: var(--text_primary);
+    border-color: var(--stroke_primary);
+  }
+
+  @include s.media_down(md) {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}

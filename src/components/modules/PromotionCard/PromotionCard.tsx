@@ -1,9 +1,10 @@
 import React, { FC } from 'react';
 
-import { Button } from '@/components/ui';
+import { MessengerActions } from '@/components/ui';
 import type { Promotion } from '@/store/slices/promotions';
-import { Contacts } from '@/utils/consts';
-import { buildPromotionTelegramLink } from '@/utils/helpers';
+import { buildPromotionLink } from '@/utils/helpers';
+
+import { PromotionCode } from './PromotionCode/PromotionCode';
 
 import classes from './PromotionCard.module.scss';
 
@@ -11,9 +12,8 @@ interface Props {
   promotion: Promotion;
 }
 
-/** В Telegram уходит готовое сообщение с названием акции и промокодом.
- *  MAX так не умеет — там ссылка просто открывает чат магазина, поэтому
- *  промокод вынесен на карточку, чтобы клиент мог его назвать. */
+/** В Telegram и WhatsApp уходит готовое сообщение с названием акции
+ *  и промокодом. MAX так не умеет — там ссылка просто открывает чат. */
 export const PromotionCard: FC<Props> = ({ promotion }) => (
   <article className={classes.card}>
     <span className={classes.badge}>{promotion.badge}</span>
@@ -24,22 +24,13 @@ export const PromotionCard: FC<Props> = ({ promotion }) => (
       {promotion.terms && <p className={classes.terms}>{promotion.terms}</p>}
     </div>
 
-    <p className={classes.code_row}>
-      Промокод <span className={classes.code}>{promotion.code}</span>
-    </p>
+    <PromotionCode code={promotion.code} />
 
-    <div className={classes.actions}>
-      <Button
-        href={buildPromotionTelegramLink(promotion)}
-        external
-        size="small"
-      >
-        Забрать в Telegram
-      </Button>
-
-      <Button href={Contacts.Max} external size="small" variant="outlined">
-        Написать в MAX
-      </Button>
+    <div className={classes.footer}>
+      <p className={classes.hint}>Забрать акцию:</p>
+      <MessengerActions
+        getHref={(messenger) => buildPromotionLink(promotion, messenger)}
+      />
     </div>
   </article>
 );

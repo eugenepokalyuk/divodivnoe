@@ -1,0 +1,24 @@
+@use '@/styles/index' as s;
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(2);
+
+  padding-top: s.gap(5);
+  border-top: 1px solid var(--stroke_default);
+}
+
+.step {
+  @include s.text_overline;
+  color: var(--text_primary);
+}
+
+.title {
+  @include s.text_header_3;
+}
+
+.text {
+  @include s.text_body_2;
+  color: var(--text_secondary);
+}

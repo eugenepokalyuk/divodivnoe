@@ -5,12 +5,11 @@ import 'normalize.css';
 import { Layout } from '@/components/units';
 import { getFonts } from '@/lib/helpers';
 import { AppProviders } from '@/lib/providers';
-import { CompanyName } from '@/utils/consts';
+import { CompanyAddress, CompanyCity, CompanyName } from '@/utils/consts';
 
 import '../styles/globals.scss';
 
-const description =
-  'Авторские букеты и цветочные композиции с доставкой. Свежие цветы каждый день, сборка за час, доставка по городу.';
+const description = `Авторские букеты и цветочные композиции с доставкой по ${CompanyCity}у. Свежие цветы каждый день, сборка за час. ${CompanyAddress}.`;
 
 // На project-сайте GitHub Pages всё живёт в /divodivnoe. Пути в metadata
 // Next не префиксует сам (в отличие от Link и импортов), поэтому подставляем

@@ -1,0 +1,17 @@
+@use '@/styles/index' as s;
+
+.link {
+  @include s.text_body_2;
+  transition: s.$transition;
+
+  &:hover {
+    color: var(--text_primary);
+  }
+
+  @include s.media_down(md) {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    width: fit-content;
+  }
+}

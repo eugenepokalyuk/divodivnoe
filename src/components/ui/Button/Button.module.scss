@@ -24,7 +24,10 @@
 }
 
 .small {
-  padding: s.gap(2.5) s.gap(5);
+  padding: s.gap(3) s.gap(5);
+
+  // 44px — минимальная зона нажатия по гайдлайнам Apple и Google.
+  min-height: 44px;
 
   @include s.text_body_2;
 }

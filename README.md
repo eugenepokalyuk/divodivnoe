@@ -30,12 +30,24 @@ Actions** (не «Deploy from a branch»).
 
 ### Переезд на divodivnoe.com
 
-1. У регистратора: `A`-записи на `185.199.108-111.153` и `CNAME www` →
-   `eugenepokalyuk.github.io`.
-2. Создать `public/CNAME` с одной строкой `divodivnoe.com`.
-3. В workflow убрать `NEXT_PUBLIC_BASE_PATH` и поправить `NEXT_PUBLIC_APP_URL`
+Сейчас домен на **парковке reg.ru**: `divodivnoe.com` → `95.163.244.138`
+(openresty, заглушка регистратора, HTTPS нет). Это не наш сервер — выложить
+туда сайт нельзя, нужно увести DNS на Pages. NS домена: `ns1/ns2.reg.ru`.
+
+Порядок важен: пока DNS не переехал, `basePath` трогать нельзя — иначе
+сломается и github.io-ссылка, и домен.
+
+1. **DNS у reg.ru** — заменить A-запись парковки на четыре адреса GitHub:
+   `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`.
+   Плюс `CNAME www` → `eugenepokalyuk.github.io`.
+2. Settings → Pages → Custom domain → `divodivnoe.com`, дождаться проверки,
+   включить Enforce HTTPS (сертификат выпустит GitHub).
+3. Создать `public/CNAME` с одной строкой `divodivnoe.com`.
+4. В workflow убрать `NEXT_PUBLIC_BASE_PATH` и поправить `NEXT_PUBLIC_APP_URL`
    на `https://divodivnoe.com` — префикс станет не нужен.
-4. Settings → Pages → Custom domain → `divodivnoe.com`, включить Enforce HTTPS.
+
+Проверить, что DNS доехал: `dig +short divodivnoe.com A` должен вернуть
+адреса GitHub, а не `95.163.244.138`.
 
 ## Запуск
 
@@ -53,17 +65,25 @@ npm run start
 | `/`           | Лендинг: герой, каталог, акции, о нас, доставка, контакты      |
 | `/promotions` | Все действующие акции                                          |
 
-## Акции, Telegram и MAX
+## Акции и мессенджеры
 
-На карточке акции две кнопки:
+На карточке акции три кнопки (порядок задан `MessengerOrder`):
 
-- **Telegram** — открывает чат с уже набранным текстом (Telegram message draft
-  link, `https://t.me/<username>?text=<текст>`). Отправляет сообщение сам клиент.
+- **Telegram** — чат с уже набранным текстом (message draft link,
+  `https://t.me/<username>?text=<текст>`).
+- **WhatsApp** — то же самое: `https://wa.me/<номер>?text=<текст>`.
 - **MAX** — просто открывает чат магазина. Предзаполнить текст нельзя:
   [документация MAX](https://dev.max.ru/help/deeplinks) знает только `?start=`
   для ботов и `:share?text=`, который открывает выбор получателя, а не наш чат.
   Наш аккаунт — бизнес-профиль, не бот. Поэтому на карточке показан **промокод**,
   который клиент называет в чате.
+
+Сообщение во всех случаях отправляет сам клиент — мы только подставляем текст.
+
+Кто что умеет — задано флагом `supportsPrefill` в `Messengers`
+(`src/utils/consts/contacts.ts`), а не разбросано по компонентам.
+Кнопки рисует общий `MessengerActions` — добавить четвёртый мессенджер значит
+дописать enum + запись в `Messengers` + `MessengerOrder`.
 
 Что где лежит:
 
@@ -72,9 +92,10 @@ npm run start
   в массив (не забыть `code` — промокод). Когда появится админка — список приедет
   с бэкенда через `promotionsActions.setPromotions`.
 - **Контакты** — `src/utils/consts/contacts.ts`. Аккаунты заданы в enum
-  `TelegramContact` и `MaxContact`: поменять значение здесь — обновится во всех
-  акциях и кнопках.
-- **Текст сообщения** — `buildPromotionMessage` в `src/utils/helpers/telegram.ts`.
+  `TelegramContact`, `WhatsappContact` и `MaxContact`: поменять значение здесь —
+  обновится во всех акциях и кнопках.
+- **Текст сообщения** — `buildPromotionMessage` в
+  `src/utils/helpers/messengers.ts`.
 
 ## Шрифты
 
@@ -88,14 +109,28 @@ npm run start
 
 ## Что заменить перед продом
 
-- `TelegramContact.Manager` — сейчас заглушка `wazzupjohnny`.
-  (`MaxContact.Shop` — уже боевой бизнес-аккаунт.)
-- `PhoneContact.Manager` и `PhoneDisplay` в `contacts.ts` — сейчас `+7 999 999-99-99`.
+Все контакты боевые, заглушек не осталось: Telegram `@divo_divnoe_nsk`,
+телефон `+7 923 106-86-26`, WhatsApp `79231068626`, MAX, VK `viva_flo`,
+почта `vivaflowers54@gmail.com`, адрес и часы работы (с карточки 2ГИС).
+
+`TelegramContact.Manager` принимает и username (`divo_divnoe_nsk`), и телефон
+(`+79231068626`) — [оба формата](https://core.telegram.org/api/links) умеют
+`?text=`, ссылка собирается конкатенацией. Меняется в одном месте.
+
+Флаг `isPlaceholder` в `Messengers` оставлен на будущее: если добавите канал
+с ещё не выданным контактом — пометьте, чтобы грепом было видно.
+
+Адрес, город и часы работы лежат в `contacts.ts` (`CompanyAddress`,
+`CompanyCity`, `WorkingHours`) — правятся в одном месте, а не по вёрстке.
 - `CompanyEmail` — сейчас `hello@divodivnoe.com`.
 - Плейсхолдеры под фото: герой (`HeroSection`) и карточки каталога
   (`CatalogSection`) — серые блоки вместо `<Image>`.
 - Тексты секций «О нас» / «Доставка» и цены в `CatalogSection` — рыба.
+  Там же выдуманные цифры: «5 лет собираем букеты», «2 часа до доставки»,
+  «доставка 400 ₽», «бесплатно от 5 000 ₽» — проверить перед продом.
 - `public/favicon.svg` — заглушка с буквой «Д».
+- В 2ГИС висит акция «-10% на первый заказ по промокоду 2ГИС» — на сайт
+  сознательно не переносили, чтобы не путать с `FIRST500`.
 
 ## Структура
 

@@ -1,0 +1,20 @@
+@use '@/styles/index' as s;
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(3);
+
+  // Ссылки на мобиле сами по 44px — свой отступ уже не нужен,
+  // иначе футер растягивается вдвое.
+  @include s.media_down(md) {
+    gap: 0;
+  }
+}
+
+.title {
+  @include s.text_overline;
+  color: var(--text_secondary);
+
+  margin-bottom: s.gap(1);
+}

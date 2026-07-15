@@ -15,7 +15,7 @@ export const PromotionsViewLayout: FC<Props> = ({ promotions }) => (
   <Section
     overline="Акции"
     title="Действующие акции"
-    description="В Telegram сообщение подставится само — останется отправить. В MAX назовите промокод, и флорист подтвердит скидку."
+    description="В Telegram и WhatsApp сообщение подставится само — останется отправить. В MAX назовите промокод, и флорист подтвердит скидку."
   >
     {promotions.length ? (
       <ul className={classes.grid}>

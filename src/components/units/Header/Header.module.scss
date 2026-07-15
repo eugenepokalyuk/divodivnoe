@@ -20,70 +20,15 @@
 
   height: 72px;
 
-  // На узких экранах меню уезжает во второй ряд и скроллится вбок —
-  // так /promotions остаётся в один тап, без бургера и лишнего JS.
+  // На узких экранах меню уезжает во второй ряд — так /promotions остаётся
+  // в один тап, без бургера и лишнего JS. Отступы режем: шапка липкая,
+  // и каждый лишний пиксель постоянно отъедает экран.
   @include s.media_down(lg) {
     flex-wrap: wrap;
     height: auto;
-    padding-top: s.gap(3);
-    padding-bottom: s.gap(3);
-    gap: s.gap(3);
-  }
-}
-
-.logo {
-  font-family: var(--font-yauza), var(--font-cormorant), serif;
-  font-size: 26px;
-  letter-spacing: 0.04em;
-  white-space: nowrap;
-}
-
-.nav {
-  display: flex;
-  align-items: center;
-  gap: s.gap(6);
-
-  @include s.media_down(lg) {
-    // order: 1 — ниже логотипа и кнопки; отрицательные márgin'ы тянут
-    // скролл-контейнер до краёв экрана, чтобы крайние пункты не липли к рамке.
-    order: 1;
-    width: 100%;
-
-    gap: s.gap(5);
-    margin: 0 calc(-1 * var(--gap_side));
-    padding: s.gap(1) var(--gap_side);
-
-    overflow-x: auto;
-    scrollbar-width: none;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
-  }
-}
-
-.nav_link {
-  @include s.text_body_2;
-  color: var(--text_secondary);
-  white-space: nowrap;
-  transition: s.$transition;
-
-  &:hover {
-    color: var(--text_primary);
-  }
-}
-
-.actions {
-  display: flex;
-  align-items: center;
-  gap: s.gap(4);
-}
-
-.phone {
-  @include s.text_body_2;
-  white-space: nowrap;
-
-  @include s.media_down(md) {
-    display: none;
+    padding-top: s.gap(2);
+    padding-bottom: 0;
+    column-gap: s.gap(3);
+    row-gap: 0;
   }
 }

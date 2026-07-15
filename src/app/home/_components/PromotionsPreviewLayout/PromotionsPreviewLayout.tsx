@@ -16,7 +16,7 @@ export const PromotionsPreviewLayout: FC<Props> = ({ promotions }) => (
     className={classes.section}
     overline="Акции"
     title="Действующие предложения"
-    description="В Telegram сообщение подставится само — останется отправить. В MAX назовите промокод с карточки."
+    description="В Telegram и WhatsApp сообщение подставится само — останется отправить. В MAX назовите промокод с карточки."
   >
     <ul className={classes.grid}>
       {promotions.map((promotion) => (

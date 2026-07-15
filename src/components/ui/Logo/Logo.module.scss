@@ -1,0 +1,15 @@
+@use '@/styles/index' as s;
+
+.logo {
+  font-family: var(--font-yauza), var(--font-cormorant), serif;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.small {
+  font-size: 26px;
+}
+
+.medium {
+  font-size: 30px;
+}

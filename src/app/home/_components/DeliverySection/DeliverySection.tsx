@@ -1,10 +1,13 @@
 import React, { FC } from 'react';
 
 import { Section } from '@/components/ui';
+import { CompanyCity, WorkingHours } from '@/utils/consts';
+
+import { DeliveryStep, Step } from './_components/DeliveryStep/DeliveryStep';
 
 import classes from './DeliverySection.module.scss';
 
-const STEPS = [
+const STEPS: Step[] = [
   {
     step: '01',
     title: 'Выбираете букет',
@@ -23,7 +26,7 @@ const STEPS = [
   {
     step: '04',
     title: 'Доставляем',
-    text: 'По городу — от 2 часов, 400 ₽. От 5 000 ₽ доставка бесплатная.',
+    text: `По ${CompanyCity}у — от 2 часов, 400 ₽. От 5 000 ₽ доставка бесплатная.`,
   },
 ];
 
@@ -32,15 +35,11 @@ export const DeliverySection: FC = () => (
     id="delivery"
     overline="Доставка и оплата"
     title="Как мы работаем"
-    description="Ежедневно с 8:00 до 22:00. Срочный заказ соберём за час — напишите, согласуем."
+    description={`${WorkingHours}. Срочный заказ соберём за час — напишите, согласуем.`}
   >
     <ol className={classes.steps}>
-      {STEPS.map(({ step, title, text }) => (
-        <li key={step} className={classes.item}>
-          <span className={classes.step}>{step}</span>
-          <h3 className={classes.title}>{title}</h3>
-          <p className={classes.text}>{text}</p>
-        </li>
+      {STEPS.map((step) => (
+        <DeliveryStep key={step.step} {...step} />
       ))}
     </ol>
   </Section>

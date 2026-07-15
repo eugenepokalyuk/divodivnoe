@@ -1,0 +1,21 @@
+@use '@/styles/index' as s;
+
+.media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  aspect-ratio: 4 / 5;
+
+  background: var(--background_secondary);
+  border-radius: s.$br_6;
+
+  @include s.media_down(lg) {
+    aspect-ratio: 16 / 10;
+  }
+}
+
+.hint {
+  @include s.text_overline;
+  color: var(--text_secondary);
+}

@@ -1,0 +1,29 @@
+@use '@/styles/index' as s;
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: s.gap(8);
+
+  margin-top: s.gap(6);
+  padding-top: s.gap(6);
+  border-top: 1px solid var(--stroke_default);
+  width: 100%;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(1);
+}
+
+.value {
+  font-family: var(--font-cormorant), serif;
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+.label {
+  @include s.text_caption;
+  color: var(--text_secondary);
+}

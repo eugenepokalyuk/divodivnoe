@@ -1,0 +1,28 @@
+@use '@/styles/index' as s;
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: s.gap(2);
+
+  // Прижимаем промокод и кнопки к низу, чтобы карточки в ряду
+  // выравнивались независимо от длины описания.
+  margin-top: auto;
+  padding-top: s.gap(1);
+
+  @include s.text_caption;
+  color: var(--text_secondary);
+}
+
+.code {
+  padding: s.gap(1) s.gap(2.5);
+
+  background: var(--background_secondary);
+  border: 1px dashed var(--stroke_default);
+  border-radius: s.$br_1;
+
+  font-family: var(--font-inter), sans-serif;
+  font-weight: s.$medium;
+  letter-spacing: 0.08em;
+  color: var(--text_default);
+}

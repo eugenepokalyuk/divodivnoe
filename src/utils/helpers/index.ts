@@ -1,1 +1,1 @@
-export * from './telegram';
+export * from './messengers';

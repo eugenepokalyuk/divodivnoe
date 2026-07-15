@@ -1,0 +1,32 @@
+@use '@/styles/index' as s;
+
+// Каталог — главный CTA; мессенджеры идут ниже отдельной группой
+// с подписью, чтобы не превращать герой в частокол из четырёх кнопок.
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: s.gap(5);
+
+  margin-top: s.gap(2);
+  width: 100%;
+}
+
+.cta {
+  // На десктопе кнопка по контенту, на мобиле — во всю ширину:
+  // главный CTA должен быть крупной целью для пальца.
+  @include s.media_up(md) {
+    width: fit-content;
+  }
+}
+
+.write {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(2);
+}
+
+.label {
+  @include s.text_caption;
+  color: var(--text_secondary);
+}

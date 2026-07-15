@@ -1,0 +1,17 @@
+@use '@/styles/index' as s;
+
+// auto-fit: втроём в ряд, когда помещаются (от ~360px), иначе аккуратно
+// перестраиваются в 2+1 и в столбец на самых узких экранах — вместо того,
+// чтобы сжимать «WhatsApp» до нечитаемого.
+.actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  gap: s.gap(2);
+
+  width: 100%;
+}
+
+.button {
+  padding-left: s.gap(3);
+  padding-right: s.gap(3);
+}

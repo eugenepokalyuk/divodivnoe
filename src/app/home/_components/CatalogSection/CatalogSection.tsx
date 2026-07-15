@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
-import Link from 'next/link';
 
 import { Section } from '@/components/ui';
-import { Routes } from '@/utils/consts';
+
+import { CatalogCard, Collection } from './_components/CatalogCard/CatalogCard';
 
 import classes from './CatalogSection.module.scss';
 
 /** Рыба под каталог: заменить на данные с бэкенда/CMS, когда появятся. */
-const COLLECTIONS = [
+const COLLECTIONS: Collection[] = [
   { title: 'Авторские букеты', price: 'от 3 500 ₽', note: 'Хит' },
   { title: 'Пионы', price: 'от 4 900 ₽', note: 'Сезон' },
   { title: 'Моно-букеты', price: 'от 2 400 ₽' },
@@ -24,19 +24,9 @@ export const CatalogSection: FC = () => (
     description="Собираем букеты из свежего среза — привозим цветы дважды в неделю. Каждая композиция собирается вручную под ваш повод."
   >
     <ul className={classes.grid}>
-      {COLLECTIONS.map(({ title, price, note }) => (
-        <li key={title}>
-          <Link href={Routes.Contacts} className={classes.card}>
-            {/* Плейсхолдер под фото коллекции. */}
-            <span className={classes.media} aria-hidden="true">
-              {note && <span className={classes.note}>{note}</span>}
-            </span>
-
-            <span className={classes.body}>
-              <span className={classes.title}>{title}</span>
-              <span className={classes.price}>{price}</span>
-            </span>
-          </Link>
+      {COLLECTIONS.map((collection) => (
+        <li key={collection.title}>
+          <CatalogCard {...collection} />
         </li>
       ))}
     </ul>

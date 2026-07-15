@@ -1,0 +1,34 @@
+@use '@/styles/index' as s;
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: s.gap(4);
+}
+
+.phone {
+  @include s.text_body_2;
+  white-space: nowrap;
+
+  @include s.media_down(md) {
+    display: none;
+  }
+}
+
+// В шапке кнопки по контенту, а не тянутся сеткой на всю ширину.
+.messengers {
+  display: flex;
+  width: auto;
+  flex-wrap: nowrap;
+
+  @include s.media_down(lg) {
+    display: none;
+  }
+}
+
+// Зеркально: «Позвонить» — только там, где спрятаны мессенджеры.
+.call {
+  @include s.media_up(lg) {
+    display: none;
+  }
+}

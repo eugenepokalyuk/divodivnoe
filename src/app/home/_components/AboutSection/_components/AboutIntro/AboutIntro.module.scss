@@ -1,0 +1,21 @@
+@use '@/styles/index' as s;
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(4);
+}
+
+.overline {
+  @include s.text_overline;
+  color: var(--text_primary);
+}
+
+.title {
+  @include s.text_header_1;
+}
+
+.text {
+  @include s.text_body_1;
+  color: var(--text_secondary);
+}

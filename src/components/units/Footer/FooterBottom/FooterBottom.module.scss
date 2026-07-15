@@ -1,0 +1,15 @@
+@use '@/styles/index' as s;
+
+.bottom {
+  border-top: 1px solid var(--stroke_default);
+}
+
+.copyright {
+  @include s.glass(s.$width_lg);
+
+  padding-top: s.gap(5);
+  padding-bottom: s.gap(5);
+
+  @include s.text_caption;
+  color: var(--text_secondary);
+}
