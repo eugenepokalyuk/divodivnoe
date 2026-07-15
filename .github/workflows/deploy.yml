@@ -34,11 +34,9 @@ jobs:
 
       - name: Build static export
         env:
-          # Project-сайт живёт в подпапке /divodivnoe — без префикса
-          # отвалятся ассеты и внутренние ссылки.
-          # Свой домен → убрать эту переменную и добавить public/CNAME.
-          NEXT_PUBLIC_BASE_PATH: /divodivnoe
-          NEXT_PUBLIC_APP_URL: https://eugenepokalyuk.github.io/divodivnoe
+          # Сайт живёт на своём домене в корне, поэтому basePath не задаём:
+          # префикс /divodivnoe тут привёл бы к 404 на всех ассетах.
+          NEXT_PUBLIC_APP_URL: https://divodivnoe.com
         run: npm run build
 
       - name: Disable Jekyll
