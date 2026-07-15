@@ -44,6 +44,7 @@ export const CatalogSection: FC = () => {
             : categories?.map((category) => (
                 <li key={category.slug}>
                   <CatalogCard
+                    slug={category.slug}
                     title={category.name}
                     priceFrom={category.price_from}
                     note={category.note || undefined}
