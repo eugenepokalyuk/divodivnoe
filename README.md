@@ -1,7 +1,7 @@
 # divodivnoe.com
 
 Лендинг цветочной мастерской «Диво Дивное». Next.js 16 (App Router) + React 19 +
-Redux Toolkit + SCSS Modules — стек как в `forma-next`.
+Redux Toolkit + SCSS Modules
 
 **Прод:** https://eugenepokalyuk.github.io/divodivnoe/
 
