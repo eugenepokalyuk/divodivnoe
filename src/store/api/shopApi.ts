@@ -27,11 +27,6 @@ export interface CategoryDetailDto extends CategoryDto {
   products: ProductDto[];
 }
 
-export interface SiteSettingsDto {
-  /** Фото первого экрана из админки. null — показываем вшитое в вёрстку. */
-  hero_image: string | null;
-}
-
 /** Акция на витрине.
  *
  *  Ключ — code, а не id: он уникален, читается в отладке и это ровно тот
@@ -61,9 +56,6 @@ export const shopApi = createApi({
     getCategory: build.query<CategoryDetailDto, string>({
       query: (slug) => `catalog/categories/${slug}/`,
     }),
-    getSiteSettings: build.query<SiteSettingsDto, void>({
-      query: () => 'catalog/site/',
-    }),
     getPromotions: build.query<Promotion[], void>({
       query: () => 'promotions/',
     }),
@@ -73,6 +65,5 @@ export const shopApi = createApi({
 export const {
   useGetCategoriesQuery,
   useGetCategoryQuery,
-  useGetSiteSettingsQuery,
   useGetPromotionsQuery,
 } = shopApi;
