@@ -20,7 +20,7 @@ export const ConsentNotice: FC<Props> = ({ action, withOffer }) => (
   <p className={classes.notice}>
     Нажимая «{action}», вы соглашаетесь с{' '}
     <Link href={Routes.Privacy} className={classes.link}>
-      политикой конфиденциальности
+      политикой обработки персональных данных
     </Link>{' '}
     и{' '}
     {withOffer ? (
