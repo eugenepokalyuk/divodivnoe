@@ -2,7 +2,7 @@
 
 import React, { FC } from 'react';
 
-import { Button } from '@/components/ui';
+import { Button, MinusIcon, PlusIcon } from '@/components/ui';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import {
   addToCart,
@@ -72,7 +72,7 @@ const Stepper: FC<{
       onClick={onDecrement}
       aria-label={quantity <= 1 ? 'Убрать из корзины' : 'Уменьшить количество'}
     >
-      −
+      <MinusIcon />
     </button>
     <span className={classes.count} aria-live="polite">
       {quantity} в корзине
@@ -84,7 +84,7 @@ const Stepper: FC<{
       aria-label="Увеличить количество"
       disabled={quantity >= 99}
     >
-      +
+      <PlusIcon />
     </button>
   </div>
 );

@@ -4,7 +4,14 @@ import React, { FC, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 
-import { Button, Section } from '@/components/ui';
+import {
+  Button,
+  CheckIcon,
+  CloseIcon,
+  MinusIcon,
+  PlusIcon,
+  Section,
+} from '@/components/ui';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import {
   clearCart,
@@ -159,7 +166,7 @@ export const CartView: FC = () => {
                         )
                   }
                 >
-                  −
+                  <MinusIcon />
                 </button>
                 <span className={classes.count}>{line.quantity}</span>
                 <button
@@ -176,7 +183,7 @@ export const CartView: FC = () => {
                     )
                   }
                 >
-                  +
+                  <PlusIcon />
                 </button>
               </div>
 
@@ -190,7 +197,7 @@ export const CartView: FC = () => {
                 aria-label={`Удалить ${line.name}`}
                 onClick={() => dispatch(removeFromCart(line.productId))}
               >
-                ✕
+                <CloseIcon />
               </button>
             </li>
           ))}
@@ -269,7 +276,11 @@ const ShareButton: FC<{
       {state === 'saving'
         ? 'Готовим ссылку…'
         : state === 'copied'
-          ? 'Ссылка скопирована ✓'
+          ? (
+              <>
+                Ссылка скопирована <CheckIcon />
+              </>
+            )
           : state === 'error'
             ? 'Не вышло, попробуйте ещё'
             : 'Поделиться корзиной'}

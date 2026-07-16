@@ -3,6 +3,8 @@
 import React, { FC, PropsWithChildren, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
+import { CloseIcon } from '../Icons/Icons';
+
 import classes from './Modal.module.scss';
 
 interface Props extends PropsWithChildren {
@@ -67,7 +69,7 @@ export const Modal: FC<Props> = ({
           onClick={onClose}
           aria-label="Закрыть"
         >
-          ✕
+          <CloseIcon />
         </button>
 
         <header className={classes.header}>

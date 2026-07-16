@@ -13,6 +13,7 @@ export const Routes = {
   Consent: '/consent',
   Offer: '/offer',
   Cookies: '/cookies',
+  Terms: '/terms',
 };
 
 /** Адрес страницы категории.

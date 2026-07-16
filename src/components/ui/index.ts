@@ -1,6 +1,7 @@
 export * from './Button/Button';
 export * from './ConsentNotice/ConsentNotice';
 export * from './ExternalLink/ExternalLink';
+export * from './Icons/Icons';
 export * from './Logo/Logo';
 export * from './MessengerActions/MessengerActions';
 export * from './Modal/Modal';

@@ -5,6 +5,8 @@ import Image from 'next/image';
 import useEmblaCarousel from 'embla-carousel-react';
 import clsx from 'clsx';
 
+import { ChevronLeftIcon, ChevronRightIcon } from '@/components/ui';
+
 import classes from './ProductGallery.module.scss';
 
 interface Props {
@@ -84,7 +86,7 @@ export const ProductGallery: FC<Props> = ({ images, alt }) => {
               onClick={() => mainApi?.scrollPrev()}
               aria-label="Предыдущее фото"
             >
-              <Chevron direction="left" />
+              <ChevronLeftIcon />
             </button>
             <button
               type="button"
@@ -92,7 +94,7 @@ export const ProductGallery: FC<Props> = ({ images, alt }) => {
               onClick={() => mainApi?.scrollNext()}
               aria-label="Следующее фото"
             >
-              <Chevron direction="right" />
+              <ChevronRightIcon />
             </button>
           </>
         )}
@@ -128,20 +130,3 @@ export const ProductGallery: FC<Props> = ({ images, alt }) => {
     </div>
   );
 };
-
-const Chevron: FC<{ direction: 'left' | 'right' }> = ({ direction }) => (
-  <svg
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden
-    style={direction === 'right' ? { transform: 'scaleX(-1)' } : undefined}
-  >
-    <polyline points="15 18 9 12 15 6" />
-  </svg>
-);
