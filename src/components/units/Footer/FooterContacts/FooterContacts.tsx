@@ -22,17 +22,11 @@ export const FooterContacts: FC = () => (
     ))}
 
     {/* Соцсети — на них подписываются; выше блок мессенджеров, куда пишут. */}
-    <FooterLink href={Contacts.Vk} external>
-      ВКонтакте
-    </FooterLink>
+    <FooterLink href={Contacts.Vk} external>{'ВКонтакте'}</FooterLink>
 
-    <FooterLink href={Contacts.Instagram} external>
-      Instagram
-    </FooterLink>
+    <FooterLink href={Contacts.Instagram} external>{'Instagram'}</FooterLink>
 
-    <FooterLink href={Contacts.TelegramGroup} external>
-      Telegram-группа
-    </FooterLink>
+    <FooterLink href={Contacts.TelegramGroup} external>{'Telegram - группа'}</FooterLink>
 
     <FooterLink href={Contacts.Email}>{CompanyEmail}</FooterLink>
   </FooterColumn>

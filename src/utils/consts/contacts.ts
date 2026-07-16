@@ -56,7 +56,7 @@ export enum PhoneContact {
 
 export const CompanyName = 'Диво Дивное';
 export const CompanyDomain = 'divodivnoe.com';
-export const CompanyEmail = 'vivaflowers54@gmail.com';
+export const CompanyEmail = 'divo_divnoe_flo@mail.ru';
 
 /** Данные с карточки 2ГИС — единственный источник правды по адресу и часам,
  *  чтобы они не разъезжались между футером и секцией доставки. */
