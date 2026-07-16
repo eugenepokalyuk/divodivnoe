@@ -1,0 +1,116 @@
+@use '@/styles/index' as s;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(4);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(1);
+}
+
+.fieldLabel {
+  @include s.text_body_2;
+  color: var(--text_secondary);
+}
+
+.input {
+  width: 100%;
+  padding: s.gap(3);
+
+  @include s.text_body_1;
+  color: var(--text_default);
+  background: var(--background_default);
+  border: 1px solid var(--stroke_default);
+  border-radius: s.$br_3;
+
+  transition: s.$transition;
+
+  &:focus {
+    outline: none;
+    border-color: var(--stroke_primary);
+  }
+
+  &::placeholder {
+    color: var(--text_secondary);
+    opacity: 0.6;
+  }
+}
+
+.fieldError {
+  @include s.text_caption;
+  color: var(--text_primary);
+}
+
+// Карточка выбранной позиции
+.product {
+  display: flex;
+  align-items: center;
+  gap: s.gap(3);
+
+  padding: s.gap(3);
+
+  background: var(--background_secondary);
+  border-radius: s.$br_3;
+}
+
+.productThumb {
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+
+  width: 56px;
+  aspect-ratio: 3 / 4;
+
+  background: var(--background_default);
+  border-radius: s.$br_2;
+}
+
+.productImage {
+  object-fit: cover;
+}
+
+.productInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.productLabel {
+  @include s.text_caption;
+  color: var(--text_secondary);
+}
+
+.productName {
+  @include s.text_body_1;
+}
+
+.productPrice {
+  @include s.text_body_2;
+  color: var(--text_primary);
+}
+
+.formError {
+  padding: s.gap(3);
+
+  @include s.text_body_2;
+  color: var(--text_primary);
+  background: var(--background_primary_10);
+  border-radius: s.$br_3;
+}
+
+// Успех
+.success {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(5);
+}
+
+.successText {
+  @include s.text_body_1;
+  color: var(--text_secondary);
+}

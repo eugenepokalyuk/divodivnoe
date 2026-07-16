@@ -1,0 +1,78 @@
+@use '@/styles/index' as s;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: s.gap(4);
+
+  background: rgba(28, 26, 27, 0.5);
+  backdrop-filter: blur(2px);
+
+  overflow-y: auto;
+}
+
+.dialog {
+  position: relative;
+
+  width: min(100%, 480px);
+  padding: s.gap(8);
+  margin: auto;
+
+  background: var(--background_default);
+  border-radius: s.$br_5;
+  box-shadow: s.$box-shadow;
+
+  @include s.media_down(sm) {
+    padding: s.gap(6) s.gap(5);
+  }
+}
+
+.close {
+  position: absolute;
+  top: s.gap(4);
+  right: s.gap(4);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 32px;
+  height: 32px;
+  padding: 0;
+
+  font-size: 15px;
+  color: var(--icon_secondary);
+  background: var(--background_secondary);
+  border: none;
+  border-radius: s.$br_full;
+  cursor: pointer;
+
+  transition: s.$transition;
+
+  &:hover {
+    color: var(--text_default);
+  }
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(2);
+
+  margin-bottom: s.gap(6);
+  padding-right: s.gap(8); // не наезжаем на крестик
+}
+
+.title {
+  @include s.text_header_2;
+}
+
+.description {
+  @include s.text_body_2;
+  color: var(--text_secondary);
+}

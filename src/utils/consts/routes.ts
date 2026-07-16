@@ -3,6 +3,7 @@ export const Routes = {
   Promotions: '/promotions',
   Catalog: '/#catalog',
   CatalogPage: '/catalog',
+  Cart: '/cart',
   About: '/#about',
   Delivery: '/#delivery',
   Contacts: '/#contacts',
@@ -17,3 +18,11 @@ export const Routes = {
  *  С параметром файл один и работает для любой категории сразу. */
 export const categoryRoute = (slug: string) =>
   `${Routes.CatalogPage}/?category=${encodeURIComponent(slug)}`;
+
+/** Адрес страницы товара.
+ *
+ *  Тем же параметром, что и категория (см. выше): статический экспорт
+ *  печатает один файл /catalog/product/, а slug приходит query-строкой —
+ *  товар, заведённый в админке позже, работает без пересборки сайта. */
+export const productRoute = (slug: string) =>
+  `${Routes.CatalogPage}/product/?slug=${encodeURIComponent(slug)}`;

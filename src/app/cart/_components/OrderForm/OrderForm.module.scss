@@ -1,0 +1,124 @@
+@use '@/styles/index' as s;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(4);
+}
+
+.heading {
+  @include s.text_header_2;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: s.gap(4);
+
+  @include s.media_down(sm) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(1);
+}
+
+.label {
+  @include s.text_body_2;
+  color: var(--text_secondary);
+}
+
+.optional {
+  color: var(--text_secondary);
+  opacity: 0.7;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: s.gap(3);
+
+  @include s.text_body_1;
+  color: var(--text_default);
+  background: var(--background_default);
+  border: 1px solid var(--stroke_default);
+  border-radius: s.$br_3;
+
+  transition: s.$transition;
+
+  &:focus {
+    outline: none;
+    border-color: var(--stroke_primary);
+  }
+
+  &::placeholder {
+    color: var(--text_secondary);
+    opacity: 0.6;
+  }
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 84px;
+}
+
+.methods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: s.gap(2);
+}
+
+.method {
+  padding: s.gap(2) s.gap(4);
+
+  @include s.text_body_2;
+  color: var(--text_default);
+  background: var(--background_default);
+  border: 1px solid var(--stroke_default);
+  border-radius: s.$br_full;
+  cursor: pointer;
+
+  transition: s.$transition;
+
+  &:hover {
+    border-color: var(--stroke_primary);
+  }
+
+  &[data-active='true'] {
+    color: var(--text_contrast);
+    background: var(--background_primary);
+    border-color: var(--background_primary);
+  }
+}
+
+// Сам radio прячем — роль берёт на себя «таблетка» .method. Не display:none,
+// чтобы фокус с клавиатуры доходил (видимость даём через :focus-visible ниже).
+.methodInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.method:has(.methodInput:focus-visible) {
+  outline: 2px solid var(--stroke_primary);
+  outline-offset: 2px;
+}
+
+.error {
+  @include s.text_caption;
+  color: var(--text_primary);
+}
+
+.formError {
+  padding: s.gap(3);
+
+  @include s.text_body_2;
+  color: var(--text_primary);
+  background: var(--background_primary_10);
+  border-radius: s.$br_3;
+}

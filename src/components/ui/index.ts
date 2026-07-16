@@ -2,5 +2,6 @@ export * from './Button/Button';
 export * from './ExternalLink/ExternalLink';
 export * from './Logo/Logo';
 export * from './MessengerActions/MessengerActions';
+export * from './Modal/Modal';
 export * from './Section/Section';
 export * from './Skeleton/Skeleton';

@@ -19,8 +19,13 @@ export interface ProductDto {
   name: string;
   slug: string;
   description: string;
+  /** Обложка — первое фото. null, если в админке не загружено. */
   image: string | null;
   price: number;
+  /** Вся галерея абсолютными ссылками, обложка первой. Бэкенд уже
+   *  склеил обложку с доп. фото и отсортировал — на клиенте просто
+   *  скармливаем массив слайдеру. Пустой, если фото нет вовсе. */
+  images: string[];
 }
 
 export interface CategoryDetailDto extends CategoryDto {
@@ -42,19 +47,25 @@ export interface Promotion {
 }
 
 /** Бэкенд живёт на отдельном домене (api.divodivnoe.com), потому что сайт —
- *  статика на Pages, а Django с админкой на своём сервере. */
-const baseUrl =
+ *  статика на Pages, а Django с админкой на своём сервере.
+ *
+ *  Экспортируем: корзина синхронизируется тем же fetch мимо RTK Query
+ *  (императивные POST/PUT в listener-middleware), и base URL у неё общий. */
+export const apiBaseUrl =
   process.env.NEXT_PUBLIC_API_URL ?? 'https://api.divodivnoe.com/api/v1/';
 
 export const shopApi = createApi({
   reducerPath: 'shopApi',
-  baseQuery: fetchBaseQuery({ baseUrl }),
+  baseQuery: fetchBaseQuery({ baseUrl: apiBaseUrl }),
   endpoints: (build) => ({
     getCategories: build.query<CategoryDto[], void>({
       query: () => 'catalog/categories/',
     }),
     getCategory: build.query<CategoryDetailDto, string>({
       query: (slug) => `catalog/categories/${slug}/`,
+    }),
+    getProduct: build.query<ProductDto, string>({
+      query: (slug) => `catalog/products/${slug}/`,
     }),
     getPromotions: build.query<Promotion[], void>({
       query: () => 'promotions/',
@@ -65,5 +76,6 @@ export const shopApi = createApi({
 export const {
   useGetCategoriesQuery,
   useGetCategoryQuery,
+  useGetProductQuery,
   useGetPromotionsQuery,
 } = shopApi;

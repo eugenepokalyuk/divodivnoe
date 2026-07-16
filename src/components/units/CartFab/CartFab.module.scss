@@ -1,0 +1,54 @@
+@use '@/styles/index' as s;
+
+.fab {
+  position: fixed;
+  right: s.gap(5);
+  bottom: s.gap(5);
+  z-index: s.$zi_header;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 56px;
+  height: 56px;
+
+  color: var(--icon_contrast);
+  background: var(--background_primary);
+  border-radius: s.$br_full;
+  box-shadow: s.$box-shadow;
+
+  transition: s.$transition;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  @include s.media_down(md) {
+    right: s.gap(4);
+    bottom: s.gap(4);
+    width: 52px;
+    height: 52px;
+  }
+}
+
+.badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+
+  @include s.text_caption;
+  font-weight: s.$semi_bold;
+  color: var(--text_default);
+  background: var(--background_default);
+  border: 1px solid var(--stroke_default);
+  border-radius: s.$br_full;
+}

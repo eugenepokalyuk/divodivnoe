@@ -5,6 +5,11 @@ import { Provider } from 'react-redux';
 
 import { store } from '@/store/store';
 
+import { CartHydrator } from './CartHydrator';
+
 export const AppProviders: FC<PropsWithChildren> = ({ children }) => (
-  <Provider store={store}>{children}</Provider>
+  <Provider store={store}>
+    <CartHydrator />
+    {children}
+  </Provider>
 );
