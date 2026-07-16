@@ -1,4 +1,5 @@
 export * from './Button/Button';
+export * from './ConsentNotice/ConsentNotice';
 export * from './ExternalLink/ExternalLink';
 export * from './Logo/Logo';
 export * from './MessengerActions/MessengerActions';

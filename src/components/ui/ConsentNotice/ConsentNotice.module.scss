@@ -1,0 +1,13 @@
+@use '@/styles/index' as s;
+
+.notice {
+  @include s.text_caption;
+  color: var(--text_secondary);
+  text-align: center;
+}
+
+.link {
+  color: var(--text_primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}

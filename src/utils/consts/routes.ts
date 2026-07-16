@@ -7,6 +7,11 @@ export const Routes = {
   About: '/#about',
   Delivery: '/#delivery',
   Contacts: '/#contacts',
+  // Правовые документы (152-ФЗ и оферта) — обязательны, раз сайт собирает
+  // персональные данные (имя, телефон, заказы).
+  Privacy: '/privacy',
+  Consent: '/consent',
+  Offer: '/offer',
 };
 
 /** Адрес страницы категории.

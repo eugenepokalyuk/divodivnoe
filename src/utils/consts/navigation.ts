@@ -22,3 +22,10 @@ export const NavItems: NavItem[] = [
 export const FooterNavItems = NavItems.filter(
   ({ inFooter }) => inFooter !== false,
 );
+
+/** Правовые документы — отдельным столбцом в футере. */
+export const LegalDocs: { href: string; label: string }[] = [
+  { href: Routes.Privacy, label: 'Политика конфиденциальности' },
+  { href: Routes.Consent, label: 'Согласие на обработку ПДн' },
+  { href: Routes.Offer, label: 'Оферта и правила услуг' },
+];

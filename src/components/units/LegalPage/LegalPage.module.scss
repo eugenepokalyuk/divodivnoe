@@ -1,0 +1,127 @@
+@use '@/styles/index' as s;
+
+.page {
+  padding: var(--section_gap) 0;
+}
+
+.container {
+  // Уже основной сетки: длинный текст читается лучше в узкой колонке.
+  width: min(100%, 760px);
+  margin: 0 auto;
+  padding: 0 var(--gap_side);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(2);
+
+  margin-bottom: s.gap(8);
+  padding-bottom: s.gap(6);
+  border-bottom: 1px solid var(--stroke_default);
+}
+
+.overline {
+  @include s.text_overline;
+  color: var(--text_primary);
+}
+
+.title {
+  @include s.text_header_1;
+}
+
+.updated {
+  @include s.text_body_2;
+  color: var(--text_secondary);
+}
+
+// Вводный блок — визуально выделен: обычно тут дисклеймер/суть документа.
+.intro {
+  margin-bottom: s.gap(8);
+  padding: s.gap(5);
+
+  background: var(--background_secondary);
+  border-radius: s.$br_4;
+
+  @include s.text_body_2;
+  color: var(--text_secondary);
+
+  p + p {
+    margin-top: s.gap(2);
+  }
+
+  strong {
+    color: var(--text_default);
+  }
+}
+
+// === Типографика документа ===
+
+.prose {
+  @include s.text_body_1;
+  color: var(--text_default);
+
+  h2 {
+    @include s.text_header_2;
+    margin-top: s.gap(9);
+    margin-bottom: s.gap(3);
+  }
+
+  // Первый заголовок не должен отрываться от шапки большим отступом.
+  > h2:first-child {
+    margin-top: 0;
+  }
+
+  h3 {
+    @include s.text_header_3;
+    margin-top: s.gap(6);
+    margin-bottom: s.gap(2);
+  }
+
+  p {
+    margin-top: s.gap(3);
+    color: var(--text_secondary);
+  }
+
+  ul,
+  ol {
+    margin-top: s.gap(3);
+    padding-left: s.gap(5);
+    color: var(--text_secondary);
+  }
+
+  ul {
+    list-style: disc;
+  }
+
+  ol {
+    list-style: decimal;
+  }
+
+  li {
+    margin-top: s.gap(1);
+  }
+
+  li::marker {
+    color: var(--text_primary);
+  }
+
+  a {
+    color: var(--text_primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  strong {
+    color: var(--text_default);
+    font-weight: s.$semi_bold;
+  }
+
+  // Плейсхолдеры, которые владельцу нужно заполнить (реквизиты и т.п.).
+  mark {
+    padding: 0 4px;
+    color: var(--text_default);
+    background: var(--background_accent_10);
+    border-radius: s.$br_1;
+  }
+}

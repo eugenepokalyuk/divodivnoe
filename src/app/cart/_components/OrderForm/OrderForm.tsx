@@ -2,7 +2,7 @@
 
 import React, { FC, useState } from 'react';
 
-import { Button } from '@/components/ui';
+import { Button, ConsentNotice } from '@/components/ui';
 import type { CartLine } from '@/store/slices/cart';
 import { formatRuPhone } from '@/utils/helpers';
 
@@ -156,6 +156,8 @@ export const OrderForm: FC<Props> = ({ lines, onSuccess }) => {
       <Button type="submit" color="primary" fullWidth disabled={submitting}>
         {submitting ? 'Оформляем…' : 'Оформить заказ'}
       </Button>
+
+      <ConsentNotice action="Оформить заказ" withOffer />
     </form>
   );
 };

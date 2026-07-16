@@ -4,7 +4,7 @@ import React, { FC, useState } from 'react';
 import Image from 'next/image';
 import { z } from 'zod';
 
-import { Button, Modal } from '@/components/ui';
+import { Button, ConsentNotice, Modal } from '@/components/ui';
 import { formatPrice, formatRuPhone, isCompleteRuPhone } from '@/utils/helpers';
 
 import { submitGiftHint } from './submitGiftHint';
@@ -162,6 +162,8 @@ export const GiftHintModal: FC<Props> = ({ open, onClose, product }) => {
           <Button type="submit" color="primary" fullWidth disabled={submitting}>
             {submitting ? 'Отправляем…' : 'Намекнуть'}
           </Button>
+
+          <ConsentNotice action="Намекнуть" />
         </form>
       )}
     </Modal>
