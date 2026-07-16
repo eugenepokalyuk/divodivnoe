@@ -28,4 +28,5 @@ export const LegalDocs: { href: string; label: string }[] = [
   { href: Routes.Privacy, label: 'Политика обработки данных' },
   { href: Routes.Consent, label: 'Согласие на обработку ПДн' },
   { href: Routes.Offer, label: 'Публичная оферта' },
+  { href: Routes.Cookies, label: 'Политика Cookie' },
 ];

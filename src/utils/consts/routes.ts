@@ -12,6 +12,7 @@ export const Routes = {
   Privacy: '/privacy',
   Consent: '/consent',
   Offer: '/offer',
+  Cookies: '/cookies',
 };
 
 /** Адрес страницы категории.
