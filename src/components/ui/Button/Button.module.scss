@@ -12,7 +12,14 @@
 
   text-align: center;
   white-space: nowrap;
-  transition: s.$transition;
+
+  // transform отдельным быстрым переходом — чтобы нажатие «пружинило»
+  // мгновенно, а не плыло 0.3s вместе с остальными свойствами.
+  transition: s.$transition, transform 0.08s ease;
+
+  &:active:not(:disabled) {
+    transform: scale(0.97);
+  }
 }
 
 // === Sizes ===

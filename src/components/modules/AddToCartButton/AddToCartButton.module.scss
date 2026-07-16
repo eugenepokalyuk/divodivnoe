@@ -1,11 +1,31 @@
 @use '@/styles/index' as s;
 
+// Общий слот фиксированной высоты: и кнопка «В корзину», и степпер занимают
+// ровно его, поэтому при переключении вёрстка не прыгает.
+.root {
+  position: relative;
+  height: 56px;
+}
+
+.slot {
+  position: absolute;
+  inset: 0;
+}
+
+// Кнопка «В корзину» тянется на всю высоту слота; вертикальные паддинги
+// убираем — высоту задаёт слот, а не они.
+.addBtn {
+  height: 100%;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 .stepper {
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  height: 48px;
+  height: 100%;
   padding: s.gap(1);
 
   background: var(--background_secondary);
@@ -29,7 +49,8 @@
   border-radius: s.$br_full;
   cursor: pointer;
 
-  transition: s.$transition;
+  transition: color s.$transition-duration s.$transition-ease,
+    background s.$transition-duration s.$transition-ease;
 
   &:hover:not(:disabled) {
     color: var(--text_contrast);
@@ -45,4 +66,22 @@
 .count {
   @include s.text_body_1;
   color: var(--text_default);
+}
+
+// Обёртка анимируемой цифры: фиксированная ширина и клип, чтобы при смене
+// числа соседний текст «в корзине» не дёргался, а цифра аккуратно
+// проматывалась вертикально.
+.num {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+
+  min-width: 1.2ch;
+  height: 1.5em;
+  vertical-align: bottom;
+  text-align: center;
+
+  span {
+    display: inline-block;
+  }
 }

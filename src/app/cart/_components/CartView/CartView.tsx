@@ -3,6 +3,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
+import { AnimatePresence, motion } from 'framer-motion';
 
 import {
   Button,
@@ -131,82 +132,103 @@ export const CartView: FC = () => {
     <Section overline="Корзина" title="Ваша корзина">
       <div className={classes.layout}>
         <ul className={classes.list}>
-          {lines.map((line) => (
-            <li key={line.productId} className={classes.item}>
-              <span className={classes.thumb}>
-                {line.image && (
-                  <Image
-                    src={line.image}
-                    alt=""
-                    fill
-                    sizes="96px"
-                    className={classes.thumbImage}
-                  />
-                )}
-              </span>
-
-              <div className={classes.info}>
-                <p className={classes.name}>{line.name}</p>
-                <p className={classes.unitPrice}>{formatPrice(line.price)}</p>
-              </div>
-
-              <div className={classes.qty} role="group" aria-label={`Количество: ${line.name}`}>
-                <button
-                  type="button"
-                  className={classes.step}
-                  aria-label={line.quantity <= 1 ? 'Убрать' : 'Меньше'}
-                  onClick={() =>
-                    line.quantity <= 1
-                      ? dispatch(removeFromCart(line.productId))
-                      : dispatch(
-                          setQuantity({
-                            productId: line.productId,
-                            quantity: line.quantity - 1,
-                          }),
-                        )
-                  }
-                >
-                  <MinusIcon />
-                </button>
-                <span className={classes.count}>{line.quantity}</span>
-                <button
-                  type="button"
-                  className={classes.step}
-                  aria-label="Больше"
-                  disabled={line.quantity >= 99}
-                  onClick={() =>
-                    dispatch(
-                      setQuantity({
-                        productId: line.productId,
-                        quantity: line.quantity + 1,
-                      }),
-                    )
-                  }
-                >
-                  <PlusIcon />
-                </button>
-              </div>
-
-              <p className={classes.lineTotal}>
-                {formatPrice(line.price * line.quantity)}
-              </p>
-
-              <button
-                type="button"
-                className={classes.remove}
-                aria-label={`Удалить ${line.name}`}
-                onClick={() => dispatch(removeFromCart(line.productId))}
+          <AnimatePresence initial={false}>
+            {lines.map((line) => (
+              <motion.li
+                key={line.productId}
+                className={classes.item}
+                layout
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0, marginTop: 0, paddingTop: 0, paddingBottom: 0 }}
+                transition={{ duration: 0.25, ease: 'easeOut' }}
               >
-                <CloseIcon />
-              </button>
-            </li>
-          ))}
+                <span className={classes.thumb}>
+                  {line.image && (
+                    <Image
+                      src={line.image}
+                      alt=""
+                      fill
+                      sizes="96px"
+                      className={classes.thumbImage}
+                    />
+                  )}
+                </span>
+
+                <div className={classes.info}>
+                  <p className={classes.name}>{line.name}</p>
+                  <p className={classes.unitPrice}>{formatPrice(line.price)}</p>
+                </div>
+
+                <div className={classes.qty} role="group" aria-label={`Количество: ${line.name}`}>
+                  <motion.button
+                    type="button"
+                    className={classes.step}
+                    whileTap={{ scale: 0.8 }}
+                    aria-label={line.quantity <= 1 ? 'Убрать' : 'Меньше'}
+                    onClick={() =>
+                      line.quantity <= 1
+                        ? dispatch(removeFromCart(line.productId))
+                        : dispatch(
+                            setQuantity({
+                              productId: line.productId,
+                              quantity: line.quantity - 1,
+                            }),
+                          )
+                    }
+                  >
+                    <MinusIcon />
+                  </motion.button>
+                  <span className={classes.count}>{line.quantity}</span>
+                  <motion.button
+                    type="button"
+                    className={classes.step}
+                    whileTap={{ scale: 0.8 }}
+                    aria-label="Больше"
+                    disabled={line.quantity >= 99}
+                    onClick={() =>
+                      dispatch(
+                        setQuantity({
+                          productId: line.productId,
+                          quantity: line.quantity + 1,
+                        }),
+                      )
+                    }
+                  >
+                    <PlusIcon />
+                  </motion.button>
+                </div>
+
+                <p className={classes.lineTotal}>
+                  {formatPrice(line.price * line.quantity)}
+                </p>
+
+                <motion.button
+                  type="button"
+                  className={classes.remove}
+                  whileTap={{ scale: 0.85 }}
+                  aria-label={`Удалить ${line.name}`}
+                  onClick={() => dispatch(removeFromCart(line.productId))}
+                >
+                  <CloseIcon />
+                </motion.button>
+              </motion.li>
+            ))}
+          </AnimatePresence>
         </ul>
 
         <aside className={classes.summary}>
           <div className={classes.totalRow}>
             <span>Итого</span>
-            <span className={classes.totalValue}>{formatPrice(total)}</span>
+            <motion.span
+              key={total}
+              className={classes.totalValue}
+              initial={{ scale: 0.8, opacity: 0.5 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ type: 'spring', stiffness: 500, damping: 20 }}
+            >
+              {formatPrice(total)}
+            </motion.span>
           </div>
 
           <ShareButton

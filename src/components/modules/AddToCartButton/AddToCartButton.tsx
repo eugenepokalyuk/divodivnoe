@@ -1,8 +1,11 @@
 'use client';
 
 import React, { FC } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import clsx from 'clsx';
 
 import { Button, MinusIcon, PlusIcon } from '@/components/ui';
+import { flyToCart } from '@/components/units';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import {
   addToCart,
@@ -20,42 +23,66 @@ interface Props {
   className?: string;
 }
 
-/** «В корзину», а после добавления — степпер количества.
- *
- *  Один товар на странице, поэтому кнопка знает своё текущее количество
- *  из стора и переключает вид сама. Синхронизацию с бэкендом берёт на
- *  себя listener (cartSync) — здесь только диспатчим. */
+// Плавная смена «В корзину» ↔ степпер. Обе половинки лежат в одном слоте
+// фиксированной высоты, поэтому вёрстка не прыгает (была разная высота).
+const swap = {
+  initial: { opacity: 0, scale: 0.85 },
+  animate: { opacity: 1, scale: 1 },
+  exit: { opacity: 0, scale: 0.85 },
+  transition: { duration: 0.18, ease: 'easeOut' },
+} as const;
+
 export const AddToCartButton: FC<Props> = ({ product, className }) => {
   const dispatch = useAppDispatch();
   const quantity = useAppSelector(selectQuantityOf(product.productId));
 
-  if (quantity === 0) {
-    return (
-      <Button
-        color="primary"
-        fullWidth
-        className={className}
-        onClick={() => dispatch(addToCart(product))}
-      >
-        В корзину
-      </Button>
-    );
-  }
-
-  const setQty = (next: number) =>
-    dispatch(setQuantity({ productId: product.productId, quantity: next }));
+  const handleAdd = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (product.image) {
+      flyToCart(product.image, event.currentTarget.getBoundingClientRect());
+    }
+    dispatch(addToCart(product));
+  };
 
   return (
-    <div className={className} data-in-cart>
-      <Stepper
-        quantity={quantity}
-        onDecrement={() =>
-          quantity <= 1
-            ? dispatch(removeFromCart(product.productId))
-            : setQty(quantity - 1)
-        }
-        onIncrement={() => setQty(quantity + 1)}
-      />
+    <div className={clsx(className, classes.root)}>
+      <AnimatePresence initial={false}>
+        {quantity === 0 ? (
+          <motion.div key="add" className={classes.slot} {...swap}>
+            <Button
+              color="primary"
+              fullWidth
+              className={classes.addBtn}
+              onClick={handleAdd}
+            >
+              В корзину
+            </Button>
+          </motion.div>
+        ) : (
+          <motion.div key="stepper" className={classes.slot} {...swap}>
+            <Stepper
+              quantity={quantity}
+              onDecrement={() =>
+                quantity <= 1
+                  ? dispatch(removeFromCart(product.productId))
+                  : dispatch(
+                      setQuantity({
+                        productId: product.productId,
+                        quantity: quantity - 1,
+                      }),
+                    )
+              }
+              onIncrement={() =>
+                dispatch(
+                  setQuantity({
+                    productId: product.productId,
+                    quantity: quantity + 1,
+                  }),
+                )
+              }
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
@@ -66,25 +93,42 @@ const Stepper: FC<{
   onIncrement: () => void;
 }> = ({ quantity, onDecrement, onIncrement }) => (
   <div className={classes.stepper} role="group" aria-label="Количество в корзине">
-    <button
+    <motion.button
       type="button"
       className={classes.step}
       onClick={onDecrement}
+      whileTap={{ scale: 0.8 }}
       aria-label={quantity <= 1 ? 'Убрать из корзины' : 'Уменьшить количество'}
     >
       <MinusIcon />
-    </button>
+    </motion.button>
+
     <span className={classes.count} aria-live="polite">
-      {quantity} в корзине
+      <span className={classes.num}>
+        <AnimatePresence mode="popLayout" initial={false}>
+          <motion.span
+            key={quantity}
+            initial={{ y: 14, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -14, opacity: 0 }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
+          >
+            {quantity}
+          </motion.span>
+        </AnimatePresence>
+      </span>{' '}
+      в корзине
     </span>
-    <button
+
+    <motion.button
       type="button"
       className={classes.step}
       onClick={onIncrement}
+      whileTap={{ scale: 0.8 }}
       aria-label="Увеличить количество"
       disabled={quantity >= 99}
     >
       <PlusIcon />
-    </button>
+    </motion.button>
   </div>
 );

@@ -1,0 +1,14 @@
+@use '@/styles/index' as s;
+
+.fly {
+  position: fixed;
+  z-index: 200;
+
+  background-size: cover;
+  background-position: center;
+  border-radius: s.$br_3;
+  box-shadow: s.$box-shadow;
+
+  // Летящий клон — чисто декоративный, клики сквозь него.
+  pointer-events: none;
+}
