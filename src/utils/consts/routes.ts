@@ -6,6 +6,7 @@ export const Routes = {
   Cart: '/cart',
   About: '/#about',
   Delivery: '/#delivery',
+  Faq: '/#faq',
   Contacts: '/#contacts',
   // Правовые документы (152-ФЗ и оферта) — обязательны, раз сайт собирает
   // персональные данные (имя, телефон, заказы).

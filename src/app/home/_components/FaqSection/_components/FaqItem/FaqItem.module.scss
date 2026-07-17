@@ -1,0 +1,77 @@
+@use '@/styles/index' as s;
+
+.item {
+  border-bottom: 1px solid var(--stroke_default);
+
+  &:first-child {
+    border-top: 1px solid var(--stroke_default);
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: s.gap(4);
+  width: 100%;
+
+  padding: s.gap(5) 0;
+
+  // Раздетый <button>: глобальный сброс трогает только шрифт, поэтому
+  // рамку, фон и цвет UA-кнопки снимаем здесь.
+  appearance: none;
+  background: none;
+  border: none;
+  color: inherit;
+
+  text-align: left;
+  cursor: pointer;
+
+  transition: color s.$transition-duration s.$transition-ease;
+
+  &:hover {
+    color: var(--text_primary);
+  }
+}
+
+.question {
+  @include s.text_header_3;
+}
+
+// Фиксированный размер, чтобы смена плюса на минус не дёргала строку.
+.icon {
+  position: relative;
+  flex-shrink: 0;
+
+  width: 24px;
+  height: 24px;
+
+  font-size: 24px;
+  color: var(--text_primary);
+}
+
+.glyph {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// height:auto анимирует framer-motion — обёртке нужен только скрытый
+// перелив, иначе текст «вылезает» за пределы во время сворачивания.
+.answerWrap {
+  overflow: hidden;
+}
+
+.answer {
+  padding-bottom: s.gap(5);
+
+  @include s.text_body_1;
+  color: var(--text_secondary);
+
+  // Переносы строк из админки сохраняем: флорист может разбить ответ
+  // на абзацы, а textarea отдаёт их как \n.
+  white-space: pre-line;
+}

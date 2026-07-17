@@ -22,6 +22,14 @@ const nextConfig: NextConfig = {
     // выключенной оптимизации.
     remotePatterns: [
       { protocol: 'https', hostname: 'api.divodivnoe.com', pathname: '/media/**' },
+      // Локальная разработка против Django на localhost:8000 — иначе
+      // next/image отвергает фото и аватары с дев-бэкенда.
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '8000',
+        pathname: '/media/**',
+      },
     ],
   },
 };

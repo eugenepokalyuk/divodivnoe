@@ -1,20 +1,38 @@
 @use '@/styles/index' as s;
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: s.gap(6);
+// Обрезаем ленту по ширине контейнера — за краями слайды прячутся.
+.viewport {
+  overflow: hidden;
+}
+
+// Зазор между карточками — паттерн embla: padding-left на каждом слайде
+// плюс равный отрицательный margin на ленте, чтобы ведущий отступ уехал
+// за край. Так зазор одинаковый и в режиме loop нет спецслучая первого
+// слайда (который клонируется при бесконечной прокрутке).
+.track {
+  display: flex;
+  margin-left: calc(#{s.gap(6)} * -1);
+
+  // Без этого лента «дрожит» на субпиксельном сдвиге при автопрокрутке.
+  backface-visibility: hidden;
+}
+
+// Три карточки в ряд на десктопе, плавно спускаемся до одной на телефоне.
+// flex: 0 0 — ширина слайда фиксирована, лента едет за счёт трансформа.
+.slide {
+  flex: 0 0 33.333%;
+  min-width: 0;
+  padding-left: s.gap(6);
 
   @include s.media_down(lg) {
-    grid-template-columns: repeat(2, 1fr);
+    flex-basis: 50%;
   }
 
   @include s.media_down(sm) {
-    grid-template-columns: 1fr;
+    flex-basis: 85%;
   }
 }
 
-// Заголовок секции отцентрован — ссылка под сеткой держит ту же ось.
 .footer {
   margin-top: s.gap(8);
   text-align: center;

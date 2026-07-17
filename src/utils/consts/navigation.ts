@@ -8,6 +8,10 @@ export interface NavItem {
   fullLabel?: string;
   /** В футере пункт «Контакты» не нужен: футер сам и есть контакты. */
   inFooter?: boolean;
+  /** Пункт, привязанный к блоку, который может отсутствовать. Показываем
+   *  его, только когда для блока есть данные (см. useVisibleNavItems).
+   *  «faq» — блок «Клиентам»: без вопросов в админке блока на странице нет. */
+  dynamic?: 'faq';
 }
 
 /** Один источник пунктов меню на шапку и футер. */
@@ -16,6 +20,7 @@ export const NavItems: NavItem[] = [
   { href: Routes.Promotions, label: 'Акции' },
   { href: Routes.About, label: 'О нас' },
   { href: Routes.Delivery, label: 'Доставка', fullLabel: 'Доставка и оплата' },
+  { href: Routes.Faq, label: 'Клиентам', dynamic: 'faq' },
   { href: Routes.Contacts, label: 'Контакты', inFooter: false },
 ];
 

@@ -3,12 +3,59 @@
 .review {
   display: flex;
   flex-direction: column;
-  gap: s.gap(3);
+  gap: s.gap(4);
+  height: 100%;
 
   padding: s.gap(6);
 
   background: var(--background_secondary);
   border-radius: s.$br_4;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: s.gap(3);
+}
+
+.avatar {
+  flex-shrink: 0;
+
+  width: 56px;
+  height: 56px;
+
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+// Заглушка без фото: кружок бренда с первой буквой имени.
+.avatarFallback {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+
+  width: 56px;
+  height: 56px;
+
+  background: var(--background_primary);
+  border-radius: 50%;
+
+  color: var(--text_contrast);
+  font-size: 22px;
+  font-weight: s.$semi_bold;
+}
+
+.person {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(1);
+  min-width: 0;
+}
+
+.author {
+  @include s.text_body_1;
+  color: var(--text_primary);
 }
 
 .rating {
@@ -21,25 +68,9 @@
 }
 
 .text {
-  // Отзыв тянет карточку по высоте, подпись прижимается к низу — иначе
-  // в ряду с разной длиной текста подписи скачут.
   flex-grow: 1;
 
   @include s.text_body_2;
-}
-
-.meta {
-  display: flex;
-  flex-direction: column;
-  gap: s.gap(1);
-}
-
-.author {
-  @include s.text_body_2;
-  color: var(--text_primary);
-}
-
-.date {
-  @include s.text_caption;
-  color: var(--text_secondary);
+  // Переносы строк из отзыва сохраняем как есть.
+  white-space: pre-line;
 }

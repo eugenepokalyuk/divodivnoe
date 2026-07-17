@@ -46,6 +46,27 @@ export interface Promotion {
   terms: string;
 }
 
+/** Вопрос-ответ для блока «Клиентам» на главной. Заводится в админке;
+ *  пустой список — блока и пункта меню на сайте нет. */
+export interface FaqDto {
+  id: number;
+  question: string;
+  answer: string;
+}
+
+/** Отзыв клиента для слайдера на главной.
+ *
+ *  Поля в snake_case — контракт Django, не переименовываем (см. выше). */
+export interface ReviewDto {
+  id: number;
+  author_name: string;
+  /** Абсолютная ссылка на аватар. null — фото не загружено, рисуем заглушку. */
+  avatar: string | null;
+  text: string;
+  /** Оценка автора, 1–5. */
+  rating: number;
+}
+
 /** Бэкенд живёт на отдельном домене (api.divodivnoe.com), потому что сайт —
  *  статика на Pages, а Django с админкой на своём сервере.
  *
@@ -70,6 +91,12 @@ export const shopApi = createApi({
     getPromotions: build.query<Promotion[], void>({
       query: () => 'promotions/',
     }),
+    getFaqs: build.query<FaqDto[], void>({
+      query: () => 'faqs/',
+    }),
+    getReviews: build.query<ReviewDto[], void>({
+      query: () => 'reviews/',
+    }),
   }),
 });
 
@@ -78,4 +105,6 @@ export const {
   useGetCategoryQuery,
   useGetProductQuery,
   useGetPromotionsQuery,
+  useGetFaqsQuery,
+  useGetReviewsQuery,
 } = shopApi;
