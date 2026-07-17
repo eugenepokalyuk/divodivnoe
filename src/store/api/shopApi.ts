@@ -97,6 +97,24 @@ export interface ReviewDto {
   rating: number;
 }
 
+/** Один шаг ленты статуса заказа. */
+export interface OrderStatusStep {
+  status: 'new' | 'in_progress' | 'done' | 'cancelled';
+  label: string;
+  at: string;
+}
+
+/** Статус заказа для страницы отслеживания. Приходит по токену-ссылке,
+ *  без логина; чувствительного (телефон, состав) здесь намеренно нет. */
+export interface OrderStatusDto {
+  number: number;
+  status: 'new' | 'in_progress' | 'done' | 'cancelled';
+  status_display: string;
+  total: number;
+  created_at: string;
+  timeline: OrderStatusStep[];
+}
+
 /** Бэкенд живёт на отдельном домене (api.divodivnoe.com), потому что сайт —
  *  статика на Pages, а Django с админкой на своём сервере.
  *
@@ -126,6 +144,10 @@ export const shopApi = createApi({
     getGiftRule: build.query<GiftRuleDto | undefined, void>({
       query: () => 'gift-rule/',
     }),
+    /** Статус заказа по токену из ссылки «отслеживать заказ». */
+    getOrderStatus: build.query<OrderStatusDto, string>({
+      query: (token) => `orders/${token}/status/`,
+    }),
     getPromotions: build.query<Promotion[], void>({
       query: () => 'promotions/',
     }),
@@ -144,6 +166,7 @@ export const {
   useGetProductQuery,
   useGetRecommendedQuery,
   useGetGiftRuleQuery,
+  useGetOrderStatusQuery,
   useGetPromotionsQuery,
   useGetFaqsQuery,
   useGetReviewsQuery,

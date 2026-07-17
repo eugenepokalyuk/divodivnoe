@@ -1,0 +1,178 @@
+@use '@/styles/index' as s;
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(4);
+
+  max-width: 520px;
+  padding: s.gap(6);
+
+  background: var(--background_secondary);
+  border-radius: s.$br_4;
+}
+
+.current {
+  @include s.text_header_2;
+  color: var(--text_primary);
+
+  &[data-cancelled='true'] {
+    color: var(--text_secondary);
+  }
+}
+
+.sum {
+  @include s.text_body_1;
+  color: var(--text_default);
+}
+
+// === Лента статусов ===
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+
+  margin: s.gap(2) 0;
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  position: relative;
+  display: flex;
+  gap: s.gap(3);
+
+  padding-bottom: s.gap(4);
+  padding-left: s.gap(1);
+
+  // Вертикальная линия между шагами.
+  &:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 16px;
+    bottom: 0;
+    width: 2px;
+    background: var(--stroke_default);
+  }
+}
+
+.marker {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  margin-top: 3px;
+
+  background: var(--background_default);
+  border: 2px solid var(--stroke_primary);
+  border-radius: s.$br_full;
+}
+
+// Текущий (последний достигнутый) шаг — залитый маркер и акцентная подпись.
+.step[data-current='true'] {
+  .marker {
+    background: var(--background_primary);
+  }
+
+  .stepLabel {
+    color: var(--text_primary);
+    font-weight: s.$semi_bold;
+  }
+}
+
+.step[data-cancelled='true'] {
+  .marker {
+    background: var(--text_secondary);
+    border-color: var(--text_secondary);
+  }
+}
+
+.stepBody {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stepLabel {
+  @include s.text_body_1;
+  color: var(--text_default);
+}
+
+.stepTime {
+  @include s.text_body_2;
+  color: var(--text_secondary);
+}
+
+.note {
+  @include s.text_body_2;
+  color: var(--text_secondary);
+}
+
+// === Сохранённые заказы ===
+
+.saved {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(2);
+
+  max-width: 520px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.savedLink {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: s.gap(3);
+
+  padding: s.gap(4);
+
+  @include s.text_body_1;
+  color: var(--text_default);
+  text-decoration: none;
+
+  background: var(--background_secondary);
+  border-radius: s.$br_3;
+
+  transition: s.$transition;
+
+  &:hover {
+    background: var(--background_default);
+    box-shadow: inset 0 0 0 1px var(--stroke_primary);
+  }
+}
+
+.savedDate {
+  @include s.text_body_2;
+  color: var(--text_secondary);
+}
+
+// === Служебное ===
+
+.skeleton {
+  max-width: 520px;
+  height: 320px;
+
+  background: var(--background_secondary);
+  border-radius: s.$br_4;
+}
+
+.fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: s.gap(5);
+
+  max-width: 520px;
+  padding: s.gap(8) s.gap(6);
+
+  background: var(--background_secondary);
+  border-radius: s.$br_4;
+}
+
+.fallback_text {
+  @include s.text_body_1;
+  color: var(--text_secondary);
+}

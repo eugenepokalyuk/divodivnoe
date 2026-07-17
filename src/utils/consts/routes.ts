@@ -4,6 +4,7 @@ export const Routes = {
   Catalog: '/#catalog',
   CatalogPage: '/catalog',
   Cart: '/cart',
+  Order: '/order',
   About: '/#about',
   Delivery: '/#delivery',
   Faq: '/#faq',
@@ -36,3 +37,8 @@ export const categoryRoute = (slug: string) =>
  *  пару минут. Старый /catalog/product/?slug=… переадресуется сюда. */
 export const productRoute = (slug: string) =>
   `${Routes.CatalogPage}/product/${encodeURIComponent(slug)}/`;
+
+/** Страница отслеживания заказа. Токен в query (как корзина по ссылке):
+ *  под статику печатается один файл /order/, токен приходит в браузере. */
+export const orderRoute = (token: string) =>
+  `${Routes.Order}/?id=${encodeURIComponent(token)}`;

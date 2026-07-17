@@ -286,6 +286,13 @@
   color: var(--text_secondary);
 }
 
+.successActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: s.gap(3);
+  justify-content: center;
+}
+
 .placeholder {
   height: 320px;
   background: var(--background_secondary);

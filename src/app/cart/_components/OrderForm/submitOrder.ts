@@ -8,6 +8,8 @@ interface SubmitInput {
   lastName: string;
   phone: string;
   contactMethod: ContactMethod;
+  /** @username клиента, если выбран Telegram. Для кнопки связи у флориста. */
+  telegramUsername?: string;
   comment?: string;
   lines: CartLine[];
   /** Код применённого промокода. Сервер проверит его заново: между
@@ -18,6 +20,8 @@ interface SubmitInput {
 export interface OrderResult {
   number: number;
   total: number;
+  /** Токен для ссылки «отслеживать заказ» (страница /order/). */
+  publicToken: string;
 }
 
 /** Отправляет заказ на бэкенд (POST /orders/).
@@ -32,6 +36,7 @@ export async function submitOrder(input: SubmitInput): Promise<OrderResult> {
     last_name: input.lastName,
     phone: input.phone,
     contact_method: input.contactMethod,
+    telegram_username: input.telegramUsername ?? '',
     comment: input.comment ?? '',
     promo_code_input: input.promoCode ?? '',
     items_input: input.lines.map((l) => ({
@@ -70,5 +75,9 @@ export async function submitOrder(input: SubmitInput): Promise<OrderResult> {
   }
 
   const data = await res.json();
-  return { number: data.number, total: data.total };
+  return {
+    number: data.number,
+    total: data.total,
+    publicToken: data.public_token,
+  };
 }

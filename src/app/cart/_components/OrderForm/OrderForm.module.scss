@@ -191,3 +191,8 @@
     color: var(--icon_primary);
   }
 }
+
+.hintText {
+  @include s.text_caption;
+  color: var(--text_secondary);
+}

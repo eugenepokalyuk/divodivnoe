@@ -32,6 +32,7 @@ type Values = {
   lastName: string;
   phone: string;
   contactMethod: '' | ContactMethod;
+  telegramUsername: string;
   comment: string;
 };
 
@@ -40,6 +41,7 @@ const EMPTY: Values = {
   lastName: '',
   phone: '',
   contactMethod: '',
+  telegramUsername: '',
   comment: '',
 };
 
@@ -78,6 +80,11 @@ export const OrderForm: FC<Props> = ({ lines, promo, onPromo, onSuccess }) => {
         lastName: parsed.data.lastName,
         phone: parsed.data.phone,
         contactMethod: parsed.data.contactMethod as ContactMethod,
+        // Ник шлём только если выбран Telegram — иначе он ни к чему.
+        telegramUsername:
+          parsed.data.contactMethod === 'telegram'
+            ? values.telegramUsername.trim()
+            : '',
         comment: parsed.data.comment,
         lines,
         promoCode: promo?.code,
@@ -145,6 +152,25 @@ export const OrderForm: FC<Props> = ({ lines, promo, onPromo, onSuccess }) => {
           ))}
         </div>
       </Field>
+
+      {/* Ник для Telegram появляется только при выборе Telegram: телефон
+          остаётся всегда, ник — чтобы флорист написал прямо в Telegram. */}
+      {values.contactMethod === 'telegram' && (
+        <Field label="Ваш Telegram" error={errors.telegramUsername} optional>
+          <input
+            className={classes.input}
+            value={values.telegramUsername}
+            onChange={(e) => set('telegramUsername', e.target.value)}
+            placeholder="@username"
+            autoComplete="off"
+            autoCapitalize="none"
+            spellCheck={false}
+          />
+          <span className={classes.hintText}>
+            Если не знаете ник — оставьте пусто, свяжемся по телефону.
+          </span>
+        </Field>
+      )}
 
       <Field label="Комментарий" error={errors.comment} optional>
         <textarea

@@ -29,7 +29,8 @@ import {
 } from '@/store/slices/cart';
 import type { CartLine } from '@/store/slices/cart';
 import { Goals, reachGoal } from '@/lib/analytics/metrika';
-import { Routes } from '@/utils/consts';
+import { saveOrder } from '@/lib/orders/savedOrders';
+import { orderRoute, Routes } from '@/utils/consts';
 import { formatPrice } from '@/utils/helpers';
 
 import { GiftLine } from '../GiftLine/GiftLine';
@@ -112,9 +113,14 @@ export const CartView: FC = () => {
             Спасибо! Флорист свяжется с вами удобным способом, чтобы уточнить
             детали и подтвердить сумму {formatPrice(placedOrder.total)}.
           </p>
-          <Button href={Routes.Catalog} variant="outlined">
-            Вернуться в каталог
-          </Button>
+          <div className={classes.successActions}>
+            <Button href={orderRoute(placedOrder.publicToken)} color="primary">
+              Отслеживать заказ
+            </Button>
+            <Button href={Routes.Catalog} variant="outlined">
+              Вернуться в каталог
+            </Button>
+          </div>
         </div>
       </Section>
     );
@@ -331,6 +337,12 @@ export const CartView: FC = () => {
             reachGoal(Goals.Checkout, {
               number: result.number,
               total: result.total,
+            });
+            // Памятка «мои заказы» на устройстве — чтобы вернуться к статусу.
+            saveOrder({
+              number: result.number,
+              token: result.publicToken,
+              at: new Date().toISOString(),
             });
             dispatch(clearCart());
             setPlacedOrder(result);
