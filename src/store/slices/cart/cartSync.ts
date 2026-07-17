@@ -62,6 +62,24 @@ const toItems = (lines: CartLine[]) =>
 
 // === Публичные хелперы ===
 
+/** Достраивает строку из localStorage до текущей схемы.
+ *
+ *  Корзина, сохранённая до появления параметров, не знает про `options`
+ *  и `categoryId`. Без этого первый же `line.options.map`/`.length` на
+ *  странице корзины и товара валил бы весь экран у вернувшегося
+ *  посетителя. Тут — единственная граница, где старые данные входят в
+ *  приложение, здесь и чиним. */
+const normalizeLine = (line: Partial<CartLine>): CartLine => ({
+  productId: line.productId as number,
+  slug: line.slug ?? '',
+  name: line.name ?? '',
+  price: line.price ?? 0,
+  image: line.image ?? null,
+  quantity: line.quantity ?? 1,
+  categoryId: line.categoryId ?? 0,
+  options: Array.isArray(line.options) ? line.options : [],
+});
+
 /** Читает сохранённую корзину для гидрации на старте. */
 export function loadPersistedCart(): {
   lines: CartLine[];
@@ -72,8 +90,14 @@ export function loadPersistedCart(): {
     const raw = localStorage.getItem(CART_STORAGE_KEY);
     if (!raw) return { lines: [], serverUuid: null };
     const parsed = JSON.parse(raw);
+    const lines = Array.isArray(parsed.lines)
+      ? parsed.lines
+          // Строки без productId — мусор из битого стореджа, отбрасываем.
+          .filter((l: Partial<CartLine>) => typeof l.productId === 'number')
+          .map(normalizeLine)
+      : [];
     return {
-      lines: Array.isArray(parsed.lines) ? parsed.lines : [],
+      lines,
       serverUuid: parsed.serverUuid ?? null,
     };
   } catch {
