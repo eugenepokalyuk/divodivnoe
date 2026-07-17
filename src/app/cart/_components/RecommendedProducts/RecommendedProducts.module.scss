@@ -40,6 +40,10 @@
 }
 
 .thumb {
+  // Именно block: <span> внутри ссылки — не элемент грида, а строчный,
+  // и без этого ширина с aspect-ratio не задают ему размер, картинка на
+  // fill схлопывается в нулевую высоту и не видна.
+  display: block;
   position: relative;
   overflow: hidden;
 

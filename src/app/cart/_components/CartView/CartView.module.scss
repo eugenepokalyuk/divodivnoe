@@ -37,6 +37,13 @@
     padding-top: 0;
   }
 
+  // Черту под последней позицией убираем: следующий блок (подарок или
+  // «Добавить к заказу») рисует свою верхнюю границу, и без этого две
+  // линии слипались в одну двойную.
+  &:last-child {
+    border-bottom: none;
+  }
+
   @include s.media_down(sm) {
     grid-template-columns: 64px minmax(0, 1fr) auto;
     grid-template-areas:
