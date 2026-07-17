@@ -27,7 +27,9 @@ interface Props {
 const schema = z.object({
   senderName: z.string().trim().min(1, 'Как вас зовут?'),
   recipientName: z.string().trim().min(1, 'Кому намекнуть?'),
-  phone: z.string().refine(isCompleteRuPhone, 'Введите номер телефона полностью'),
+  phone: z
+    .string()
+    .refine(isCompleteRuPhone, 'Введите номер телефона полностью'),
 });
 
 type Values = z.infer<typeof schema>;
@@ -36,7 +38,9 @@ const EMPTY: Values = { senderName: '', recipientName: '', phone: '' };
 
 export const GiftHintModal: FC<Props> = ({ open, onClose, product }) => {
   const [values, setValues] = useState<Values>(EMPTY);
-  const [errors, setErrors] = useState<Partial<Record<keyof Values, string>>>({});
+  const [errors, setErrors] = useState<Partial<Record<keyof Values, string>>>(
+    {},
+  );
   const [formError, setFormError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
@@ -149,7 +153,9 @@ export const GiftHintModal: FC<Props> = ({ open, onClose, product }) => {
             <div className={classes.productInfo}>
               <p className={classes.productLabel}>Выбранная позиция</p>
               <p className={classes.productName}>{product.name}</p>
-              <p className={classes.productPrice}>{formatPrice(product.price)}</p>
+              <p className={classes.productPrice}>
+                {formatPrice(product.price)}
+              </p>
             </div>
           </div>
 

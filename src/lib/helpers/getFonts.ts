@@ -28,9 +28,5 @@ const yauzaTygra = localFont({
 });
 
 export function getFonts() {
-  return clsx(
-    interSans.variable,
-    cormorantSerif.variable,
-    yauzaTygra.variable,
-  );
+  return clsx(interSans.variable, cormorantSerif.variable, yauzaTygra.variable);
 }

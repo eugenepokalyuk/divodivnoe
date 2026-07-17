@@ -28,7 +28,9 @@ export const MessengerActions: FC<Props> = ({
     {MessengerOrder.map((messenger, index) => (
       <Button
         key={messenger}
-        href={getHref ? getHref(messenger) : buildMessengerLink(messenger, message)}
+        href={
+          getHref ? getHref(messenger) : buildMessengerLink(messenger, message)
+        }
         external
         size={size}
         variant={index === 0 ? 'filled' : 'outlined'}

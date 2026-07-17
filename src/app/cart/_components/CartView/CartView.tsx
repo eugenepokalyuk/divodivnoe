@@ -28,6 +28,7 @@ import {
   setServerUuid,
 } from '@/store/slices/cart';
 import type { CartLine } from '@/store/slices/cart';
+import { Goals, reachGoal } from '@/lib/analytics/metrika';
 import { Routes } from '@/utils/consts';
 import { formatPrice } from '@/utils/helpers';
 
@@ -327,6 +328,10 @@ export const CartView: FC = () => {
           promo={promo}
           onPromo={setPromo}
           onSuccess={(result) => {
+            reachGoal(Goals.Checkout, {
+              number: result.number,
+              total: result.total,
+            });
             dispatch(clearCart());
             setPlacedOrder(result);
           }}

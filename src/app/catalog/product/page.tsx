@@ -1,21 +1,22 @@
 import React, { Suspense } from 'react';
 import type { Metadata } from 'next';
 
-import { ProductView } from './_components/ProductView/ProductView';
+import { LegacyProductRedirect } from './_components/LegacyProductRedirect/LegacyProductRedirect';
 
 export const metadata: Metadata = {
   title: 'Товар',
-  description:
-    'Авторский букет цветочной мастерской «Диво Дивное». Фото, состав и цена.',
+  // Старый адрес-редирект в индексе не нужен — канонические страницы товара
+  // лежат на /catalog/product/<slug>/.
+  robots: { index: false, follow: true },
 };
 
-export default function ProductPage() {
-  // useSearchParams требует Suspense: на сборке slug ещё нет, он появляется
-  // только в браузере. Без границы Next отказывается собирать страницу
-  // (та же причина, что и на /catalog/page.tsx).
+/** Старый адрес /catalog/product/?slug=… остаётся ради ссылок, отправленных
+ *  до перехода на ЧПУ (уведомления о заказах в телеграме). Просто
+ *  переадресует на каноническую страницу товара. */
+export default function LegacyProductPage() {
   return (
     <Suspense>
-      <ProductView />
+      <LegacyProductRedirect />
     </Suspense>
   );
 }

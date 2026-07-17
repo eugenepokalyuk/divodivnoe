@@ -53,7 +53,9 @@ export const ProductGallery: FC<Props> = ({ images, alt }) => {
 
   // Товар без единого фото: не рисуем пустой слайдер, показываем плашку.
   if (images.length === 0) {
-    return <div className={clsx(classes.viewport, classes.empty)} aria-hidden />;
+    return (
+      <div className={clsx(classes.viewport, classes.empty)} aria-hidden />
+    );
   }
 
   const multiple = images.length > 1;

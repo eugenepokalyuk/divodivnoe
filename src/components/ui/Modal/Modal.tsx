@@ -86,7 +86,9 @@ export const Modal: FC<Props> = ({
 
             <header className={classes.header}>
               <h2 className={classes.title}>{title}</h2>
-              {description && <p className={classes.description}>{description}</p>}
+              {description && (
+                <p className={classes.description}>{description}</p>
+              )}
             </header>
 
             {children}

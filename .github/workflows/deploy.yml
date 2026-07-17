@@ -6,6 +6,11 @@ on:
     branches: [main]
   # И кнопкой из вкладки Actions, если нужно перевыкатить без коммита.
   workflow_dispatch:
+  # Пересборка по вебхуку из админки бэкенда (Django шлёт repository_dispatch
+  # при изменении каталога) — чтобы пререндеренные страницы товара и превью
+  # для шеринга не отставали от базы. См. catalog/redeploy.py в divo_bot.
+  repository_dispatch:
+    types: [catalog-changed]
 
 # Пушу в Pages нужны эти права; GITHUB_TOKEN по умолчанию их не даёт.
 permissions:
@@ -37,6 +42,10 @@ jobs:
           # Сайт живёт на своём домене в корне, поэтому basePath не задаём:
           # префикс /divodivnoe тут привёл бы к 404 на всех ассетах.
           NEXT_PUBLIC_APP_URL: https://divodivnoe.com
+          # Номер счётчика Яндекс.Метрики. Заводится как переменная репозитория
+          # (Settings → Secrets and variables → Actions → Variables →
+          # YM_COUNTER_ID). Пусто — Метрика не подключается.
+          NEXT_PUBLIC_YM_COUNTER_ID: ${{ vars.YM_COUNTER_ID }}
         run: npm run build
 
       - name: Disable Jekyll

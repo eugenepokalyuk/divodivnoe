@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { addToCart, selectCartLines, toCartLine } from '@/store/slices/cart';
 import { flyToCart } from '@/components/units';
 import { PlusIcon } from '@/components/ui';
+import { Goals, reachGoal } from '@/lib/analytics/metrika';
 import { productRoute } from '@/utils/consts';
 import { formatPrice } from '@/utils/helpers';
 
@@ -92,6 +93,11 @@ export const RecommendedProducts: FC = () => {
                   // Параметры берутся по умолчанию: здесь их не выбрать,
                   // а поменять можно на странице товара.
                   dispatch(addToCart(toCartLine(product)));
+                  reachGoal(Goals.AddToCart, {
+                    productId: product.id,
+                    price: product.price,
+                    from: 'recommended',
+                  });
                 }}
               >
                 <PlusIcon />

@@ -59,8 +59,7 @@ export const CategoryView: FC = () => {
 
   // 404 от бэкенда — категорию скрыли в админке или ссылка устарела.
   // Это не поломка, и пугать посетителя ошибкой незачем.
-  const isMissing =
-    isError && (error as { status?: number })?.status === 404;
+  const isMissing = isError && (error as { status?: number })?.status === 404;
 
   if (isMissing) {
     return (
@@ -87,7 +86,11 @@ export const CategoryView: FC = () => {
   }
 
   return (
-    <Section overline="Каталог" title={category.name} description={category.description || undefined}>
+    <Section
+      overline="Каталог"
+      title={category.name}
+      description={category.description || undefined}
+    >
       {category.products.length ? (
         <ul className={classes.grid}>
           {category.products.map((product) => (
@@ -98,8 +101,7 @@ export const CategoryView: FC = () => {
         // Категория есть, товаров ещё нет: флорист завёл коллекцию,
         // но не наполнил. Пустая сетка выглядела бы поломкой.
         <p className={classes.pending}>
-          Собираем эту коллекцию — напишите, и флорист покажет, что есть
-          сейчас.
+          Собираем эту коллекцию — напишите, и флорист покажет, что есть сейчас.
         </p>
       )}
 

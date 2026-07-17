@@ -3,7 +3,12 @@ import { z } from 'zod';
 import { isCompleteRuPhone } from '@/utils/helpers';
 
 /** Способы связи — значения совпадают с Order.Contact на бэкенде. */
-export const CONTACT_METHODS = ['phone', 'max', 'telegram', 'whatsapp'] as const;
+export const CONTACT_METHODS = [
+  'phone',
+  'max',
+  'telegram',
+  'whatsapp',
+] as const;
 export type ContactMethod = (typeof CONTACT_METHODS)[number];
 
 export const CONTACT_LABELS: Record<ContactMethod, string> = {
@@ -35,7 +40,11 @@ export const orderSchema = z.object({
       (v): v is ContactMethod => CONTACT_METHODS.includes(v as ContactMethod),
       'Выберите, как с вами удобно связаться',
     ),
-  comment: z.string().trim().max(1000, 'Слишком длинный комментарий').optional(),
+  comment: z
+    .string()
+    .trim()
+    .max(1000, 'Слишком длинный комментарий')
+    .optional(),
 });
 
 export type OrderFormValues = z.infer<typeof orderSchema>;

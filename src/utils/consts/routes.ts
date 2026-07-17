@@ -27,10 +27,12 @@ export const Routes = {
 export const categoryRoute = (slug: string) =>
   `${Routes.CatalogPage}/?category=${encodeURIComponent(slug)}`;
 
-/** Адрес страницы товара.
+/** Адрес страницы товара — ЧПУ /catalog/product/<slug>/.
  *
- *  Тем же параметром, что и категория (см. выше): статический экспорт
- *  печатает один файл /catalog/product/, а slug приходит query-строкой —
- *  товар, заведённый в админке позже, работает без пересборки сайта. */
+ *  В отличие от категории, товар пререндерится на сборке под каждый slug
+ *  (нужны отдельные заголовок и превью для шеринга — см.
+ *  product/[slug]/page.tsx). Свежесть держит вебхук: правка каталога в
+ *  админке дёргает пересборку, и страница нового товара появляется через
+ *  пару минут. Старый /catalog/product/?slug=… переадресуется сюда. */
 export const productRoute = (slug: string) =>
-  `${Routes.CatalogPage}/product/?slug=${encodeURIComponent(slug)}`;
+  `${Routes.CatalogPage}/product/${encodeURIComponent(slug)}/`;

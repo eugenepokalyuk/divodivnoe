@@ -10,8 +10,8 @@ import classes from './CatalogError.module.scss';
 export const CatalogError: FC = () => (
   <div className={classes.error} role="status">
     <p className={classes.text}>
-      Не получилось загрузить каталог. Напишите нам — флорист подберёт букет
-      под ваш повод и пришлёт фото.
+      Не получилось загрузить каталог. Напишите нам — флорист подберёт букет под
+      ваш повод и пришлёт фото.
     </p>
 
     <MessengerActions

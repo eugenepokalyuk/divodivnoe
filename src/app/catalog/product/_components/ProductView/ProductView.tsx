@@ -1,9 +1,9 @@
 'use client';
 
-import React, { FC, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import React, { FC, useEffect, useState } from 'react';
 
 import { AddToCartButton } from '@/components/modules';
+import { Goals, reachGoal } from '@/lib/analytics/metrika';
 import { Button, MessengerActions, Section } from '@/components/ui';
 import { useGetProductQuery } from '@/store/api/shopApi';
 import type { ProductDto } from '@/store/api/shopApi';
@@ -27,13 +27,13 @@ import { ProductParameters } from '../ProductParameters/ProductParameters';
 
 import classes from './ProductView.module.scss';
 
-/** Страница товара: /catalog/product/?slug=buket-nezhnost
+/** Страница товара: /catalog/product/<slug>/
  *
- *  Товар приезжает с бэкенда уже в браузере (сайт — статика), поэтому,
- *  как и на странице категории, состояний много и каждое ведёт к флористу. */
-export const ProductView: FC = () => {
-  const slug = useSearchParams().get('slug') ?? '';
-
+ *  slug приходит из пути (страница пререндерится под каждый товар, см.
+ *  [slug]/page.tsx). Сами данные всё равно тянем на клиенте: цена и
+ *  наличие должны быть живыми, а корзина — интерактивной. Состояний много
+ *  и каждое ведёт к флористу. */
+export const ProductView: FC<{ slug: string }> = ({ slug }) => {
   const {
     data: product,
     isLoading,
@@ -41,8 +41,18 @@ export const ProductView: FC = () => {
     error,
   } = useGetProductQuery(slug, { skip: !slug });
 
-  // Хук до ранних return — иначе нарушим правила хуков.
+  // Хуки до ранних return — иначе нарушим правила хуков.
   const [hintOpen, setHintOpen] = useState(false);
+
+  // Цель Метрики «просмотр товара» — когда данные подтянулись.
+  useEffect(() => {
+    if (product) {
+      reachGoal(Goals.ViewProduct, {
+        slug: product.slug,
+        productId: product.id,
+      });
+    }
+  }, [product]);
 
   if (!slug) {
     return (

@@ -73,8 +73,7 @@ export default function ConsentPage() {
       <p>
         Телефон: <a href="tel:+79231068626">{PhoneDisplay}</a>
         <br />
-        E-mail:{' '}
-        <a href={`mailto:${LegalEntity.email}`}>{LegalEntity.email}</a>
+        E-mail: <a href={`mailto:${LegalEntity.email}`}>{LegalEntity.email}</a>
       </p>
 
       <p>

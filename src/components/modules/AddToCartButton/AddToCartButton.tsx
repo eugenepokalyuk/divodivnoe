@@ -6,6 +6,7 @@ import clsx from 'clsx';
 
 import { Button, MinusIcon, PlusIcon } from '@/components/ui';
 import { flyToCart } from '@/components/units';
+import { Goals, reachGoal } from '@/lib/analytics/metrika';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import {
   addToCart,
@@ -41,6 +42,10 @@ export const AddToCartButton: FC<Props> = ({ product, className }) => {
       flyToCart(product.image, event.currentTarget.getBoundingClientRect());
     }
     dispatch(addToCart(product));
+    reachGoal(Goals.AddToCart, {
+      productId: product.productId,
+      price: product.price,
+    });
   };
 
   return (
@@ -92,7 +97,11 @@ const Stepper: FC<{
   onDecrement: () => void;
   onIncrement: () => void;
 }> = ({ quantity, onDecrement, onIncrement }) => (
-  <div className={classes.stepper} role="group" aria-label="Количество в корзине">
+  <div
+    className={classes.stepper}
+    role="group"
+    aria-label="Количество в корзине"
+  >
     <motion.button
       type="button"
       className={classes.step}

@@ -25,7 +25,9 @@ export async function submitGiftHint(input: SubmitInput): Promise<void> {
       body,
     });
   } catch {
-    throw new Error('Нет связи с сервером. Проверьте интернет и попробуйте ещё раз.');
+    throw new Error(
+      'Нет связи с сервером. Проверьте интернет и попробуйте ещё раз.',
+    );
   }
 
   if (!res.ok) {
@@ -33,7 +35,8 @@ export async function submitGiftHint(input: SubmitInput): Promise<void> {
     try {
       const data = await res.json();
       const first = Object.values(data)[0];
-      if (Array.isArray(first) && typeof first[0] === 'string') message = first[0];
+      if (Array.isArray(first) && typeof first[0] === 'string')
+        message = first[0];
       else if (typeof first === 'string') message = first;
     } catch {
       // тело не JSON — оставляем общий текст
