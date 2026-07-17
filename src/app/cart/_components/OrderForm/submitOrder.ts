@@ -10,6 +10,9 @@ interface SubmitInput {
   contactMethod: ContactMethod;
   comment?: string;
   lines: CartLine[];
+  /** Код применённого промокода. Сервер проверит его заново: между
+   *  «Применить» и «Оформить» корзина могла поменяться. */
+  promoCode?: string;
 }
 
 export interface OrderResult {
@@ -19,9 +22,10 @@ export interface OrderResult {
 
 /** Отправляет заказ на бэкенд (POST /orders/).
  *
- *  Шлём id товаров и количества — цены и сумму считает сервер, ему и
- *  верить (см. OrderSerializer). Возвращает номер и сумму заказа либо
- *  бросает с человекочитаемым текстом для показа в форме. */
+ *  Шлём id товаров, количества и выбранные варианты параметров — цены,
+ *  скидку и подарок считает сервер, ему и верить (см. OrderSerializer).
+ *  Возвращает номер и сумму заказа либо бросает с человекочитаемым
+ *  текстом для показа в форме. */
 export async function submitOrder(input: SubmitInput): Promise<OrderResult> {
   const body = JSON.stringify({
     first_name: input.firstName,
@@ -29,9 +33,11 @@ export async function submitOrder(input: SubmitInput): Promise<OrderResult> {
     phone: input.phone,
     contact_method: input.contactMethod,
     comment: input.comment ?? '',
+    promo_code_input: input.promoCode ?? '',
     items_input: input.lines.map((l) => ({
       product: l.productId,
       quantity: l.quantity,
+      option_values: l.options.map((o) => o.valueId),
     })),
   });
 

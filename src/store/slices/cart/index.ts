@@ -1,4 +1,6 @@
 export * from './cartSlice';
+export * from './fromProduct';
+export * from './gift';
 export * from './selectors';
 export * from './types';
 export {

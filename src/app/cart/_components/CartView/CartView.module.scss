@@ -12,6 +12,13 @@
   }
 }
 
+// Левая колонка целиком: список, подарок и «Добавить к заказу». Обёртка
+// нужна, чтобы всё это оставалось одной колонкой сетки, а не разъезжалось
+// по ней тремя отдельными элементами.
+.main {
+  min-width: 0;
+}
+
 .list {
   display: flex;
   flex-direction: column;
@@ -71,6 +78,29 @@
 
 .name {
   @include s.text_body_1;
+}
+
+// Выбранные параметры: «Размер: Большой (+1 500 ₽)». Мелко и вторым
+// планом — строку ведёт название букета, а не его настройки.
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.option {
+  @include s.text_body_2;
+  font-size: 13px;
+  color: var(--text_secondary);
+
+  b {
+    font-weight: s.$medium;
+    color: var(--text_default);
+  }
 }
 
 .unitPrice {
@@ -176,6 +206,29 @@
   @include s.media_up(lg) {
     position: sticky;
     top: s.gap(6);
+  }
+}
+
+// Обёртка нужна ради анимации высоты: при появлении скидки уезжают обе
+// строки разом, а gap сводки их бы развалил.
+.discountRows {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(2);
+
+  overflow: hidden;
+}
+
+.subRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+
+  @include s.text_body_2;
+  color: var(--text_secondary);
+
+  &[data-discount='true'] {
+    color: var(--text_primary);
   }
 }
 

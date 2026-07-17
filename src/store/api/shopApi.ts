@@ -14,6 +14,22 @@ export interface CategoryDto {
   note: string;
 }
 
+/** Вариант ответа на параметр: «Большой», «Бутоньерка не нужна».
+ *  price_delta — прибавка к цене товара в рублях, 0 — вариант бесплатный. */
+export interface ProductParameterValueDto {
+  id: number;
+  value: string;
+  price_delta: number;
+}
+
+/** Параметр товара: вопрос и варианты ответа. Выбрать можно ровно один
+ *  вариант; по умолчанию выбран первый (порядок задан в админке). */
+export interface ProductParameterDto {
+  id: number;
+  name: string;
+  values: ProductParameterValueDto[];
+}
+
 export interface ProductDto {
   id: number;
   name: string;
@@ -26,6 +42,20 @@ export interface ProductDto {
    *  склеил обложку с доп. фото и отсортировал — на клиенте просто
    *  скармливаем массив слайдеру. Пустой, если фото нет вовсе. */
   images: string[];
+  /** id категории — по нему видно, что товар из «подарочной» категории. */
+  category: number;
+  /** Пустой массив — у товара нечего выбирать, блок не рисуется. */
+  parameters: ProductParameterDto[];
+}
+
+/** Условия подарка к букету. Витрина показывает подарок сама, без похода
+ *  на сервер на каждый клик; при оформлении сервер всё равно пересчитает. */
+export interface GiftRuleDto {
+  /** Цена одного букета, с которой начинается подарок. */
+  threshold: number;
+  /** Категории, товары которых считаются букетом. */
+  category_ids: number[];
+  product: ProductDto;
 }
 
 export interface CategoryDetailDto extends CategoryDto {
@@ -88,6 +118,14 @@ export const shopApi = createApi({
     getProduct: build.query<ProductDto, string>({
       query: (slug) => `catalog/products/${slug}/`,
     }),
+    getRecommended: build.query<ProductDto[], void>({
+      query: () => 'catalog/products/recommended/',
+    }),
+    /** Подарок к букету. Бэкенд отдаёт 204, если акции нет, — RTK Query
+     *  превращает пустое тело в undefined, и блок просто не рисуется. */
+    getGiftRule: build.query<GiftRuleDto | undefined, void>({
+      query: () => 'gift-rule/',
+    }),
     getPromotions: build.query<Promotion[], void>({
       query: () => 'promotions/',
     }),
@@ -104,6 +142,8 @@ export const {
   useGetCategoriesQuery,
   useGetCategoryQuery,
   useGetProductQuery,
+  useGetRecommendedQuery,
+  useGetGiftRuleQuery,
   useGetPromotionsQuery,
   useGetFaqsQuery,
   useGetReviewsQuery,

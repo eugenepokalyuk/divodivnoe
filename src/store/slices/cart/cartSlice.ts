@@ -1,6 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import type { AddToCartPayload, CartLine, CartState } from './types';
+import type {
+  AddToCartPayload,
+  CartLine,
+  CartOption,
+  CartState,
+} from './types';
 
 const initialState: CartState = {
   lines: [],
@@ -13,7 +18,10 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     /** Загрузка сохранённой корзины из localStorage на старте. */
-    hydrate(state, action: PayloadAction<Pick<CartState, 'lines' | 'serverUuid'>>) {
+    hydrate(
+      state,
+      action: PayloadAction<Pick<CartState, 'lines' | 'serverUuid'>>,
+    ) {
       state.lines = action.payload.lines;
       state.serverUuid = action.payload.serverUuid;
       state.hydrated = true;
@@ -42,6 +50,26 @@ const cartSlice = createSlice({
       } else {
         line.quantity = Math.min(quantity, 99);
       }
+    },
+
+    /** Покупатель поменял параметр у товара, уже лежащего в корзине.
+     *
+     *  Строка на товар одна, поэтому выбор перезаписывается, а не плодит
+     *  вторую строку: цена штуки едет вслед за параметрами. */
+    setLineOptions(
+      state,
+      action: PayloadAction<{
+        productId: number;
+        options: CartOption[];
+        price: number;
+      }>,
+    ) {
+      const line = state.lines.find(
+        (l) => l.productId === action.payload.productId,
+      );
+      if (!line) return;
+      line.options = action.payload.options;
+      line.price = action.payload.price;
     },
 
     removeFromCart(state, action: PayloadAction<number>) {
@@ -76,6 +104,7 @@ export const {
   hydrate,
   addToCart,
   setQuantity,
+  setLineOptions,
   removeFromCart,
   clearCart,
   loadCart,

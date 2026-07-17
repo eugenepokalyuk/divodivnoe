@@ -6,11 +6,24 @@ import { useSearchParams } from 'next/navigation';
 import { AddToCartButton } from '@/components/modules';
 import { Button, MessengerActions, Section } from '@/components/ui';
 import { useGetProductQuery } from '@/store/api/shopApi';
+import type { ProductDto } from '@/store/api/shopApi';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import {
+  chooseOption,
+  defaultOptions,
+  reconcileOptions,
+  selectLineOf,
+  setLineOptions,
+  toCartLine,
+  unitPrice,
+} from '@/store/slices/cart';
+import type { CartOption } from '@/store/slices/cart';
 import { CompanyDomain, Routes } from '@/utils/consts';
 import { formatPrice } from '@/utils/helpers';
 
 import { GiftHintModal } from '../GiftHintModal/GiftHintModal';
 import { ProductGallery } from '../ProductGallery/ProductGallery';
+import { ProductParameters } from '../ProductParameters/ProductParameters';
 
 import classes from './ProductView.module.scss';
 
@@ -90,40 +103,7 @@ export const ProductView: FC = () => {
           <ProductGallery images={product.images} alt={product.name} />
         </div>
 
-        <div className={classes.info}>
-          <h1 className={classes.title}>{product.name}</h1>
-          <p className={classes.price}>{formatPrice(product.price)}</p>
-
-          {product.description && (
-            <p className={classes.description}>{product.description}</p>
-          )}
-
-          <AddToCartButton
-            className={classes.addToCart}
-            product={{
-              productId: product.id,
-              slug: product.slug,
-              name: product.name,
-              price: product.price,
-              image: product.image,
-            }}
-          />
-
-          <button
-            type="button"
-            className={classes.hintButton}
-            onClick={() => setHintOpen(true)}
-          >
-            🎁 Намекнуть о подарке
-          </button>
-
-          <div className={classes.actions}>
-            <p className={classes.hint}>Или напишите флористу напрямую:</p>
-            <MessengerActions
-              message={`${greeting} Интересует букет «${product.name}»`}
-            />
-          </div>
-        </div>
+        <ProductInfo product={product} onHint={() => setHintOpen(true)} />
       </div>
 
       <GiftHintModal
@@ -137,6 +117,86 @@ export const ProductView: FC = () => {
         }}
       />
     </Section>
+  );
+};
+
+/** Правая колонка: цена, параметры, кнопка.
+ *
+ *  Отдельным компонентом, потому что здесь живёт состояние выбора, а в
+ *  ProductView до загрузки товара его негде держать — там ранние return,
+ *  и хук пришлось бы звать до того, как известны сами параметры. */
+const ProductInfo: FC<{ product: ProductDto; onHint: () => void }> = ({
+  product,
+  onHint,
+}) => {
+  const dispatch = useAppDispatch();
+  const line = useAppSelector(selectLineOf(product.id));
+
+  // Товар в корзине — источник правды корзина: показываем ровно то, что
+  // уедет в заказ (и переживёт перезагрузку). Нет в корзине — черновик.
+  const [draft, setDraft] = useState<CartOption[]>(() =>
+    defaultOptions(product.parameters),
+  );
+  const options = line
+    ? reconcileOptions(product.parameters, line.options)
+    : draft;
+  const price = unitPrice(product, options);
+
+  const change = (parameterId: number, valueId: number) => {
+    const next = chooseOption(
+      product.parameters,
+      options,
+      parameterId,
+      valueId,
+    );
+    if (line) {
+      // Цена штуки едет вслед за выбором — иначе в корзине осталась бы
+      // цена прежнего варианта.
+      dispatch(
+        setLineOptions({
+          productId: product.id,
+          options: next,
+          price: unitPrice(product, next),
+        }),
+      );
+    } else {
+      setDraft(next);
+    }
+  };
+
+  return (
+    <div className={classes.info}>
+      <h1 className={classes.title}>{product.name}</h1>
+      <p className={classes.price}>{formatPrice(price)}</p>
+
+      {product.description && (
+        <p className={classes.description}>{product.description}</p>
+      )}
+
+      {product.parameters.length > 0 && (
+        <ProductParameters
+          parameters={product.parameters}
+          selected={options}
+          onChange={change}
+        />
+      )}
+
+      <AddToCartButton
+        className={classes.addToCart}
+        product={toCartLine(product, options)}
+      />
+
+      <button type="button" className={classes.hintButton} onClick={onHint}>
+        🎁 Намекнуть о подарке
+      </button>
+
+      <div className={classes.actions}>
+        <p className={classes.hint}>Или напишите флористу напрямую:</p>
+        <MessengerActions
+          message={`${greeting} Интересует букет «${product.name}»`}
+        />
+      </div>
+    </div>
   );
 };
 

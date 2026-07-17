@@ -20,8 +20,18 @@ interface ServerCart {
       slug: string;
       price: number;
       image: string | null;
+      category: number;
     };
     quantity: number;
+    /** Выбранные варианты параметров. `id` — id варианта, не параметра. */
+    options: {
+      id: number;
+      name: string;
+      value: string;
+      price_delta: number;
+    }[];
+    /** Цена штуки с прибавками — считает сервер, ему и верим. */
+    unit_price: number;
   }[];
   total: number;
 }
@@ -31,13 +41,24 @@ const toLines = (cart: ServerCart): CartLine[] =>
     productId: i.product.id,
     slug: i.product.slug,
     name: i.product.name,
-    price: i.product.price,
+    price: i.unit_price,
     image: i.product.image,
     quantity: i.quantity,
+    categoryId: i.product.category,
+    options: i.options.map((o) => ({
+      name: o.name,
+      valueId: o.id,
+      value: o.value,
+      priceDelta: o.price_delta,
+    })),
   }));
 
 const toItems = (lines: CartLine[]) =>
-  lines.map((l) => ({ product: l.productId, quantity: l.quantity }));
+  lines.map((l) => ({
+    product: l.productId,
+    quantity: l.quantity,
+    option_values: l.options.map((o) => o.valueId),
+  }));
 
 // === Публичные хелперы ===
 

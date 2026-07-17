@@ -6,18 +6,24 @@ import { Button, ConsentNotice } from '@/components/ui';
 import type { CartLine } from '@/store/slices/cart';
 import { formatRuPhone } from '@/utils/helpers';
 
+import type { AppliedPromo } from './checkPromo';
 import {
   CONTACT_LABELS,
   CONTACT_ORDER,
   orderSchema,
   type ContactMethod,
 } from './orderSchema';
+import { PromoField } from './PromoField';
 import { submitOrder, type OrderResult } from './submitOrder';
 
 import classes from './OrderForm.module.scss';
 
 interface Props {
   lines: CartLine[];
+  /** Применённый промокод. Живёт в CartView: скидку показывает не только
+   *  форма, но и «Итого» в сводке справа. */
+  promo: AppliedPromo | null;
+  onPromo: (promo: AppliedPromo | null) => void;
   onSuccess: (result: OrderResult) => void;
 }
 
@@ -37,9 +43,11 @@ const EMPTY: Values = {
   comment: '',
 };
 
-export const OrderForm: FC<Props> = ({ lines, onSuccess }) => {
+export const OrderForm: FC<Props> = ({ lines, promo, onPromo, onSuccess }) => {
   const [values, setValues] = useState<Values>(EMPTY);
-  const [errors, setErrors] = useState<Partial<Record<keyof Values, string>>>({});
+  const [errors, setErrors] = useState<Partial<Record<keyof Values, string>>>(
+    {},
+  );
   const [formError, setFormError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -72,6 +80,7 @@ export const OrderForm: FC<Props> = ({ lines, onSuccess }) => {
         contactMethod: parsed.data.contactMethod as ContactMethod,
         comment: parsed.data.comment,
         lines,
+        promoCode: promo?.code,
       });
       onSuccess(result);
     } catch (error) {
@@ -146,6 +155,13 @@ export const OrderForm: FC<Props> = ({ lines, onSuccess }) => {
           placeholder="Пожелания к букету, дата и время, адрес — что угодно"
         />
       </Field>
+
+      <PromoField
+        lines={lines}
+        phone={values.phone}
+        applied={promo}
+        onApply={onPromo}
+      />
 
       {formError && (
         <p className={classes.formError} role="alert">

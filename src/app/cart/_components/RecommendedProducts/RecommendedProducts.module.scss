@@ -1,0 +1,99 @@
+@use '@/styles/index' as s;
+
+.root {
+  margin-top: s.gap(8);
+  padding-top: s.gap(6);
+  border-top: 1px solid var(--stroke_default);
+}
+
+.heading {
+  margin-bottom: s.gap(4);
+
+  @include s.text_header_3;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: s.gap(3);
+
+  @include s.media_down(sm) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: s.gap(3);
+
+  padding: s.gap(3);
+
+  background: var(--background_secondary);
+  border-radius: s.$br_3;
+}
+
+.link {
+  display: block;
+  text-decoration: none;
+}
+
+.thumb {
+  position: relative;
+  overflow: hidden;
+
+  width: 56px;
+  aspect-ratio: 1 / 1;
+
+  background: var(--background_default);
+  border-radius: s.$br_2;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.body {
+  min-width: 0;
+}
+
+.name {
+  @include s.text_body_2;
+  color: var(--text_default);
+
+  // Название в две строки максимум: карточки в ряду должны быть одной
+  // высоты, а «Набор для транспортировки букета» длиннее плитки.
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.price {
+  margin-top: s.gap(1);
+
+  @include s.text_body_2;
+  color: var(--text_secondary);
+}
+
+.add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+  height: 36px;
+
+  color: var(--icon_contrast);
+  background: var(--background_primary);
+  border: none;
+  border-radius: s.$br_full;
+  cursor: pointer;
+
+  transition: s.$transition;
+
+  &:hover {
+    opacity: 0.85;
+  }
+}

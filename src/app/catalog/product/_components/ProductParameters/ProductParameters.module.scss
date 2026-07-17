@@ -1,0 +1,84 @@
+@use '@/styles/index' as s;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(4);
+
+  margin-top: s.gap(2);
+}
+
+// fieldset тащит собственные рамку и отступы — снимаем.
+.group {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.legend {
+  padding: 0 0 s.gap(2);
+
+  @include s.text_body_2;
+  color: var(--text_secondary);
+}
+
+.values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: s.gap(2);
+}
+
+.value {
+  display: inline-flex;
+  align-items: baseline;
+  gap: s.gap(1);
+
+  padding: s.gap(2) s.gap(4);
+
+  background: var(--background_default);
+  border: 1px solid var(--stroke_default);
+  border-radius: s.$br_full;
+  cursor: pointer;
+
+  transition: s.$transition;
+
+  &:hover {
+    border-color: var(--stroke_primary);
+  }
+
+  &[data-active='true'] {
+    background: var(--background_secondary);
+    border-color: var(--stroke_primary);
+  }
+
+  // Обводка приезжает от input внутри — иначе фокус с клавиатуры не видно.
+  &:focus-within {
+    outline: 2px solid var(--stroke_primary);
+    outline-offset: 2px;
+  }
+}
+
+// Сам radio не показываем, но и не прячем display:none — так он остаётся
+// доступным с клавиатуры и для скринридера.
+.input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.label {
+  @include s.text_body_2;
+  color: var(--text_default);
+}
+
+.delta {
+  @include s.text_body_2;
+  color: var(--text_secondary);
+  font-size: 13px;
+}

@@ -122,3 +122,72 @@
   background: var(--background_primary_10);
   border-radius: s.$br_3;
 }
+
+// === Промокод ===
+
+.promoRow {
+  display: flex;
+  gap: s.gap(2);
+}
+
+.promoApply {
+  flex-shrink: 0;
+  padding: 0 s.gap(4);
+
+  @include s.text_body_2;
+  color: var(--text_primary);
+  background: var(--background_default);
+  border: 1px solid var(--stroke_primary);
+  border-radius: s.$br_3;
+  cursor: pointer;
+
+  transition: s.$transition;
+
+  &:hover:not(:disabled) {
+    background: var(--background_primary_10);
+  }
+
+  &:disabled {
+    color: var(--text_secondary);
+    border-color: var(--stroke_default);
+    cursor: default;
+  }
+}
+
+// Применённый код: плашка вместо поля — менять нечего, можно только снять.
+.promoApplied {
+  display: flex;
+  align-items: center;
+  gap: s.gap(2);
+
+  padding: s.gap(3);
+
+  color: var(--text_primary);
+  background: var(--background_primary_10);
+  border-radius: s.$br_3;
+}
+
+.promoAppliedText {
+  flex: 1;
+  min-width: 0;
+
+  @include s.text_body_2;
+  color: var(--text_default);
+}
+
+.promoRemove {
+  display: flex;
+  flex-shrink: 0;
+  padding: s.gap(1);
+
+  color: var(--icon_secondary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+
+  transition: s.$transition;
+
+  &:hover {
+    color: var(--icon_primary);
+  }
+}

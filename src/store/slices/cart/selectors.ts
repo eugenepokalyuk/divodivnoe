@@ -1,5 +1,7 @@
 import type { RootState } from '@/store/store';
 
+import type { CartLine } from './types';
+
 export const selectCartLines = (state: RootState) => state.cart.lines;
 
 export const selectCartUuid = (state: RootState) => state.cart.serverUuid;
@@ -20,3 +22,10 @@ export const selectQuantityOf =
   (productId: number) =>
   (state: RootState): number =>
     state.cart.lines.find((l) => l.productId === productId)?.quantity ?? 0;
+
+/** Строка корзины по товару (undefined — товара в корзине нет).
+ *  Странице товара нужна целиком: из неё видно, какие параметры выбраны. */
+export const selectLineOf =
+  (productId: number) =>
+  (state: RootState): CartLine | undefined =>
+    state.cart.lines.find((l) => l.productId === productId);

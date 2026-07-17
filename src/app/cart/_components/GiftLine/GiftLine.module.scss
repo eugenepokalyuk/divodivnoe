@@ -1,0 +1,78 @@
+@use '@/styles/index' as s;
+
+.root {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: s.gap(4);
+
+  margin-top: s.gap(4);
+  padding: s.gap(4);
+
+  background: var(--background_secondary);
+  border: 1px dashed var(--stroke_default);
+  border-radius: s.$br_3;
+
+  transition: s.$transition;
+
+  // Заработанный подарок обводим акцентом: это единственная строка в
+  // корзине, которая ничего не стоит, и она должна читаться как удача.
+  &[data-earned='true'] {
+    border-style: solid;
+    border-color: var(--stroke_primary);
+  }
+
+  @include s.media_down(sm) {
+    grid-template-columns: 56px minmax(0, 1fr) auto;
+    gap: s.gap(3);
+  }
+}
+
+.thumb {
+  position: relative;
+  overflow: hidden;
+
+  width: 72px;
+  aspect-ratio: 3 / 4;
+
+  background: var(--background_default);
+  border-radius: s.$br_2;
+
+  @include s.media_down(sm) {
+    width: 56px;
+  }
+}
+
+.image {
+  object-fit: cover;
+}
+
+.body {
+  min-width: 0;
+}
+
+.name {
+  @include s.text_body_1;
+  color: var(--text_default);
+}
+
+.note {
+  margin-top: s.gap(1);
+
+  @include s.text_body_2;
+  color: var(--text_secondary);
+}
+
+.price {
+  white-space: nowrap;
+}
+
+.free {
+  @include s.text_body_1;
+  color: var(--text_primary);
+}
+
+.struck {
+  @include s.text_body_2;
+  color: var(--text_secondary);
+}
