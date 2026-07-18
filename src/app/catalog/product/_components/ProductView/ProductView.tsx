@@ -124,9 +124,8 @@ export const ProductView: FC<{ slug: string }> = ({ slug }) => {
         <ProductInfo
           product={product}
           onHint={() => setHintOpen(true)}
-          onJumpToImage={(url) => {
-            const i = product.images.indexOf(url);
-            if (i >= 0) setGalleryIndex(i);
+          onJumpToIndex={(i) => {
+            if (i >= 0 && i < product.images.length) setGalleryIndex(i);
           }}
         />
       </div>
@@ -153,9 +152,9 @@ export const ProductView: FC<{ slug: string }> = ({ slug }) => {
 const ProductInfo: FC<{
   product: ProductDto;
   onHint: () => void;
-  /** Перелистнуть галерею на фото по ссылке (выбрали вариант с фото). */
-  onJumpToImage: (url: string) => void;
-}> = ({ product, onHint, onJumpToImage }) => {
+  /** Перелистнуть галерею на фото по индексу (выбрали вариант с фото). */
+  onJumpToIndex: (index: number) => void;
+}> = ({ product, onHint, onJumpToIndex }) => {
   const dispatch = useAppDispatch();
   const line = useAppSelector(selectLineOf(product.id));
 
@@ -178,13 +177,13 @@ const ProductInfo: FC<{
     return undefined;
   };
 
-  // На входе синхронизируем галерею с уже выбранным вариантом: если у него
-  // есть фото, показываем сразу его, а не обложку.
+  // На входе синхронизируем галерею с уже выбранным вариантом: если к нему
+  // привязано фото, показываем сразу его, а не обложку.
   useEffect(() => {
     for (const option of options) {
       const value = valueById(option.valueId);
-      if (value?.image) {
-        onJumpToImage(value.image);
+      if (value?.image_index != null) {
+        onJumpToIndex(value.image_index);
         break;
       }
     }
@@ -199,9 +198,9 @@ const ProductInfo: FC<{
       parameterId,
       valueId,
     );
-    // Выбрали вариант с фото — листаем галерею на него.
+    // Выбрали вариант с привязанным фото — листаем галерею на него.
     const value = valueById(valueId);
-    if (value?.image) onJumpToImage(value.image);
+    if (value?.image_index != null) onJumpToIndex(value.image_index);
 
     if (line) {
       // Цена штуки едет вслед за выбором — иначе в корзине осталась бы

@@ -20,9 +20,9 @@ export interface ProductParameterValueDto {
   id: number;
   value: string;
   price_delta: number;
-  /** Фото варианта (если загружено) — оно же есть в `images`. Выбор
-   *  варианта листает галерею на этот снимок. null — фото нет. */
-  image: string | null;
+  /** Индекс фото в `images` (0-based), на которое листать галерею при
+   *  выборе этого варианта. null — фото не привязано. */
+  image_index: number | null;
 }
 
 /** Параметр товара: вопрос и варианты ответа. Выбрать можно ровно один
