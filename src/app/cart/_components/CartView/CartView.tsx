@@ -28,7 +28,7 @@ import {
   setServerUuid,
 } from '@/store/slices/cart';
 import type { CartLine } from '@/store/slices/cart';
-import { Goals, reachGoal } from '@/lib/analytics/metrika';
+import { ecommercePurchase, Goals, reachGoal } from '@/lib/analytics/metrika';
 import { saveOrder } from '@/lib/orders/savedOrders';
 import { orderRoute, Routes } from '@/utils/consts';
 import { formatPrice } from '@/utils/helpers';
@@ -337,6 +337,18 @@ export const CartView: FC = () => {
             reachGoal(Goals.Checkout, {
               number: result.number,
               total: result.total,
+            });
+            // E-commerce: доход и состав заказа. lines ещё доступны —
+            // clearCart ниже, а замыкание захватило текущую корзину.
+            ecommercePurchase({
+              id: result.number,
+              revenue: result.total,
+              products: lines.map((l) => ({
+                id: l.productId,
+                name: l.name,
+                price: l.price,
+                quantity: l.quantity,
+              })),
             });
             // Памятка «мои заказы» на устройстве — чтобы вернуться к статусу.
             saveOrder({

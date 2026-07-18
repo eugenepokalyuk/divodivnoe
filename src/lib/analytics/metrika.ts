@@ -28,6 +28,40 @@ export function reachGoal(
   ym()?.(YM_COUNTER_ID, 'reachGoal', goal, params);
 }
 
+interface EcommerceProduct {
+  id: string | number;
+  name: string;
+  /** Цена за штуку, ₽ (уже с прибавками за параметры). */
+  price: number;
+  quantity: number;
+}
+
+/** Отправляет покупку в e-commerce Метрики через dataLayer (счётчик
+ *  инициализирован с ecommerce:"dataLayer"). Так в отчётах появляются
+ *  доход и состав заказа, а не только факт цели checkout.
+ *
+ *  revenue — итог со скидкой (реальные деньги). Состав — позиции корзины;
+ *  подарок и скидку по позициям не расписываем, для отчёта о доходе важен
+ *  actionField.revenue. */
+export function ecommercePurchase(input: {
+  id: string | number;
+  revenue: number;
+  products: EcommerceProduct[];
+}): void {
+  if (!YM_COUNTER_ID || typeof window === 'undefined') return;
+  const w = window as unknown as { dataLayer?: unknown[] };
+  w.dataLayer = w.dataLayer || [];
+  w.dataLayer.push({
+    ecommerce: {
+      currencyCode: 'RUB',
+      purchase: {
+        actionField: { id: String(input.id), revenue: input.revenue },
+        products: input.products,
+      },
+    },
+  });
+}
+
 /** Названия целей — в одном месте, чтобы совпадали с настройкой целей в
  *  интерфейсе Метрики и не разъезжались по опечаткам. */
 export const Goals = {
