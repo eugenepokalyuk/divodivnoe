@@ -372,6 +372,7 @@ const ShareButton: FC<{
       return;
     }
     if (nextUuid !== uuid) onUuid(nextUuid);
+    reachGoal(Goals.ShareCart);
 
     const link = `${window.location.origin}${Routes.Cart}/?id=${nextUuid}`;
     try {

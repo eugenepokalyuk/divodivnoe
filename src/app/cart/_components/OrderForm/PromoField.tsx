@@ -4,6 +4,7 @@ import React, { FC, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import { CheckIcon, CloseIcon } from '@/components/ui';
+import { Goals, reachGoal } from '@/lib/analytics/metrika';
 import type { CartLine } from '@/store/slices/cart';
 import { isCompleteRuPhone } from '@/utils/helpers';
 
@@ -44,7 +45,9 @@ export const PromoField: FC<Props> = ({ lines, phone, applied, onApply }) => {
     setError(null);
     setChecking(true);
     try {
-      onApply(await checkPromo(trimmed, phone, lines));
+      const promo = await checkPromo(trimmed, phone, lines);
+      onApply(promo);
+      reachGoal(Goals.PromoApplied, { code: promo.code });
     } catch (e) {
       setError((e as Error).message);
       onApply(null);

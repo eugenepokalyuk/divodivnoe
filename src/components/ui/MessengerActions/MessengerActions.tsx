@@ -1,6 +1,9 @@
+'use client';
+
 import React, { FC } from 'react';
 import clsx from 'clsx';
 
+import { Goals, reachGoal } from '@/lib/analytics/metrika';
 import { Messenger, MessengerOrder, Messengers } from '@/utils/consts';
 import { buildMessengerLink } from '@/utils/helpers';
 
@@ -35,6 +38,7 @@ export const MessengerActions: FC<Props> = ({
         size={size}
         variant={index === 0 ? 'filled' : 'outlined'}
         className={classes.button}
+        onClick={() => reachGoal(Goals.ContactClick, { channel: messenger })}
       >
         {Messengers[messenger].label}
       </Button>

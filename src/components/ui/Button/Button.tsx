@@ -35,8 +35,20 @@ export const Button: FC<Props> = ({
   );
 
   if (href && external) {
+    // Пробрасываем onClick и на внешнюю ссылку — иначе отметка клика
+    // «написать флористу» в аналитике молча терялась бы. Тип события у
+    // <a> другой, чем у <button>, поэтому приводим (обработчику аналитики
+    // сам event не нужен).
     return (
-      <a href={href} className={cx} target="_blank" rel="noopener noreferrer">
+      <a
+        href={href}
+        className={cx}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={
+          rest.onClick as unknown as React.MouseEventHandler<HTMLAnchorElement>
+        }
+      >
         {children}
       </a>
     );

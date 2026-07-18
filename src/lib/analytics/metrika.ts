@@ -34,4 +34,13 @@ export const Goals = {
   ViewProduct: 'view_product',
   AddToCart: 'add_to_cart',
   Checkout: 'checkout',
+  /** Клик «написать флористу» (Telegram/WhatsApp/MAX) — прямая конверсия
+   *  для лид-модели: многие пишут, а не оформляют онлайн. */
+  ContactClick: 'contact_click',
+  /** Отправлена заявка «Намекнуть о подарке». */
+  GiftHint: 'gift_hint',
+  /** Промокод принят на оформлении. */
+  PromoApplied: 'promo_applied',
+  /** Нажали «Поделиться корзиной». */
+  ShareCart: 'share_cart',
 } as const;

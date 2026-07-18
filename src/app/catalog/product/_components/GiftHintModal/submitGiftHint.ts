@@ -1,3 +1,4 @@
+import { Goals, reachGoal } from '@/lib/analytics/metrika';
 import { apiBaseUrl } from '@/store/api/shopApi';
 
 interface SubmitInput {
@@ -43,4 +44,6 @@ export async function submitGiftHint(input: SubmitInput): Promise<void> {
     }
     throw new Error(message);
   }
+
+  reachGoal(Goals.GiftHint, { productId: input.productId });
 }
