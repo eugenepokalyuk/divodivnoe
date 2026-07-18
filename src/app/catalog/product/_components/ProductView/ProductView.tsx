@@ -43,6 +43,9 @@ export const ProductView: FC<{ slug: string }> = ({ slug }) => {
 
   // Хуки до ранних return — иначе нарушим правила хуков.
   const [hintOpen, setHintOpen] = useState(false);
+  // Активный слайд галереи — общий для галереи и параметров: выбор
+  // варианта с фото листает слайдер, свайп слайдера обновляет индекс.
+  const [galleryIndex, setGalleryIndex] = useState(0);
 
   // Цель Метрики «просмотр товара» — когда данные подтянулись.
   useEffect(() => {
@@ -110,10 +113,22 @@ export const ProductView: FC<{ slug: string }> = ({ slug }) => {
     <Section overline="Каталог">
       <div className={classes.layout}>
         <div className={classes.gallery}>
-          <ProductGallery images={product.images} alt={product.name} />
+          <ProductGallery
+            images={product.images}
+            alt={product.name}
+            index={galleryIndex}
+            onIndexChange={setGalleryIndex}
+          />
         </div>
 
-        <ProductInfo product={product} onHint={() => setHintOpen(true)} />
+        <ProductInfo
+          product={product}
+          onHint={() => setHintOpen(true)}
+          onJumpToImage={(url) => {
+            const i = product.images.indexOf(url);
+            if (i >= 0) setGalleryIndex(i);
+          }}
+        />
       </div>
 
       <GiftHintModal
@@ -135,10 +150,12 @@ export const ProductView: FC<{ slug: string }> = ({ slug }) => {
  *  Отдельным компонентом, потому что здесь живёт состояние выбора, а в
  *  ProductView до загрузки товара его негде держать — там ранние return,
  *  и хук пришлось бы звать до того, как известны сами параметры. */
-const ProductInfo: FC<{ product: ProductDto; onHint: () => void }> = ({
-  product,
-  onHint,
-}) => {
+const ProductInfo: FC<{
+  product: ProductDto;
+  onHint: () => void;
+  /** Перелистнуть галерею на фото по ссылке (выбрали вариант с фото). */
+  onJumpToImage: (url: string) => void;
+}> = ({ product, onHint, onJumpToImage }) => {
   const dispatch = useAppDispatch();
   const line = useAppSelector(selectLineOf(product.id));
 
@@ -152,6 +169,29 @@ const ProductInfo: FC<{ product: ProductDto; onHint: () => void }> = ({
     : draft;
   const price = unitPrice(product, options);
 
+  // Вариант параметра по id — чтобы у выбранного узнать его фото.
+  const valueById = (valueId: number) => {
+    for (const parameter of product.parameters) {
+      const value = parameter.values.find((v) => v.id === valueId);
+      if (value) return value;
+    }
+    return undefined;
+  };
+
+  // На входе синхронизируем галерею с уже выбранным вариантом: если у него
+  // есть фото, показываем сразу его, а не обложку.
+  useEffect(() => {
+    for (const option of options) {
+      const value = valueById(option.valueId);
+      if (value?.image) {
+        onJumpToImage(value.image);
+        break;
+      }
+    }
+    // Только при монтировании: дальше галерею двигают выбор и свайпы.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const change = (parameterId: number, valueId: number) => {
     const next = chooseOption(
       product.parameters,
@@ -159,6 +199,10 @@ const ProductInfo: FC<{ product: ProductDto; onHint: () => void }> = ({
       parameterId,
       valueId,
     );
+    // Выбрали вариант с фото — листаем галерею на него.
+    const value = valueById(valueId);
+    if (value?.image) onJumpToImage(value.image);
+
     if (line) {
       // Цена штуки едет вслед за выбором — иначе в корзине осталась бы
       // цена прежнего варианта.

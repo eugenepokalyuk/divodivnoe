@@ -14,6 +14,11 @@ interface Props {
   images: string[];
   /** Название товара — в alt каждого фото, иначе галерея немая для скринридера. */
   alt: string;
+  /** Индекс слайда, заданный снаружи (выбор параметра с фото). Галерея
+   *  листает на него; при обычном свайпе сама сообщает новый через
+   *  onIndexChange. Необязательно — без этого галерея живёт сама по себе. */
+  index?: number;
+  onIndexChange?: (index: number) => void;
 }
 
 /** Галерея товара: крупный слайдер + лента миниатюр под ним.
@@ -22,7 +27,12 @@ interface Props {
  *  клик по миниатюре листает главный, а листание главного подсвечивает
  *  и подтягивает нужную миниатюру. При одном фото ни стрелок, ни ленты
  *  нет — листать нечего. */
-export const ProductGallery: FC<Props> = ({ images, alt }) => {
+export const ProductGallery: FC<Props> = ({
+  images,
+  alt,
+  index,
+  onIndexChange,
+}) => {
   const [selected, setSelected] = useState(0);
   const [mainRef, mainApi] = useEmblaCarousel();
   const [thumbRef, thumbApi] = useEmblaCarousel({
@@ -31,16 +41,17 @@ export const ProductGallery: FC<Props> = ({ images, alt }) => {
   });
 
   const onThumbClick = useCallback(
-    (index: number) => mainApi?.scrollTo(index),
+    (i: number) => mainApi?.scrollTo(i),
     [mainApi],
   );
 
   const onSelect = useCallback(() => {
     if (!mainApi) return;
-    const index = mainApi.selectedScrollSnap();
-    setSelected(index);
-    thumbApi?.scrollTo(index);
-  }, [mainApi, thumbApi]);
+    const current = mainApi.selectedScrollSnap();
+    setSelected(current);
+    thumbApi?.scrollTo(current);
+    onIndexChange?.(current);
+  }, [mainApi, thumbApi, onIndexChange]);
 
   useEffect(() => {
     if (!mainApi) return;
@@ -50,6 +61,14 @@ export const ProductGallery: FC<Props> = ({ images, alt }) => {
       mainApi.off('select', onSelect).off('reInit', onSelect);
     };
   }, [mainApi, onSelect]);
+
+  // Внешний индекс (выбрали параметр с фото) — листаем на него. Проверка
+  // на равенство рвёт цикл: свайп → onIndexChange → index → сюда, но снап
+  // уже такой, второй раз не листаем.
+  useEffect(() => {
+    if (!mainApi || index == null) return;
+    if (index !== mainApi.selectedScrollSnap()) mainApi.scrollTo(index);
+  }, [mainApi, index]);
 
   // Товар без единого фото: не рисуем пустой слайдер, показываем плашку.
   if (images.length === 0) {

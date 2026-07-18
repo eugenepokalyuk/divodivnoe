@@ -20,6 +20,9 @@ export interface ProductParameterValueDto {
   id: number;
   value: string;
   price_delta: number;
+  /** Фото варианта (если загружено) — оно же есть в `images`. Выбор
+   *  варианта листает галерею на этот снимок. null — фото нет. */
+  image: string | null;
 }
 
 /** Параметр товара: вопрос и варианты ответа. Выбрать можно ровно один
@@ -27,6 +30,8 @@ export interface ProductParameterValueDto {
 export interface ProductParameterDto {
   id: number;
   name: string;
+  /** Показывать ли прибавку к цене на кнопках вариантов. */
+  show_price: boolean;
   values: ProductParameterValueDto[];
 }
 

@@ -54,7 +54,9 @@ export const ProductParameters: FC<Props> = ({
                     onChange={() => onChange(parameter.id, value.id)}
                   />
                   <span className={classes.label}>{value.value}</span>
-                  {value.price_delta > 0 && (
+                  {/* Прибавку показываем только если так настроен параметр
+                      (галочка «Показывать прибавку к цене» в админке). */}
+                  {parameter.show_price && value.price_delta > 0 && (
                     <span className={classes.delta}>
                       +{formatPrice(value.price_delta)}
                     </span>
