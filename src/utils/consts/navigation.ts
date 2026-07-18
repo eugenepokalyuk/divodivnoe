@@ -10,8 +10,10 @@ export interface NavItem {
   inFooter?: boolean;
   /** Пункт, привязанный к блоку, который может отсутствовать. Показываем
    *  его, только когда для блока есть данные (см. useVisibleNavItems).
-   *  «faq» — блок «Клиентам»: без вопросов в админке блока на странице нет. */
-  dynamic?: 'faq';
+   *  «faq» — блок «Клиентам»: без вопросов в админке блока на странице нет.
+   *  «orders» — «Мои заказы»: виден только у того, кто уже оформлял заказ
+   *  на этом устройстве (заказы лежат в localStorage). */
+  dynamic?: 'faq' | 'orders';
 }
 
 /** Один источник пунктов меню на шапку и футер. */
@@ -21,6 +23,12 @@ export const NavItems: NavItem[] = [
   { href: Routes.About, label: 'О нас' },
   { href: Routes.Delivery, label: 'Доставка', fullLabel: 'Доставка и оплата' },
   { href: Routes.Faq, label: 'Клиентам', dynamic: 'faq' },
+  {
+    href: Routes.Order,
+    label: 'Мои заказы',
+    fullLabel: 'Отслеживание заказов',
+    dynamic: 'orders',
+  },
   { href: Routes.Contacts, label: 'Контакты', inFooter: false },
 ];
 

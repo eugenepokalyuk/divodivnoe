@@ -49,6 +49,13 @@
 .description {
   @include s.text_body_2;
   color: var(--text_secondary);
+
+  // Длинное описание режем до 5 строк с многоточием — чтобы карточки в
+  // ряду не разъезжались по высоте.
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .price {
