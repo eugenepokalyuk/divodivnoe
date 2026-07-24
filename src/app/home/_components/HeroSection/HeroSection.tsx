@@ -12,13 +12,12 @@ export const HeroSection: FC = () => (
   <section className={classes.hero}>
     <div className={classes.container}>
       <div className={classes.content}>
-        <p className={classes.overline}>Авторская флористика</p>
+        <p className={classes.overline}>{'Авторская флористика'}</p>
 
-        <h1 className={classes.title}>Букеты, которые говорят за вас</h1>
+        <h1 className={classes.title}>{'Букеты, которые говорят за вас'}</h1>
 
         <p className={classes.subtitle}>
-          Собираем композиции из свежих цветов под ваш повод и настроение.
-          Доставим по {CompanyCity}у в день заказа — бережно и вовремя.
+          {'Редкие и экзотические цветы, необычные сочетания, индивидуальный подход и внимание к каждой детали. Стильная флористика по честной цене.'}
         </p>
 
         <HeroActions />

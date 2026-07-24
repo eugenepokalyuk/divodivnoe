@@ -5,11 +5,10 @@ import React, { FC } from 'react';
 import { Section } from '@/components/ui';
 import { useGetCategoriesQuery } from '@/store/api/shopApi';
 
+import classes from './CatalogSection.module.scss';
 import { CatalogCard } from './_components/CatalogCard/CatalogCard';
 import { CatalogCardSkeleton } from './_components/CatalogCardSkeleton/CatalogCardSkeleton';
 import { CatalogError } from './_components/CatalogError/CatalogError';
-
-import classes from './CatalogSection.module.scss';
 
 /** Сколько заглушек рисовать, пока едут данные. Шесть — столько коллекций
  *  сейчас в админке. Если число изменится, разъедется только первый кадр
@@ -31,7 +30,7 @@ export const CatalogSection: FC = () => {
       id="catalog"
       overline="Каталог"
       title="Выберите настроение"
-      description="Собираем букеты из свежего среза — привозим цветы дважды в неделю. Каждая композиция собирается вручную под ваш повод."
+      description="Цветочные композиции и букеты настроение любой вкус и настроение!"
     >
       {isError ? (
         <CatalogError />
