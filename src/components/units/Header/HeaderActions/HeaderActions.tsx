@@ -1,29 +1,21 @@
 import React, { FC } from 'react';
 
-import { Button, MessengerActions } from '@/components/ui';
-import { Contacts, PhoneDisplay } from '@/utils/consts';
+import { Button } from '@/components/ui';
+import { Contacts } from '@/utils/consts';
+
+import { MobileMenu } from '../MobileMenu/MobileMenu';
 
 import classes from './HeaderActions.module.scss';
 
+/** Правый край шапки. На десктопе (от lg) пусто: навигация с контактами
+ *  живёт в HeaderNav. Ниже lg — одно действие «Позвонить» и бургер справа
+ *  от него, за которым спрятано всё меню целиком (MobileMenu). */
 export const HeaderActions: FC = () => (
   <div className={classes.actions}>
-    <a href={Contacts.Phone} className={classes.phone}>
-      {PhoneDisplay}
-    </a>
-
-    {/* На мобиле шапка держит одно действие — позвонить.
-        Мессенджеры там не дублируем: они в герое и на карточках акций,
-        иначе три одинаковые кнопки съедают полэкрана до контента. */}
-    <Button
-      href={Contacts.Phone}
-      external
-      size="small"
-      variant="outlined"
-      className={classes.call}
-    >
+    <Button href={Contacts.Phone} external size="small" variant="outlined">
       Позвонить
     </Button>
 
-    <MessengerActions className={classes.messengers} />
+    <MobileMenu />
   </div>
 );

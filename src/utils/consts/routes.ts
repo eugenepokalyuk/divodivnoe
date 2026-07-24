@@ -9,6 +9,10 @@ export const Routes = {
   Delivery: '/#delivery',
   Faq: '/#faq',
   Contacts: '/#contacts',
+  // Отдельные разделы услуг — наполняет контент-менеджер.
+  Subscription: '/subscription',
+  Wedding: '/wedding',
+  Business: '/business',
   // Правовые документы (152-ФЗ и оферта) — обязательны, раз сайт собирает
   // персональные данные (имя, телефон, заказы).
   Privacy: '/privacy',

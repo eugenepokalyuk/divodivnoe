@@ -9,6 +9,8 @@ interface Props extends PropsWithChildren {
   overline?: string;
   title?: string;
   description?: string;
+  /** Ссылка «назад» над надзаголовком — на страницах в глубине каталога. */
+  back?: React.ReactNode;
   className?: string;
 }
 
@@ -17,11 +19,14 @@ export const Section: FC<Props> = ({
   overline,
   title,
   description,
+  back,
   className,
   children,
 }) => (
   <section id={id} className={clsx(classes.section, className)}>
     <div className={classes.container}>
+      {back && <div className={classes.back}>{back}</div>}
+
       {(overline || title || description) && (
         <header className={classes.header}>
           {overline && <p className={classes.overline}>{overline}</p>}

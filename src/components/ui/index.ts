@@ -1,3 +1,4 @@
+export * from './BackLink/BackLink';
 export * from './Button/Button';
 export * from './ConsentNotice/ConsentNotice';
 export * from './ExternalLink/ExternalLink';

@@ -5,16 +5,9 @@
   align-items: center;
   gap: s.gap(6);
 
-  // Ниже lg меню уходит во второй ряд и переносится, а не скроллится вбок:
-  // горизонтальный скролл ради пары пунктов — лишний жест, и последний
-  // пункт всё равно выглядит обрезанным. Перенос показывает всё сразу.
+  // Ниже lg десктопное меню с дропдаунами прячем — там бургер (HeaderActions).
   @include s.media_down(lg) {
-    order: 1;
-    width: 100%;
-
-    flex-wrap: wrap;
-    gap: 0 s.gap(4);
-    row-gap: 0;
+    display: none;
   }
 }
 
@@ -27,12 +20,12 @@
   &:hover {
     color: var(--text_primary);
   }
+}
 
-  // На тач-экранах текст в 20px — слишком мелкая цель, добиваем до 44px
-  // вертикальными отступами (высоту ряда это не ломает).
-  @include s.media_down(lg) {
-    display: inline-flex;
-    align-items: center;
-    min-height: 44px;
-  }
+// Часы работы под адресом в панели «Контакты» — подпись, не ссылка.
+.hours {
+  padding: s.gap(1) s.gap(3) s.gap(2);
+
+  @include s.text_caption;
+  color: var(--text_secondary);
 }

@@ -2,7 +2,9 @@ import React, { FC } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
+import { AddToCartButton } from '@/components/modules';
 import type { ProductDto } from '@/store/api/shopApi';
+import { toCartLine } from '@/store/slices/cart';
 import { productRoute } from '@/utils/consts';
 import { formatPrice } from '@/utils/helpers';
 
@@ -14,9 +16,10 @@ interface Props {
 
 export const ProductCard: FC<Props> = ({ product }) => (
   <li className={classes.card}>
-    {/* Вся карточка — ссылка на страницу товара со слайдером. Кнопку
-        «В корзину» вешаем уже там, а не здесь: на странице видно, что
-        именно кладёшь. */}
+    {/* Карточка — ссылка на страницу товара со слайдером и выбором
+        параметров. Кнопка «В корзину» лежит рядом, а не внутри ссылки:
+        клик по ней не должен уводить со списка. Кладём с параметрами по
+        умолчанию (toCartLine) — как из блока «Рекомендуем». */}
     <Link href={productRoute(product.slug)} className={classes.link}>
       <span className={classes.media}>
         {product.image && (
@@ -40,5 +43,10 @@ export const ProductCard: FC<Props> = ({ product }) => (
         <p className={classes.price}>{formatPrice(product.price)}</p>
       </span>
     </Link>
+
+    <AddToCartButton
+      className={classes.addToCart}
+      product={toCartLine(product)}
+    />
   </li>
 );

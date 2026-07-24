@@ -3,9 +3,14 @@
 .card {
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .link {
+  // Тянем ссылку на всю высоту карточки, чтобы кнопка «В корзину» у всех
+  // карточек в ряду стояла на одной линии, как бы ни разнилось описание.
+  flex: 1;
+
   display: flex;
   flex-direction: column;
   gap: s.gap(4);
@@ -64,4 +69,8 @@
   font-family: var(--font-cormorant), serif;
   font-size: 20px;
   line-height: 1.2;
+}
+
+.addToCart {
+  margin-top: s.gap(4);
 }

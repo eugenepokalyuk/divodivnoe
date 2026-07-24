@@ -2,6 +2,7 @@ import React, { FC, PropsWithChildren } from 'react';
 
 import { CartFab } from '../CartFab/CartFab';
 import { CartFlyLayer } from '../CartFly/CartFly';
+import { FeedbackFab } from '../FeedbackFab/FeedbackFab';
 import { Footer } from '../Footer/Footer';
 import { Header } from '../Header/Header';
 
@@ -12,6 +13,7 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => (
     <Header />
     <main className={classes.main}>{children}</main>
     <Footer />
+    <FeedbackFab />
     <CartFab />
     <CartFlyLayer />
   </div>

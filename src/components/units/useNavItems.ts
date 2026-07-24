@@ -17,7 +17,9 @@ import { NavItem } from '@/utils/consts';
  *  Заказы читаем в useEffect, а не при рендере: localStorage есть только в
  *  браузере, и чтение при первом рендере разошлось бы с серверной сборкой
  *  (hydration mismatch). */
-export const useVisibleNavItems = (items: NavItem[]): NavItem[] => {
+/** Предикат видимости одного пункта — чтобы фильтровать не только плоский
+ *  список (футер), но и вперемешку с группами (шапка с дропдаунами). */
+export const useNavVisibility = (): ((item: NavItem) => boolean) => {
   const { data: faqs } = useGetFaqsQuery();
   const hasFaqs = Boolean(faqs?.length);
 
@@ -26,9 +28,14 @@ export const useVisibleNavItems = (items: NavItem[]): NavItem[] => {
     setHasOrders(loadSavedOrders().length > 0);
   }, []);
 
-  return items.filter((item) => {
+  return (item: NavItem) => {
     if (item.dynamic === 'faq') return hasFaqs;
     if (item.dynamic === 'orders') return hasOrders;
     return true;
-  });
+  };
+};
+
+export const useVisibleNavItems = (items: NavItem[]): NavItem[] => {
+  const isVisible = useNavVisibility();
+  return items.filter(isVisible);
 };

@@ -8,6 +8,10 @@
   @include s.glass(s.$width_lg);
 }
 
+.back {
+  margin-bottom: s.gap(4);
+}
+
 .header {
   display: flex;
   flex-direction: column;

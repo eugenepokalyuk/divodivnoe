@@ -3,7 +3,7 @@
 import React, { FC } from 'react';
 import { useSearchParams } from 'next/navigation';
 
-import { Button, MessengerActions, Section } from '@/components/ui';
+import { BackLink, Button, MessengerActions, Section } from '@/components/ui';
 import { useGetCategoryQuery } from '@/store/api/shopApi';
 import { CompanyDomain, Routes } from '@/utils/consts';
 
@@ -90,6 +90,7 @@ export const CategoryView: FC = () => {
       overline="Каталог"
       title={category.name}
       description={category.description || undefined}
+      back={<BackLink href={Routes.Home}>На главную</BackLink>}
     >
       {category.products.length ? (
         <ul className={classes.grid}>

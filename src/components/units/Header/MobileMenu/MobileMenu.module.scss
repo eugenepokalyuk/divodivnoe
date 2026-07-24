@@ -1,0 +1,136 @@
+@use '@/styles/index' as s;
+
+// Бургер виден только там, где спрятана десктопная навигация.
+.burger {
+  display: none;
+
+  @include s.media_down(lg) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 44px;
+    height: 44px;
+    padding: 0;
+
+    color: var(--icon_default);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+
+    svg {
+      width: 26px;
+      height: 26px;
+    }
+  }
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+
+  display: flex;
+  justify-content: flex-end;
+
+  background: rgba(28, 26, 27, 0.4);
+  backdrop-filter: blur(2px);
+}
+
+.drawer {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  width: min(320px, 84vw);
+  height: 100%;
+  padding: s.gap(6) s.gap(5) s.gap(8);
+
+  background: var(--background_default);
+  box-shadow: s.$box-shadow;
+  overflow-y: auto;
+}
+
+.close {
+  align-self: flex-end;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  margin-bottom: s.gap(2);
+
+  color: var(--icon_default);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+
+  svg {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+
+  min-height: 48px;
+
+  @include s.text_body_1;
+  color: var(--text_default);
+
+  transition: s.$transition;
+
+  &:hover {
+    color: var(--text_primary);
+  }
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+
+  margin-top: s.gap(3);
+  padding-top: s.gap(3);
+  border-top: 1px solid var(--stroke_default);
+}
+
+.groupTitle {
+  margin-bottom: s.gap(1);
+
+  @include s.text_overline;
+  color: var(--text_primary);
+}
+
+.sublink {
+  display: flex;
+  align-items: center;
+
+  min-height: 44px;
+
+  @include s.text_body_2;
+  color: var(--text_secondary);
+
+  transition: s.$transition;
+
+  &:hover {
+    color: var(--text_primary);
+  }
+}
+
+.hours {
+  padding-top: s.gap(1);
+
+  @include s.text_caption;
+  color: var(--text_secondary);
+}

@@ -16,10 +16,19 @@ export interface NavItem {
   dynamic?: 'faq' | 'orders';
 }
 
+/** Разделы услуг — на десктопе прячутся в дропдаун «Услуги», на мобиле
+ *  разворачиваются группой в бургер-меню, в футере идут отдельными ссылками. */
+export const ServiceNavItems: NavItem[] = [
+  { href: Routes.Subscription, label: 'Подписка' },
+  { href: Routes.Wedding, label: 'Свадьба' },
+  { href: Routes.Business, label: 'Бизнес' },
+];
+
 /** Один источник пунктов меню на шапку и футер. */
 export const NavItems: NavItem[] = [
   { href: Routes.Catalog, label: 'Каталог' },
   { href: Routes.Promotions, label: 'Акции' },
+  ...ServiceNavItems,
   { href: Routes.About, label: 'О нас' },
   { href: Routes.Delivery, label: 'Доставка', fullLabel: 'Доставка и оплата' },
   { href: Routes.Faq, label: 'Клиентам', dynamic: 'faq' },
@@ -35,6 +44,29 @@ export const NavItems: NavItem[] = [
 export const FooterNavItems = NavItems.filter(
   ({ inFooter }) => inFooter !== false,
 );
+
+/** Структура десктопной шапки: часть пунктов — обычные ссылки, часть
+ *  сгруппирована в дропдауны. «Услуги» прячут три раздела, «Контакты» —
+ *  телефон, мессенджеры и адрес (см. HeaderNav). Держим отдельно от
+ *  плоского NavItems: у шапки своя группировка, у футера — своя. */
+export type HeaderEntry =
+  | { type: 'link'; item: NavItem }
+  | { type: 'group'; label: string; items: NavItem[] }
+  | { type: 'contacts'; label: string };
+
+export const HeaderMenu: HeaderEntry[] = [
+  { type: 'link', item: { href: Routes.Catalog, label: 'Каталог' } },
+  { type: 'link', item: { href: Routes.Promotions, label: 'Акции' } },
+  { type: 'group', label: 'Услуги', items: ServiceNavItems },
+  { type: 'link', item: { href: Routes.About, label: 'О нас' } },
+  { type: 'link', item: { href: Routes.Delivery, label: 'Доставка' } },
+  { type: 'link', item: { href: Routes.Faq, label: 'Клиентам', dynamic: 'faq' } },
+  {
+    type: 'link',
+    item: { href: Routes.Order, label: 'Мои заказы', dynamic: 'orders' },
+  },
+  { type: 'contacts', label: 'Контакты' },
+];
 
 /** Правовые документы — отдельным столбцом в футере. */
 export const LegalDocs: { href: string; label: string }[] = [

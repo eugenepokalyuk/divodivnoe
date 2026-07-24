@@ -3,7 +3,9 @@
 .fab {
   position: fixed;
   right: s.gap(5);
-  bottom: s.gap(5);
+  // Стоит над плавающей кнопкой чата (FeedbackFab, 56px) — стопкой в одном
+  // углу, чтобы не перекрывать друг друга.
+  bottom: calc(#{s.gap(5)} + 56px + #{s.gap(3)});
   z-index: s.$zi_header;
 
   display: flex;
@@ -26,7 +28,8 @@
 
   @include s.media_down(md) {
     right: s.gap(4);
-    bottom: s.gap(4);
+    // Над кнопкой чата (на мобиле 52px).
+    bottom: calc(#{s.gap(4)} + 52px + #{s.gap(3)});
     width: 52px;
     height: 52px;
   }

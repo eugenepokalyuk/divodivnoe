@@ -77,4 +77,6 @@ export const Goals = {
   PromoApplied: 'promo_applied',
   /** Нажали «Поделиться корзиной». */
   ShareCart: 'share_cart',
+  /** Отправлена заявка обратной связи из плавающей кнопки чата. */
+  Feedback: 'feedback',
 } as const;

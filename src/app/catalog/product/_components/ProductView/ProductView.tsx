@@ -4,8 +4,8 @@ import React, { FC, useEffect, useState } from 'react';
 
 import { AddToCartButton } from '@/components/modules';
 import { Goals, reachGoal } from '@/lib/analytics/metrika';
-import { Button, MessengerActions, Section } from '@/components/ui';
-import { useGetProductQuery } from '@/store/api/shopApi';
+import { BackLink, Button, MessengerActions, Section } from '@/components/ui';
+import { useGetCategoriesQuery, useGetProductQuery } from '@/store/api/shopApi';
 import type { ProductDto } from '@/store/api/shopApi';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import {
@@ -18,7 +18,7 @@ import {
   unitPrice,
 } from '@/store/slices/cart';
 import type { CartOption } from '@/store/slices/cart';
-import { CompanyDomain, Routes } from '@/utils/consts';
+import { categoryRoute, CompanyDomain, Routes } from '@/utils/consts';
 import { formatPrice } from '@/utils/helpers';
 
 import { GiftHintModal } from '../GiftHintModal/GiftHintModal';
@@ -40,6 +40,10 @@ export const ProductView: FC<{ slug: string }> = ({ slug }) => {
     isError,
     error,
   } = useGetProductQuery(slug, { skip: !slug });
+
+  // Категории — чтобы «назад» с товара вело в его коллекцию: у товара есть
+  // только id категории, а для адреса нужен её slug.
+  const { data: categories } = useGetCategoriesQuery();
 
   // Хуки до ранних return — иначе нарушим правила хуков.
   const [hintOpen, setHintOpen] = useState(false);
@@ -109,8 +113,20 @@ export const ProductView: FC<{ slug: string }> = ({ slug }) => {
     );
   }
 
+  // Коллекция товара — цель для «назад». Не нашли (категории ещё грузятся
+  // или скрыта) — уводим в общий каталог, тупика не будет.
+  const category = categories?.find((c) => c.id === product.category);
+  const backHref = category ? categoryRoute(category.slug) : Routes.Catalog;
+
   return (
-    <Section overline="Каталог">
+    <Section
+      overline="Каталог"
+      back={
+        <BackLink href={backHref}>
+          {category ? `В коллекцию «${category.name}»` : 'В каталог'}
+        </BackLink>
+      }
+    >
       <div className={classes.layout}>
         <div className={classes.gallery}>
           <ProductGallery

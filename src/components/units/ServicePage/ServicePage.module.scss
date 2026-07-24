@@ -1,0 +1,58 @@
+@use '@/styles/index' as s;
+
+.blocks {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: s.gap(6);
+
+  max-width: 900px;
+  margin: 0 auto;
+
+  @include s.media_down(md) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(2);
+
+  padding: s.gap(6);
+
+  background: var(--background_secondary);
+  border-radius: s.$br_4;
+}
+
+.blockHeading {
+  @include s.text_header_3;
+}
+
+.blockText {
+  @include s.text_body_1;
+  color: var(--text_secondary);
+}
+
+.cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: s.gap(3);
+
+  margin-top: s.gap(10);
+  padding-top: s.gap(8);
+  border-top: 1px solid var(--stroke_default);
+}
+
+.ctaHint {
+  @include s.text_body_2;
+  color: var(--text_secondary);
+}
+
+.ctaActions {
+  // Держим кнопки компактной группой по центру, а не во всю ширину секции.
+  justify-content: center;
+
+  max-width: 420px;
+  margin: 0 auto;
+}

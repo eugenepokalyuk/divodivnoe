@@ -1,0 +1,103 @@
+@use '@/styles/index' as s;
+
+.root {
+  position: relative;
+  display: inline-flex;
+}
+
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: s.gap(1);
+
+  padding: 0;
+
+  @include s.text_body_2;
+  color: var(--text_secondary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+
+  transition: s.$transition;
+
+  &:hover,
+  &[aria-expanded='true'] {
+    color: var(--text_primary);
+  }
+}
+
+.chevron {
+  width: 16px;
+  height: 16px;
+
+  transition: transform s.$transition-duration s.$transition-ease;
+
+  &[data-open='true'] {
+    transform: rotate(180deg);
+  }
+}
+
+.panel {
+  position: absolute;
+  top: 100%;
+  // Выравниваем по правому краю триггера: крайний правый пункт «Контакты»
+  // при центрировании уезжал бы за край экрана. Панель раскрывается влево.
+  right: 0;
+  z-index: 1;
+
+  // Зазор до триггера служит «мостиком» — курсор с триггера на панель не
+  // проваливается мимо (иначе меню закрылось бы на полпути).
+  padding-top: s.gap(3);
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  translate: 0 -6px;
+
+  transition: opacity s.$transition-duration s.$transition-ease,
+    translate s.$transition-duration s.$transition-ease,
+    visibility s.$transition-duration s.$transition-ease;
+
+  &[data-open='true'] {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    translate: 0 0;
+  }
+}
+
+// Внутренняя «карточка» панели — общий вид для «Услуг» и «Контактов».
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(1);
+
+  min-width: 200px;
+  padding: s.gap(2);
+
+  background: var(--background_default);
+  border: 1px solid var(--stroke_default);
+  border-radius: s.$br_3;
+  box-shadow: s.$box-shadow;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+
+  padding: s.gap(2) s.gap(3);
+  min-height: 40px;
+
+  @include s.text_body_2;
+  color: var(--text_secondary);
+  border-radius: s.$br_2;
+  white-space: nowrap;
+
+  transition: s.$transition;
+
+  &:hover {
+    color: var(--text_primary);
+    background: var(--background_secondary);
+  }
+}

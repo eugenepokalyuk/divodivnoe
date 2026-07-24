@@ -14,10 +14,17 @@
 
 // Кнопка «В корзину» тянется на всю высоту слота; вертикальные паддинги
 // убираем — высоту задаёт слот, а не они.
-.addBtn {
+//
+// Цвет — фирменный шалфейный (а не роза бренда): единый компонент, поэтому
+// одинаково на карточке товара, в каталоге и в корзине. Селектор с .root
+// поднимает специфичность над .primary из Button.module.scss.
+.root .addBtn {
   height: 100%;
   padding-top: 0;
   padding-bottom: 0;
+
+  background: var(--sage);
+  color: var(--sage_text);
 }
 
 .stepper {
@@ -53,8 +60,8 @@
     background s.$transition-duration s.$transition-ease;
 
   &:hover:not(:disabled) {
-    color: var(--text_contrast);
-    background: var(--background_primary);
+    color: var(--sage_text);
+    background: var(--sage);
   }
 
   &:disabled {
