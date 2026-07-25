@@ -59,7 +59,7 @@ export const AddToCartButton: FC<Props> = ({ product, className }) => {
               className={classes.addBtn}
               onClick={handleAdd}
             >
-              В корзину
+              {'В корзину'}
             </Button>
           </motion.div>
         ) : (

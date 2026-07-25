@@ -1,6 +1,6 @@
 'use client';
 
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -27,18 +27,18 @@ import classes from './MobileMenu.module.scss';
  *  группу «Услуги» и контакты. Десктопные дропдауны на узком экране неудобны,
  *  поэтому здесь всё раскрыто списком. */
 export const MobileMenu: FC = () => {
-  const [mounted, setMounted] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
   const isVisible = useNavVisibility();
   const pathname = usePathname();
 
-  useEffect(() => setMounted(true), []);
+  React.useEffect(() => setMounted(true), []);
 
   // Смена маршрута — закрываем панель (клик по обычной ссылке). Хеш-ссылки
   // (#about) pathname не меняют, их гасит onClick на самих ссылках.
-  useEffect(() => setOpen(false), [pathname]);
+  React.useEffect(() => setOpen(false), [pathname]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setOpen(false);
@@ -119,6 +119,7 @@ export const MobileMenu: FC = () => {
                             <span className={classes.groupTitle}>
                               {entry.label}
                             </span>
+
                             {entry.items.map((item) => (
                               <Link
                                 key={item.href}

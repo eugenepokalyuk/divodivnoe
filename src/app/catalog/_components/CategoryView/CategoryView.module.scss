@@ -3,14 +3,14 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: s.gap(6);
+  gap: s.gap(3);
 
   @include s.media_down(lg) {
     grid-template-columns: repeat(2, 1fr);
   }
 
   @include s.media_down(sm) {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 

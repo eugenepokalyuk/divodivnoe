@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { Button } from '@/components/ui';
+import {Button, CartIcon, PhoneIcon} from '@/components/ui';
 import { Contacts } from '@/utils/consts';
 
 import { MobileMenu } from '../MobileMenu/MobileMenu';
@@ -13,7 +13,7 @@ import classes from './HeaderActions.module.scss';
 export const HeaderActions: FC = () => (
   <div className={classes.actions}>
     <Button href={Contacts.Phone} external size="small" variant="outlined">
-      Позвонить
+        <PhoneIcon className={classes.icon} />
     </Button>
 
     <MobileMenu />

@@ -57,7 +57,7 @@
   cursor: pointer;
 
   transition: color s.$transition-duration s.$transition-ease,
-    background s.$transition-duration s.$transition-ease;
+  background s.$transition-duration s.$transition-ease;
 
   &:hover:not(:disabled) {
     color: var(--sage_text);
@@ -73,6 +73,7 @@
 .count {
   @include s.text_body_1;
   color: var(--text_default);
+  text-align: center;
 }
 
 // Обёртка анимируемой цифры: фиксированная ширина и клип, чтобы при смене
