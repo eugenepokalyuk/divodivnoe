@@ -238,6 +238,14 @@ const ProductInfo: FC<{
       <h1 className={classes.title}>{product.name}</h1>
       <p className={classes.price}>{formatPrice(price)}</p>
 
+      {product.parameters.length > 0 && (
+          <ProductParameters
+              parameters={product.parameters}
+              selected={options}
+              onChange={change}
+          />
+      )}
+
       <AddToCartButton
           className={classes.addToCart}
           product={toCartLine(product, options)}
@@ -246,14 +254,6 @@ const ProductInfo: FC<{
       <button type="button" className={classes.hintButton} onClick={onHint}>
         {'🎁 Намекнуть о подарке'}
       </button>
-
-      {product.parameters.length > 0 && (
-          <ProductParameters
-              parameters={product.parameters}
-              selected={options}
-              onChange={change}
-          />
-      )}
 
       {product.description && (
         <p className={classes.description}>{product.description}</p>
