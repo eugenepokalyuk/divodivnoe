@@ -33,10 +33,29 @@ const NOISE_SIGNATURES = [
   'safari-web-extension://',
 ];
 
+/** Стек целиком из кадров, которые нельзя привязать к файлу, — значит, код
+ *  пришёл из eval/new Function, а не из наших чанков.
+ *
+ *  Наш бандл раздаётся с https://divodivnoe.com/_next/…, поэтому у любого
+ *  своего кадра есть URL со схемой. Кадры вида `(<anonymous>:1:3085)` или
+ *  `(native)` оставляют только расширения браузера: они впрыскивают скрипт
+ *  строкой и патчат встроенные объекты. Классика — взаимная рекурсия из
+ *  нескольких расширений, перезаписавших Object.getOwnPropertyDescriptor
+ *  поверх друг друга: получается «Maximum call stack size exceeded» с
+ *  бесконечным `[as _getOwnPropertyDescriptor]` и без единой нашей строки.
+ *
+ *  Стек без кадров вообще (браузер не дал деталей) не трогаем — там нет
+ *  оснований считать ошибку чужой, пусть доедет до телеграма. */
+function isUnattributableStack(stack: string): boolean {
+  const frames = stack.split('\n').filter((line) => /^\s*at\s|@/.test(line));
+  return frames.length > 0 && frames.every((frame) => !frame.includes('://'));
+}
+
 /** Ошибка не из нашего кода — глушим, чтобы не спамить телеметрию. */
 function isForeignNoise(message: string, stack: string): boolean {
   const haystack = `${message} ${stack}`.toLowerCase();
-  return NOISE_SIGNATURES.some((sig) => haystack.includes(sig));
+  if (NOISE_SIGNATURES.some((sig) => haystack.includes(sig))) return true;
+  return isUnattributableStack(stack);
 }
 
 /** Шлёт ошибку фронта на бэкенд (POST /client-errors/), тот пересылает
