@@ -38,6 +38,7 @@ type Values = {
   company: string;
   phone: string;
   contactMethod: '' | ContactMethod;
+  telegramUsername: string;
   task: string;
 };
 
@@ -47,6 +48,7 @@ const EMPTY: Values = {
   company: '',
   phone: '',
   contactMethod: '',
+  telegramUsername: '',
   task: '',
 };
 
@@ -86,6 +88,11 @@ export const BusinessForm: FC = () => {
       await submitBusinessRequest({
         ...parsed.data,
         contactMethod: parsed.data.contactMethod as ContactMethod,
+        // Ник шлём только если выбран Telegram — иначе он ни к чему.
+        telegramUsername:
+          parsed.data.contactMethod === 'telegram'
+            ? values.telegramUsername.trim()
+            : '',
       });
       setDone(true);
     } catch (error) {
@@ -173,6 +180,25 @@ export const BusinessForm: FC = () => {
           ))}
         </div>
       </Field>
+
+      {/* Как в корзине: ник появляется только при выборе Telegram, телефон
+          остаётся всегда. */}
+      {values.contactMethod === 'telegram' && (
+        <Field label="Ваш Telegram" optional>
+          <input
+            className={classes.input}
+            value={values.telegramUsername}
+            onChange={(e) => set('telegramUsername', e.target.value)}
+            placeholder="@username"
+            autoComplete="off"
+            autoCapitalize="none"
+            spellCheck={false}
+          />
+          <span className={classes.hintText}>
+            {'Если не знаете ник — оставьте пусто, свяжемся по телефону'}
+          </span>
+        </Field>
+      )}
 
       <Field label="Краткое описание задачи" error={errors.task} optional>
         <textarea

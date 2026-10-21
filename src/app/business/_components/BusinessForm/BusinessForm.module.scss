@@ -112,6 +112,11 @@
   outline-offset: 2px;
 }
 
+.hintText {
+  @include s.text_caption;
+  color: var(--text_secondary);
+}
+
 .error {
   @include s.text_caption;
   color: var(--text_primary);

@@ -8,6 +8,8 @@ interface SubmitInput {
   company: string;
   phone: string;
   contactMethod: ContactMethod;
+  /** @username, если выбран Telegram. */
+  telegramUsername?: string;
   task?: string;
 }
 
@@ -23,6 +25,7 @@ export async function submitBusinessRequest(input: SubmitInput): Promise<void> {
     company: input.company,
     phone: input.phone,
     contact_method: input.contactMethod,
+    telegram_username: input.telegramUsername ?? '',
     task: input.task ?? '',
   });
 
