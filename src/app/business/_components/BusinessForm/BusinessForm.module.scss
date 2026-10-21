@@ -11,6 +11,14 @@
   width: 100%;
 }
 
+// Кнопка заявки — шалфейная, как «В корзину» (на остальном сайте основная
+// кнопка — роза бренда). Селектор с .form поднимает специфичность над
+// .primary из Button.module.scss.
+.form .submit {
+  background: var(--sage);
+  color: var(--sage_text);
+}
+
 .row {
   display: grid;
   grid-template-columns: 1fr 1fr;

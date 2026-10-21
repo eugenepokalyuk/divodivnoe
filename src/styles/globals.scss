@@ -15,9 +15,8 @@
 
   // buttons
   --button_default_background: #{$background-contrast};
-  // Основные кнопки — фирменный шалфейный, как «В корзину».
-  --button_primary_background: #{$sage};
-  --button_primary_text: #{$sage-text};
+  --button_primary_background: #{$primary};
+  --button_primary_text: #{$text-contrast};
 
   // text
   --text_default: #{$text-default};

@@ -217,7 +217,13 @@ export const BusinessForm: FC = () => {
         </p>
       )}
 
-      <Button type="submit" color="primary" fullWidth disabled={submitting}>
+      <Button
+        type="submit"
+        color="primary"
+        fullWidth
+        className={classes.submit}
+        disabled={submitting}
+      >
         {submitting ? 'Отправляем…' : 'Отправить заявку'}
       </Button>
 

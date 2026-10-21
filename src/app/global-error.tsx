@@ -52,8 +52,8 @@ const GlobalError: FC<{
             style={{
               padding: '12px 24px',
               fontSize: 16,
-              color: '#354235',
-              background: '#A8BFA8',
+              color: '#fff',
+              background: '#8F5B6B',
               border: 'none',
               borderRadius: 12,
               cursor: 'pointer',
