@@ -1,8 +1,8 @@
 @use '@/styles/index' as s;
 
-// Оформление заказа — самый важный шаг: поля подсвечиваем ярким красным
-// (текст и рамка), чтобы посетитель не проскочил их мимо. Держим красный
-// одним местом, чтобы легко правился.
+// Красным подсвечиваем только поле с ошибкой — после нажатия «Оформить
+// заказ», а не сразу при входе в корзину. Держим красный одним местом,
+// чтобы легко правился.
 $checkout-red: #e23a3a;
 $checkout-red-strong: #c62828;
 
@@ -48,21 +48,28 @@ $checkout-red-strong: #c62828;
   padding: s.gap(3);
 
   @include s.text_body_1;
-  color: $checkout-red-strong;
+  color: var(--text_default);
   background: var(--background_default);
-  border: 1.5px solid $checkout-red;
+  border: 1.5px solid var(--stroke_default);
   border-radius: s.$br_3;
 
   transition: s.$transition;
 
   &:focus {
     outline: none;
-    border-color: $checkout-red-strong;
-    box-shadow: 0 0 0 3px rgba(226, 58, 58, 0.15);
+    border-color: var(--sage_text);
+    box-shadow: 0 0 0 3px rgba(168, 191, 168, 0.35);
   }
 
-  // Подсказку оставляем приглушённо-серой: красным светит то, что ввёл
-  // пользователь, а не служебный плейсхолдер.
+  &[aria-invalid='true'] {
+    border-color: $checkout-red;
+
+    &:focus {
+      border-color: $checkout-red-strong;
+      box-shadow: 0 0 0 3px rgba(226, 58, 58, 0.15);
+    }
+  }
+
   &::placeholder {
     color: var(--text_secondary);
     opacity: 0.6;
@@ -120,7 +127,7 @@ $checkout-red-strong: #c62828;
 
 .error {
   @include s.text_caption;
-  color: var(--text_primary);
+  color: $checkout-red-strong;
 }
 
 .formError {

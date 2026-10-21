@@ -99,21 +99,24 @@ export const OrderForm: FC<Props> = ({ lines, promo, onPromo, onSuccess }) => {
 
   return (
     <form className={classes.form} onSubmit={handleSubmit} noValidate>
-      <h3 className={classes.heading}>Оформление заказа</h3>
+      <h3 className={classes.heading}>{'Оформление заказа'}</h3>
 
       <div className={classes.row}>
         <Field label="Имя" error={errors.firstName}>
           <input
             className={classes.input}
             value={values.firstName}
+            aria-invalid={Boolean(errors.firstName)}
             onChange={(e) => set('firstName', e.target.value)}
             autoComplete="given-name"
           />
         </Field>
+
         <Field label="Фамилия" error={errors.lastName}>
           <input
             className={classes.input}
             value={values.lastName}
+            aria-invalid={Boolean(errors.lastName)}
             onChange={(e) => set('lastName', e.target.value)}
             autoComplete="family-name"
           />
@@ -124,6 +127,7 @@ export const OrderForm: FC<Props> = ({ lines, promo, onPromo, onSuccess }) => {
         <input
           className={classes.input}
           value={values.phone}
+          aria-invalid={Boolean(errors.phone)}
           onChange={(e) => set('phone', formatRuPhone(e.target.value))}
           placeholder="+7 (___) ___-__-__"
           inputMode="tel"
@@ -160,6 +164,7 @@ export const OrderForm: FC<Props> = ({ lines, promo, onPromo, onSuccess }) => {
           <input
             className={classes.input}
             value={values.telegramUsername}
+            aria-invalid={Boolean(errors.telegramUsername)}
             onChange={(e) => set('telegramUsername', e.target.value)}
             placeholder="@username"
             autoComplete="off"
@@ -167,7 +172,7 @@ export const OrderForm: FC<Props> = ({ lines, promo, onPromo, onSuccess }) => {
             spellCheck={false}
           />
           <span className={classes.hintText}>
-            Если не знаете ник — оставьте пусто, свяжемся по телефону.
+            {'Если не знаете ник — оставьте пусто, свяжемся по телефону'}
           </span>
         </Field>
       )}
@@ -176,6 +181,7 @@ export const OrderForm: FC<Props> = ({ lines, promo, onPromo, onSuccess }) => {
         <textarea
           className={classes.textarea}
           value={values.comment}
+          aria-invalid={Boolean(errors.comment)}
           onChange={(e) => set('comment', e.target.value)}
           rows={3}
           placeholder="Пожелания к букету, дата и время, адрес — что угодно"
@@ -217,7 +223,9 @@ const Field: FC<{
       {label}
       {optional && <span className={classes.optional}> — необязательно</span>}
     </span>
+
     {children}
+
     {error && <span className={classes.error}>{error}</span>}
   </div>
 );

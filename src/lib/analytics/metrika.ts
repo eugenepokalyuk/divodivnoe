@@ -79,4 +79,6 @@ export const Goals = {
   ShareCart: 'share_cart',
   /** Отправлена заявка обратной связи из плавающей кнопки чата. */
   Feedback: 'feedback',
+  /** Отправлена заявка на сотрудничество со страницы «Для бизнеса». */
+  BusinessLead: 'business_lead',
 } as const;

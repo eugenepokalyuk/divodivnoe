@@ -1,0 +1,138 @@
+@use '@/styles/index' as s;
+
+.section {
+  padding: calc(var(--section_gap) / 2) 0;
+}
+
+.top {
+  @include s.glass(s.$width_lg);
+  margin-bottom: s.gap(4);
+}
+
+.container {
+  @include s.glass(s.$width_lg);
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: s.gap(12);
+
+  @include s.media_down(lg) {
+    grid-template-columns: 1fr;
+    gap: s.gap(8);
+  }
+}
+
+// Фото справа: меняем порядок только на десктопе — на мобиле фото всегда
+// сверху, иначе блоки разъедутся в разнобой.
+.reversed .media {
+  @include s.media_up(lg) {
+    order: 2;
+  }
+}
+
+.media {
+  position: relative;
+  overflow: hidden;
+
+  aspect-ratio: 3 / 4;
+
+  background: var(--background_secondary);
+  border-radius: s.$br_6;
+
+  @include s.media_down(lg) {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+.image {
+  object-fit: cover;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: s.gap(5);
+}
+
+.titlePrimary {
+  @include s.text_display;
+}
+
+.title {
+  @include s.text_header_1;
+}
+
+.lead {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(3);
+
+  @include s.text_body_1;
+  color: var(--text_secondary);
+}
+
+.itemsTitle {
+  @include s.text_header_3;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(4);
+
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(1);
+
+  padding-top: s.gap(4);
+  border-top: 1px solid var(--stroke_default);
+}
+
+.itemTitle {
+  @include s.text_header_3;
+}
+
+.itemText {
+  @include s.text_body_2;
+  color: var(--text_secondary);
+}
+
+.points {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(3);
+
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// Маркер — шалфейная точка вместо стандартного кружка списка.
+.point {
+  position: relative;
+  padding-left: s.gap(6);
+
+  @include s.text_body_1;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 9px;
+    left: 4px;
+
+    width: 6px;
+    height: 6px;
+
+    background: var(--sage);
+    border-radius: s.$br_full;
+  }
+}

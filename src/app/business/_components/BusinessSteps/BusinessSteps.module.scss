@@ -1,0 +1,54 @@
+@use '@/styles/index' as s;
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(6);
+
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: s.gap(5);
+}
+
+// Номер шага — шалфейный кружок, в тон основным кнопкам.
+.number {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+
+  width: 44px;
+  height: 44px;
+
+  // Inter, а не Cormorant: у антиквы старостильные цифры — «1» и «3»
+  // в кружке выходят разного роста и выглядят мелко.
+  @include s.text_body_1;
+  font-weight: s.$medium;
+  color: var(--sage_text);
+  background: var(--sage);
+  border-radius: s.$br_full;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(1);
+
+  padding-top: s.gap(2);
+}
+
+.title {
+  @include s.text_header_3;
+}
+
+.text {
+  @include s.text_body_1;
+  color: var(--text_secondary);
+}

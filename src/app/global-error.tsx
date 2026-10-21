@@ -39,25 +39,27 @@ const GlobalError: FC<{
       >
         <div style={{ maxWidth: 420, textAlign: 'center' }}>
           <h1 style={{ fontSize: 24, marginBottom: 12 }}>
-            Сайт временно недоступен
+            {'Сайт временно недоступен'}
           </h1>
+
           <p style={{ color: '#7C7377', marginBottom: 24 }}>
-            Мы уже получили сигнал об ошибке. Попробуйте обновить страницу.
+            {'Мы уже получили сигнал об ошибке. Попробуйте обновить страницу.'}
           </p>
+
           <button
             type="button"
             onClick={reset}
             style={{
               padding: '12px 24px',
               fontSize: 16,
-              color: '#fff',
-              background: '#8F5B6B',
+              color: '#354235',
+              background: '#A8BFA8',
               border: 'none',
               borderRadius: 12,
               cursor: 'pointer',
             }}
           >
-            Обновить
+            {'Обновить'}
           </button>
         </div>
       </body>

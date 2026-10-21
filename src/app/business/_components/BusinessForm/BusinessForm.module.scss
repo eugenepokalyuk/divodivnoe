@@ -1,0 +1,148 @@
+@use '@/styles/index' as s;
+
+// Поля — в тон форме заказа, но без красной подсветки: это не оформление
+// покупки, а спокойная заявка. Акцент — шалфейный, как у кнопок.
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(4);
+
+  width: 100%;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: s.gap(4);
+
+  @include s.media_down(sm) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(1);
+}
+
+.label {
+  @include s.text_body_2;
+  color: var(--text_secondary);
+}
+
+.optional {
+  opacity: 0.7;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: s.gap(3);
+
+  @include s.text_body_1;
+  color: var(--text_default);
+  background: var(--background_default);
+  border: 1px solid var(--stroke_default);
+  border-radius: s.$br_3;
+
+  transition: s.$transition;
+
+  &:focus {
+    outline: none;
+    border-color: var(--sage_text);
+    box-shadow: 0 0 0 3px rgba(168, 191, 168, 0.35);
+  }
+
+  &[aria-invalid='true'] {
+    border-color: #e23a3a;
+  }
+
+  &::placeholder {
+    color: var(--text_secondary);
+    opacity: 0.6;
+  }
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 96px;
+}
+
+.methods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: s.gap(2);
+}
+
+.method {
+  padding: s.gap(2) s.gap(4);
+
+  @include s.text_body_2;
+  color: var(--text_default);
+  background: var(--background_default);
+  border: 1px solid var(--stroke_default);
+  border-radius: s.$br_full;
+  cursor: pointer;
+
+  transition: s.$transition;
+
+  &:hover {
+    border-color: var(--sage);
+  }
+
+  &[data-active='true'] {
+    color: var(--sage_text);
+    background: var(--sage);
+    border-color: var(--sage);
+  }
+}
+
+.methodInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.method:has(.methodInput:focus-visible) {
+  outline: 2px solid var(--sage_text);
+  outline-offset: 2px;
+}
+
+.error {
+  @include s.text_caption;
+  color: var(--text_primary);
+}
+
+.formError {
+  padding: s.gap(3);
+
+  @include s.text_body_2;
+  color: var(--text_primary);
+  background: var(--background_primary_10);
+  border-radius: s.$br_3;
+}
+
+.success {
+  display: flex;
+  flex-direction: column;
+  gap: s.gap(2);
+
+  width: 100%;
+  padding: s.gap(6);
+
+  background: var(--background_secondary);
+  border-radius: s.$br_4;
+}
+
+.successTitle {
+  @include s.text_header_2;
+}
+
+.successText {
+  @include s.text_body_1;
+  color: var(--text_secondary);
+}
