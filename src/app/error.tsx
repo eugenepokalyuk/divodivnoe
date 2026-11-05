@@ -4,6 +4,10 @@ import { FC, useEffect } from 'react';
 
 import { Button, Section } from '@/components/ui';
 import { reportClientError } from '@/lib/telemetry/reportClientError';
+import {
+  isChunkLoadError,
+  recoverChunkLoadError,
+} from '@/lib/recovery/chunkRecovery';
 import { Routes } from '@/utils/consts';
 
 /** Экран на случай падения рендера внутри страницы.
@@ -17,6 +21,7 @@ const AppError: FC<{
   reset: () => void;
 }> = ({ error, reset }) => {
   useEffect(() => {
+    recoverChunkLoadError(error);
     reportClientError({
       message: error.message,
       stack: error.stack,
@@ -39,7 +44,12 @@ const AppError: FC<{
           вернитесь в каталог — букеты на месте.
         </p>
         <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-          <Button onClick={reset} color="primary">
+          <Button
+            onClick={() =>
+              isChunkLoadError(error) ? window.location.reload() : reset()
+            }
+            color="primary"
+          >
             Обновить
           </Button>
           <Button href={Routes.Catalog} variant="outlined">

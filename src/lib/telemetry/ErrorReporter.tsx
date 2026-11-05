@@ -3,6 +3,7 @@
 import { FC, useEffect } from 'react';
 
 import { reportClientError } from './reportClientError';
+import { recoverChunkLoadError } from '../recovery/chunkRecovery';
 
 /** Глобальный перехват необработанных ошибок и промисов.
  *
@@ -12,6 +13,7 @@ import { reportClientError } from './reportClientError';
 export const ErrorReporter: FC = () => {
   useEffect(() => {
     const onError = (event: ErrorEvent) => {
+      recoverChunkLoadError(event.error ?? event.message);
       reportClientError({
         message: event.message,
         stack: event.error?.stack,
@@ -21,6 +23,7 @@ export const ErrorReporter: FC = () => {
 
     const onRejection = (event: PromiseRejectionEvent) => {
       const reason = event.reason;
+      recoverChunkLoadError(reason);
       reportClientError({
         message: reason?.message ?? String(reason),
         stack: reason?.stack,

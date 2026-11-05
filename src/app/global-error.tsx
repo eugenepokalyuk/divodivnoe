@@ -3,6 +3,10 @@
 import { FC, useEffect } from 'react';
 
 import { reportClientError } from '@/lib/telemetry/reportClientError';
+import {
+  isChunkLoadError,
+  recoverChunkLoadError,
+} from '@/lib/recovery/chunkRecovery';
 
 /** Аварийный экран на случай падения в самом корневом лэйауте.
  *
@@ -15,6 +19,7 @@ const GlobalError: FC<{
   reset: () => void;
 }> = ({ error, reset }) => {
   useEffect(() => {
+    recoverChunkLoadError(error);
     reportClientError({
       message: `[global] ${error.message}`,
       stack: error.stack,
@@ -48,7 +53,9 @@ const GlobalError: FC<{
 
           <button
             type="button"
-            onClick={reset}
+            onClick={() =>
+              isChunkLoadError(error) ? window.location.reload() : reset()
+            }
             style={{
               padding: '12px 24px',
               fontSize: 16,
