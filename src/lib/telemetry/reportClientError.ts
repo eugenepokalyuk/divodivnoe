@@ -1,4 +1,5 @@
 import { apiBaseUrl } from '@/store/api/shopApi';
+import { isChunkLoadError } from '@/lib/recovery/chunkRecovery';
 
 /** Уже отправленные ошибки — чтобы один и тот же краш в цикле рендера не
  *  завалил бэкенд сотней одинаковых репортов. Живёт на время сессии. */
@@ -66,6 +67,9 @@ function isForeignNoise(message: string, stack: string): boolean {
  *  в браузере видно только по жалобе. */
 export function reportClientError(error: ClientError): void {
   if (typeof window === 'undefined') return;
+  // Applies to every reporting path, including React boundaries and rejected
+  // promises. Recovery handles these locally; never forward them to Telegram.
+  if (isChunkLoadError(error)) return;
 
   const message = (error.message || 'Unknown error').slice(0, 500);
   const stack = (error.stack ?? '').slice(0, 2000);

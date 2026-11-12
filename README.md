@@ -11,6 +11,12 @@ Redux Toolkit + SCSS Modules
 (`.github/workflows/deploy.yml`). Можно запустить руками: вкладка Actions →
 Deploy to GitHub Pages → Run workflow.
 
+Деплой сохраняет файлы `_next/static` предыдущих сборок на семь дней
+через GitHub Actions Cache (`scripts/preserve-chunks.mjs`). Это позволяет
+открытым вкладкам догружать старые чанки после обновления сайта. Если кеш
+удалён или ещё не создан, история начнётся с текущей сборки. Ошибки загрузки
+чанков вызывают попытку обновления страницы и не отправляются в Telegram.
+
 Разово включить перед первым деплоем: **Settings → Pages → Source: GitHub
 Actions** (не «Deploy from a branch»).
 

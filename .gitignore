@@ -15,6 +15,7 @@ yarn-error.log*
 # next
 /.next/
 /out/
+/.chunk-history/
 next-env.d.ts
 *.tsbuildinfo
 

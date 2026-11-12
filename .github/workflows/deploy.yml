@@ -54,6 +54,22 @@ jobs:
         # файла сайт открывается без стилей и скриптов.
         run: touch out/.nojekyll
 
+      - name: Restore assets from previous builds
+        uses: actions/cache/restore@v5
+        with:
+          path: .chunk-history
+          key: pages-chunks-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: pages-chunks-
+
+      - name: Keep previous assets for open browser tabs
+        run: node scripts/preserve-chunks.mjs
+
+      - name: Save asset history
+        uses: actions/cache/save@v5
+        with:
+          path: .chunk-history
+          key: pages-chunks-${{ github.run_id }}-${{ github.run_attempt }}
+
       - uses: actions/configure-pages@v6
 
       - uses: actions/upload-pages-artifact@v5
